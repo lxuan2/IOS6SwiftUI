@@ -20,35 +20,33 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
     @EnvironmentObject var viewStack: IOS6NavigationViewStack
     
     public var body: some View {
-        Button(action: {
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors:
+                    [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
+                     Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
+                startPoint: .top, endPoint: .bottom)
+            Color(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0).opacity(pressed || sheet ? 0 : 1)
+            HStack(spacing: 0) {
+                self.label()
+                Image(systemName: "chevron.right")
+                    .font(Font.footnote.weight(.heavy))
+                    .accentColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
+                    .padding(12)
+            }
+            .font(Font.body.weight(.bold))
+            .foregroundColor(pressed || sheet ? .white : .accentColor)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .overlay(IOS6Divider(), alignment: .bottom)
+        .allowsHitTesting(!sheet)
+        .onTapGesture {
             self.sheet = true
             self.viewStack.push(isPresent: self.$sheet,
                                 title: self.title,
                                 newView: self.destination())
-        }) {
-            ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors:
-                        [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
-                         Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
-                    startPoint: .top, endPoint: .bottom)
-                Color(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0).opacity(pressed || sheet ? 0 : 1)
-                HStack(spacing: 0) {
-                    self.label()
-                    Image(systemName: "chevron.right")
-                        .font(Font.footnote.weight(.heavy))
-                        .accentColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                        .padding(12)
-                }
-                .font(Font.body.weight(.bold))
-                .foregroundColor(pressed || sheet ? .white : .accentColor)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }.overlay(IOS6Divider(), alignment: .bottom)
-            
-            
         }
         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: 5, pressing: pressingHandler, perform: {})
-        .buttonStyle(NoButtonStyle())
     }
     
     public init(title: String = "", @ViewBuilder destination: @escaping () -> Destination, @ViewBuilder label: @escaping () -> Label) {
@@ -76,11 +74,5 @@ struct IOS6NavigationLink_Previews: PreviewProvider {
                 }
             }
         }
-    }
-}
-
-struct NoButtonStyle: ButtonStyle {
-    public func makeBody(configuration: NoButtonStyle.Configuration) -> some View {
-        configuration.label
     }
 }

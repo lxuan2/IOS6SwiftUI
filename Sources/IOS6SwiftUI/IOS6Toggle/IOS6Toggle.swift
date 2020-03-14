@@ -41,14 +41,14 @@ public struct IOS6Toggle: View {
                     LinearGradient(
                         gradient:
                         Gradient(colors:
-                            [Color.white.opacity(0.05),
-                             Color.white.opacity(0.20),
+                            [Color.white.opacity(0.4),
+                             Color.white.opacity(0.75),
                              Color.white]),
                         startPoint: .top,
                         endPoint: .bottom))
                 .frame(width: width - height / 3)
                 .offset(x: 0, y: height/2)
-                .blendMode(.plusLighter)
+                .blendMode(.softLight)
             IOS6ToggleBoundary()
             IOS6ToggleCircleButton(isPressed: isPressed, offset:  isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
         }
@@ -189,12 +189,12 @@ public struct IOS6Toggle: View {
                 Group {
                     Capsule()
                         .strokeBorder(
-                            Color(red: 150.0/255.0, green: 150.0/255.0, blue: 150.0/255.0),
-                            lineWidth: 0.8)
-                        .blur(radius: 0.4)
+                            Color(red: 180/255.0, green: 180/255.0, blue: 180/255.0),
+                            lineWidth: 0.9)
+                        .blur(radius: 0.3)
                     
                     Capsule()
-                        .strokeBorder(Color.black.opacity(0.45), lineWidth: 1.5)
+                        .strokeBorder(Color.black.opacity(0.4), lineWidth: 1.5)
                         .blur(radius: 1.4)
                         .padding(EdgeInsets(top: 0.2, leading: -3, bottom: -4.5, trailing: -3))
                 }
@@ -225,7 +225,7 @@ public struct IOS6Toggle: View {
                     Circle()
                         .strokeBorder(
                             Color.white,
-                            lineWidth: 1.5)
+                            lineWidth: 1.2)
                         .frame(height: geo.size.height - 1)
                     
                     Circle()
@@ -234,7 +234,7 @@ public struct IOS6Toggle: View {
                             lineWidth: 0.75)
                 }
                 .compositingGroup()
-                .shadow(color:Color.black.opacity(0.5), radius: 0.8)
+                .shadow(color:Color.black.opacity(0.4), radius: 0.7)
                 .offset(x: self.offset - 0.5 * geo.size.width, y: 0)
             }
         }

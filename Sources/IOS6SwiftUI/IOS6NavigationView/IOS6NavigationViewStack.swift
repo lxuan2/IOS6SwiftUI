@@ -12,10 +12,12 @@ class IOS6NavigationViewStack: ObservableObject {
     @Published var stack = [AnyView]()
     var titleStack = [String]()
     var boolStack = [Binding<Bool>]()
+    @Published var offsetStack = [CGFloat]()
     
     init<Content: View>(rootView: Content, title: String) {
         stack.append(AnyView(rootView))
         titleStack.append(title)
+        offsetStack.append(0)
     }
     
     func count() -> Int {
@@ -39,18 +41,21 @@ class IOS6NavigationViewStack: ObservableObject {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .transition(.move(edge: .trailing))
                 ))
+                self.offsetStack[self.offsetStack.count - 1] = -UIScreen.main.bounds.width
+                self.offsetStack.append(0)
             }
         }
     }
     
-    func pop() {
+    func pop(scale: Double = 1) {
         if stack.count > 1 {
-            withAnimation(.easeInOut(duration: 0.35)) {
+            withAnimation(scale == 1 ? .easeInOut(duration: 0.35) : .linear(duration: 0.35 * scale)) {
                 stack.removeLast()
                 titleStack.removeLast()
-                
+                offsetStack.removeLast()
+                offsetStack[offsetStack.count - 1] = 0
             }
-            withAnimation(.easeIn(duration: 0.5)) {
+            withAnimation(.easeIn(duration: 0.35 * scale + 0.15)) {
                 boolStack.removeLast().wrappedValue = false
             }
         }
@@ -58,5 +63,10 @@ class IOS6NavigationViewStack: ObservableObject {
     
     func pick() -> AnyView {
         return stack.last ?? AnyView(Text("Empty View Stack"))
+    }
+    
+    func updateOffset(newOffset: CGFloat) {
+        offsetStack[offsetStack.count - 1] = newOffset
+        offsetStack[offsetStack.count - 2] = newOffset - UIScreen.main.bounds.width
     }
 }

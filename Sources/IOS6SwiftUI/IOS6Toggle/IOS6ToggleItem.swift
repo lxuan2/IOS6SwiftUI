@@ -34,7 +34,7 @@ public struct IOS6ToggleItem: View {
             
             Text(title)
                 .padding(.vertical, 10)
-                .accentColor(.black)
+                .foregroundColor(.black)
             
             Spacer()
             
