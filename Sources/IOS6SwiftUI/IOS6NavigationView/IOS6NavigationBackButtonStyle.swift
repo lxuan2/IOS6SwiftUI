@@ -75,11 +75,11 @@ struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
                     
                     
                 configuration.label
-                    .foregroundColor(Color.black.opacity(0.8))
+                    .foregroundColor(Color.black.opacity(0.6))
                     .font(Font.system(size: 11.5, weight: .bold))
                     .padding(.leading, height / 2)
                     .padding([.vertical, .trailing], height / 3.01)
-                    .offset(x: 0, y: -1.2)
+                    .offset(x: 0, y: -1)
                 
                 configuration.label
                     .foregroundColor(.white)

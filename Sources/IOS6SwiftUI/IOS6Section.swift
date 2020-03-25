@@ -11,7 +11,7 @@ import SwiftUI
 /// An affordance for creating hierarchical view content with IOS 6 style
 public struct IOS6Section<Content: View>: View {
     let content: () -> Content
-    let radius = CGFloat(8)
+    let radius: CGFloat = 9
     
     public var body: some View {
         VStack(spacing: 0) {

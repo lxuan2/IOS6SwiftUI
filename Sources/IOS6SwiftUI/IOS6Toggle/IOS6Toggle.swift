@@ -10,8 +10,8 @@ import SwiftUI
 
 /// A control that toggles between "on" and "off" states with IOS 6 style.
 public struct IOS6Toggle: View {
-    let height: CGFloat = 27
-    let width: CGFloat = 77
+    let height: CGFloat = 26
+    let width: CGFloat = 74
     let color: Color
     
     @GestureState private var isPressed: Bool = false
@@ -19,7 +19,7 @@ public struct IOS6Toggle: View {
     @State private var percent: CGFloat
     @Binding private var isOn: Bool {
         didSet {
-            withAnimation(.easeInOut(duration: self.percent == self.oldPercent ? 0.2:0.05)) {
+            withAnimation(.easeInOut(duration: self.percent == self.oldPercent ? 0.27:0.1)) {
                 self.oldPercent = isOn ? self.width - self.height / 2:self.height / 2
                 self.percent = self.oldPercent
             }
@@ -41,14 +41,14 @@ public struct IOS6Toggle: View {
                     LinearGradient(
                         gradient:
                         Gradient(colors:
-                            [Color.white.opacity(0.4),
-                             Color.white.opacity(0.75),
+                            [Color.white.opacity(0.15),
+                             Color.white.opacity(0.45),
                              Color.white]),
                         startPoint: .top,
                         endPoint: .bottom))
                 .frame(width: width - height / 3)
                 .offset(x: 0, y: height/2)
-                .blendMode(.softLight)
+                
             IOS6ToggleBoundary()
             IOS6ToggleCircleButton(isPressed: isPressed, offset:  isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
         }
@@ -72,7 +72,7 @@ public struct IOS6Toggle: View {
                     self.isOn = self.oldPercent + value.translation.width >= self.width / 2
                 }
                 .exclusively(before: TapGesture().onEnded {
-                    self.isOn.toggle()
+                    self.isOn = self.isOn ? false: true
                 })
         )
         
@@ -95,23 +95,23 @@ public struct IOS6Toggle: View {
                         self.color
                             .frame(width: geo.size.width)
                         Color(red: 238.0/255.0, green: 238.0/255.0, blue: 238.0/255.0)
-                            .frame(width: geo.size.width)
+                            .frame(width: geo.size.width).blendMode(.screen)
                     }.frame(width: geo.size.width)
                     
                     Text("OFF")
                         .offset(x: geo.size.width/2.2, y: 0)
                         .foregroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                        .font(Font.body.bold())
+                        .font(Font.callout.weight(.bold))
                     
                     ZStack {
                         Text("ON")
                             .foregroundColor(Color.black.opacity(0.5))
-                            .offset(x: 0, y: -0.8)
+                            .offset(x: 0, y: -0.5)
                         
                         Text("ON")
                             .foregroundColor(.white)
                     }
-                    .font(Font.body.bold())
+                    .font(Font.callout.weight(.bold))
                     .offset(x: -geo.size.width/2.2, y: 0)
                 }
                 .compositingGroup()
@@ -154,8 +154,8 @@ public struct IOS6Toggle: View {
                                 LinearGradient(
                                     gradient:
                                     Gradient(colors:
-                                        [Color.black.opacity(self.configuration.isPressed ? 0.20 : 0.15),
-                                         Color.black.opacity(self.configuration.isPressed ? 0.15 : 0.08),
+                                        [Color.black.opacity(self.configuration.isPressed ? 0.10 : 0.08),
+                                         //Color.black.opacity(self.configuration.isPressed ? 0.11 : 0.05),
                                          Color.black.opacity(self.configuration.isPressed ? 0.09 : 0.0)]),
                                     startPoint: .top,
                                     endPoint: .bottom))
@@ -163,7 +163,7 @@ public struct IOS6Toggle: View {
                         Circle()
                             .strokeBorder(
                                 Color.white,
-                                lineWidth: 1.1)
+                                lineWidth: 1)
                             .blur(radius: 0.35)
                             .frame(height: geo.size.height - 1)
                         
@@ -190,13 +190,13 @@ public struct IOS6Toggle: View {
                     Capsule()
                         .strokeBorder(
                             Color(red: 180/255.0, green: 180/255.0, blue: 180/255.0),
-                            lineWidth: 0.9)
+                            lineWidth: 0.6)
                         .blur(radius: 0.3)
                     
                     Capsule()
-                        .strokeBorder(Color.black.opacity(0.4), lineWidth: 1.5)
+                        .strokeBorder(Color.black.opacity(0.6), lineWidth: 1.1)
                         .blur(radius: 1.4)
-                        .padding(EdgeInsets(top: 0.2, leading: -3, bottom: -4.5, trailing: -3))
+                        .padding(EdgeInsets(top: 0.18, leading: -3, bottom: -4.5, trailing: -3))
                 }
             }
         }
@@ -217,24 +217,23 @@ public struct IOS6Toggle: View {
                             LinearGradient(
                                 gradient:
                                 Gradient(colors:
-                                    [Color.black.opacity(self.isPressed ? 0.23 : 0.20),
-                                     Color.black.opacity(self.isPressed ? 0.12 : 0.0)]),
+                                    [Color.black.opacity(self.isPressed ? 0.20 : 0.20),
+                                     Color.black.opacity(self.isPressed ? 0.1 : 0.0)]),
                                 startPoint: .top,
                                 endPoint: .bottom))
                     
                     Circle()
                         .strokeBorder(
                             Color.white,
-                            lineWidth: 1.2)
+                            lineWidth: 0.85)
                         .frame(height: geo.size.height - 1)
                     
                     Circle()
                         .strokeBorder(
                             Color(red: 140.0/255.0, green: 140.0/255.0, blue: 140.0/255.0),
-                            lineWidth: 0.75)
+                            lineWidth: 0.65)
                 }
-                .compositingGroup()
-                .shadow(color:Color.black.opacity(0.4), radius: 0.7)
+                .shadow(color:Color.black.opacity(0.1), radius: 0.1)
                 .offset(x: self.offset - 0.5 * geo.size.width, y: 0)
             }
         }

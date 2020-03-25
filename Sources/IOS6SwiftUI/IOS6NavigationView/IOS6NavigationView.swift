@@ -18,6 +18,7 @@ public struct IOS6NavigationView<Content: View>: View {
     public var body: some View {
         IOS6NavigationSubView(interactiveSwipe: interactiveSwipe)
             .environmentObject(IOS6NavigationViewStack(rootView: self.content(), title: title))
+            .colorScheme(.light)
     }
     
     public init(_ title: String, interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
@@ -34,15 +35,15 @@ public struct IOS6NavigationView<Content: View>: View {
         var body: some View {
             VStack(spacing: 0) {
                 Spacer(minLength: navigationBarHeight)
-                //Text("\(offset)")
+                
                 ZStack {
                     ForEach(0 ..< viewStack.count(), id: \.self) { index in
                         self.viewStack.item(of: index)
                             .offset(x: self.viewStack.offsetStack[index], y: 0)
                             .environment(\.enableView, index == self.viewStack.count() - 1)
                     }
-                }
-            .simultaneousGesture(
+                }.edgesIgnoringSafeArea([.horizontal,.bottom])
+            .gesture(
                     DragGesture(minimumDistance: 1)
                         .onChanged { value in
                             if self.interactiveSwipe && self.viewStack.offsetStack.count > 1 {

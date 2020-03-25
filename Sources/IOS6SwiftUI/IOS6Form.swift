@@ -19,7 +19,7 @@ public struct IOS6Form<Content: View>: View {
             VStack(spacing: 0) {
                 self.content()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }.drawingGroup()
+            }
         }
     }
     

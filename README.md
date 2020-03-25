@@ -13,6 +13,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 
 ## Upcoming Features
 - \[ ] iPad Double Column NavigationView Style
+- \[ ] More Navigation Styles (eg. Map)
 
 
 ## Installation
@@ -26,7 +27,6 @@ Copy the address from github into search bar and hit the enter key. For more det
 Everything listed in the Feature section are useable. Here is an recommended implementation:  
 
 ```Swift
-import SwiftUI
 import IOS6SwiftUI
 
 struct ContentView: View {
