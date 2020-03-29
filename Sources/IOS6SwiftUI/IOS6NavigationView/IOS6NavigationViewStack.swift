@@ -9,13 +9,13 @@
 import SwiftUI
 
 class IOS6NavigationViewStack: ObservableObject {
-    @Published var stack = [AnyView]()
+    @Published var stack = [NavigationTabView]()
     var titleStack = [String]()
     var boolStack = [Binding<Bool>]()
     @Published var offsetStack = [CGFloat]()
     
     init<Content: View>(rootView: Content, title: String) {
-        stack.append(AnyView(rootView))
+        stack.append(NavigationTabView(view: AnyView(rootView)))
         titleStack.append(title)
         offsetStack.append(0)
     }
@@ -24,9 +24,9 @@ class IOS6NavigationViewStack: ObservableObject {
         return stack.count
     }
     
-    func item(of index: Int) -> AnyView {
+    func item(of index: Int) -> NavigationTabView {
         if index >= stack.count {
-            return AnyView(Text("View Stack Index of \(index) exceed the maxmium count: \(stack.count)"))
+            return NavigationTabView(view: AnyView(Text("View Stack Index of \(index) exceed the maxmium count: \(stack.count)")))
         }
         return stack[index]
     }
@@ -34,22 +34,22 @@ class IOS6NavigationViewStack: ObservableObject {
     func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {
         titleStack.append(title)
         boolStack.append(isPresent)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            withAnimation(.easeInOut(duration: 0.35)) {
-                self.stack.append(AnyView(
+        
+            withAnimation(Animation.easeInOut(duration: 0.35).delay(0.15)) {
+                self.stack.append(NavigationTabView(view: AnyView(
                     newView
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .transition(.move(edge: .trailing))
-                ))
+                        
+                )))
                 self.offsetStack[self.offsetStack.count - 1] = -UIScreen.main.bounds.width
                 self.offsetStack.append(0)
             }
-        }
+        
     }
     
     func pop(scale: Double = 1) {
         if stack.count > 1 {
-            withAnimation(scale == 1 ? .easeInOut(duration: 0.35) : .linear(duration: 0.35 * scale)) {
+            withAnimation(scale == 1 ? .easeInOut(duration: 0.35) : .easeInOut(duration: 0.35 * scale)) {
                 stack.removeLast()
                 titleStack.removeLast()
                 offsetStack.removeLast()
@@ -61,12 +61,26 @@ class IOS6NavigationViewStack: ObservableObject {
         }
     }
     
-    func pick() -> AnyView {
-        return stack.last ?? AnyView(Text("Empty View Stack"))
+    func pick() -> NavigationTabView {
+        return stack.last ?? NavigationTabView(view: AnyView(Text("Empty View Stack")))
     }
     
     func updateOffset(newOffset: CGFloat) {
         offsetStack[offsetStack.count - 1] = newOffset
         offsetStack[offsetStack.count - 2] = newOffset - UIScreen.main.bounds.width
+    }
+    
+    struct NavigationTabView: UIViewControllerRepresentable {
+        let view: AnyView
+
+        func makeUIViewController(context: Self.Context) -> UIHostingController<AnyView> {
+            let newView = UIHostingController(rootView: view)
+            newView.view.backgroundColor = .clear
+            return newView
+        }
+
+        func updateUIViewController(_ uiViewController: Self.UIViewControllerType, context: Self.Context) {
+            
+        }
     }
 }

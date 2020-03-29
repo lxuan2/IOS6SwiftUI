@@ -57,7 +57,7 @@ struct BarTextView: View {
 struct MoveInXAndFade: ViewModifier {
     var isEnabled: Bool
     var offsetAmount: CGFloat
-
+    
     func body(content: Content) -> some View {
         return content
             .offset(x: offsetAmount, y: 0)
