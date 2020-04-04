@@ -22,11 +22,11 @@ struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
             let gesture = DragGesture(minimumDistance: 0)
                 .onChanged { value in
                     if self.isValid  {
-                        if value.translation.height >= 80 {
+                        if value.translation.height >= 60 {
                             self.isValid = false
                             self.isPressed = false
                         }
-                        else if value.translation.width > 80 {
+                        else if value.translation.width > 60 {
                             self.configuration.trigger()
                         }
                         else {

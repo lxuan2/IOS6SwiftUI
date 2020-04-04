@@ -34,22 +34,18 @@ class IOS6NavigationViewStack: ObservableObject {
     func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {
         titleStack.append(title)
         boolStack.append(isPresent)
+        let newTabView = NavigationTabView(view: AnyView(newView.frame(maxWidth: .infinity, maxHeight: .infinity)))
         
-            withAnimation(Animation.easeInOut(duration: 0.35).delay(0.15)) {
-                self.stack.append(NavigationTabView(view: AnyView(
-                    newView
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        
-                )))
-                self.offsetStack[self.offsetStack.count - 1] = -UIScreen.main.bounds.width
-                self.offsetStack.append(0)
-            }
-        
+        withAnimation(Animation.easeInOut(duration: 0.35).delay(0.15)) {
+            self.stack.append(newTabView)
+            self.offsetStack[self.offsetStack.count - 1] = -UIScreen.main.bounds.width
+            self.offsetStack.append(0)
+        }
     }
     
     func pop(scale: Double = 1) {
         if stack.count > 1 {
-            withAnimation(scale == 1 ? .easeInOut(duration: 0.35) : .easeInOut(duration: 0.35 * scale)) {
+            withAnimation(Animation.easeInOut(duration: 0.35 * scale)) {
                 stack.removeLast()
                 titleStack.removeLast()
                 offsetStack.removeLast()
@@ -72,13 +68,13 @@ class IOS6NavigationViewStack: ObservableObject {
     
     struct NavigationTabView: UIViewControllerRepresentable {
         let view: AnyView
-
+        
         func makeUIViewController(context: Self.Context) -> UIHostingController<AnyView> {
             let newView = UIHostingController(rootView: view)
             newView.view.backgroundColor = .clear
             return newView
         }
-
+        
         func updateUIViewController(_ uiViewController: Self.UIViewControllerType, context: Self.Context) {
             
         }

@@ -43,11 +43,11 @@ public struct IOS6NavigationView<Content: View>: View {
                             .offset(x: self.viewStack.offsetStack[index], y: 0)
                             .environment(\.enableView, index == self.viewStack.count() - 1)
                     }
-                }.edgesIgnoringSafeArea([.horizontal,.bottom])
+                }.edgesIgnoringSafeArea(.bottom)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                if self.interactiveSwipe && self.viewStack.offsetStack.count > 1 {
+                                if self.viewStack.offsetStack.count > 1 {
                                     let offset = value.startLocation.x < 30 ? value.translation.width : 0
                                     self.viewStack.updateOffset(newOffset: offset)
                                 }
@@ -55,7 +55,7 @@ public struct IOS6NavigationView<Content: View>: View {
                         .onEnded { value in
                             if self.viewStack.count() > 1 {
                                 if value.predictedEndTranslation.width - value.translation.width > 20 || self.viewStack.offsetStack[self.viewStack.offsetStack.count - 1] > UIScreen.main.bounds.width / 2 {
-                                    let scale = self.interactiveSwipe ? (UIScreen.main.bounds.width - value.translation.width) / UIScreen.main.bounds.width : 1
+                                    let scale = (UIScreen.main.bounds.width - value.translation.width) / UIScreen.main.bounds.width
                                     self.viewStack.pop(scale: Double(scale))
                                 } else {
                                     withAnimation(.easeInOut(duration: 0.2)) {
@@ -64,7 +64,7 @@ public struct IOS6NavigationView<Content: View>: View {
                                 }
                             }
                         }
-                )
+                        , including: interactiveSwipe ? .all: .subviews)
             }
             .overlay(IOS6NavigationBar(navigationBarHeight: navigationBarHeight),alignment: .top)
             .background(IOS6NavigationWallpaper())
