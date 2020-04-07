@@ -29,14 +29,14 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
             Color(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0).opacity(pressed || sheet ? 0 : 1)
             HStack(spacing: 0) {
                 self.label()
+                    .IOS6NavigationItemPadding()
+                
                 Image(systemName: "chevron.right")
                     .font(Font.footnote.weight(.heavy))
                     .accentColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
                     .padding(12)
             }
-            .font(Font.body.weight(.bold))
             .foregroundColor(pressed || sheet ? .white : .accentColor)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .overlay(IOS6Divider(), alignment: .bottom)
         .allowsHitTesting(!sheet)

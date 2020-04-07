@@ -17,27 +17,23 @@ public struct IOS6Section<Content: View>: View {
         VStack(spacing: 0) {
             self.content()
         }
+        .padding(.vertical, 0.75)
         .background(Color(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0))
-            .overlay( // Top shadow
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(Color(red: 80.0/255.0, green: 80.0/255.0, blue: 80.0/255.0), lineWidth: 0.5)
-                    .blur(radius: 0.6)
-                    .padding(EdgeInsets(top: 0.3, leading: -0.2, bottom: -0.5, trailing: -0.2))
+        .overlay(
+            RoundedRectangle(cornerRadius: radius)
+                .stroke(Color(red: 80.0/255.0, green: 80.0/255.0, blue: 80.0/255.0), lineWidth: 0.5)
+                .blur(radius: 0.6)
+                .padding(EdgeInsets(top: 0.3, leading: -0.2, bottom: -0.5, trailing: -0.2))
         )
-            .clipShape(RoundedRectangle(cornerRadius: radius))
-            .overlay(   // Round frame
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(Color(red: 175.0/255.0, green: 178.0/255.0, blue: 184.0/255.0), lineWidth: 1)
-        )
-            .background(    // White bottom line
+            .cornerRadius(radius)
+            .overlay(
                 GeometryReader { geo in
                     RoundedRectangle(cornerRadius: self.radius)
-                        .stroke(Color.white.opacity(0.8), lineWidth: 1.2)
-                        .frame(width: geo.size.width , alignment: .center)
-                        .offset(x: 0, y: 0.6)
-                }
+                        .strokeBorder(Color(red: 170.0/255.0, green: 172.0/255.0, blue: 176.0/255.0), lineWidth: 1)
+                        .frame(height: geo.size.height - 0.75)
+                }, alignment: .top
         )
-            .padding(11)
+            .padding(10)
     }
     
     public init(@ViewBuilder content: @escaping () -> Content) {

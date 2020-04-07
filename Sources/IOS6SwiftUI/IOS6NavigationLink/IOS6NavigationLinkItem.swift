@@ -18,32 +18,28 @@ public struct IOS6NavigationLinkItem: View {
         HStack(spacing: 0) {
             if image != nil {
                 image!.resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .cornerRadius(5)
                     .overlay(   // Round frame
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.black.opacity(0.4), lineWidth: 0.5)
                     )
                     .scaledToFit()
-                    .padding(.vertical, 7)
-                    .padding(.leading, 8)
-                    .frame(height: 44.25)
             }
             
-            Spacer().frame(width: 12)
+            Spacer().frame(width: image != nil ? 12: 6)
             
             Text(title)
-                .padding(.vertical, 10)
+                .fontWeight(Font.Weight.bold)
                 .accentColor(.black)
             
             Spacer()
             
             if !comment.isEmpty {
                 Text(comment)
-                    .padding(.vertical, 10)
                     .accentColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
-                    .font(.body)
             }
         }
+        .frame(minHeight: 30, maxHeight: 30)
     }
     
     public init(image: Image? = nil, title: String, comment: String = "") {

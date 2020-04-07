@@ -43,28 +43,29 @@ public struct IOS6NavigationView<Content: View>: View {
                             .offset(x: self.viewStack.offsetStack[index], y: 0)
                             .environment(\.enableView, index == self.viewStack.count() - 1)
                     }
-                }.edgesIgnoringSafeArea(.bottom)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                if self.viewStack.offsetStack.count > 1 {
-                                    let offset = value.startLocation.x < 30 ? value.translation.width : 0
-                                    self.viewStack.updateOffset(newOffset: offset)
-                                }
-                        }
-                        .onEnded { value in
-                            if self.viewStack.count() > 1 {
-                                if value.predictedEndTranslation.width - value.translation.width > 20 || self.viewStack.offsetStack[self.viewStack.offsetStack.count - 1] > UIScreen.main.bounds.width / 2 {
-                                    let scale = (UIScreen.main.bounds.width - value.translation.width) / UIScreen.main.bounds.width
-                                    self.viewStack.pop(scale: Double(scale))
-                                } else {
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        self.viewStack.updateOffset(newOffset: 0)
-                                    }
+                }
+                
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if self.viewStack.offsetStack.count > 1 {
+                                let offset = value.startLocation.x < 30 ? value.translation.width : 0
+                                self.viewStack.updateOffset(newOffset: offset)
+                            }
+                    }
+                    .onEnded { value in
+                        if self.viewStack.count() > 1 {
+                            if value.predictedEndTranslation.width - value.translation.width > 20 || self.viewStack.offsetStack[self.viewStack.offsetStack.count - 1] > UIScreen.main.bounds.width / 2 {
+                                let scale = (UIScreen.main.bounds.width - value.translation.width) / UIScreen.main.bounds.width
+                                self.viewStack.pop(scale: Double(scale))
+                            } else {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    self.viewStack.updateOffset(newOffset: 0)
                                 }
                             }
                         }
-                        , including: interactiveSwipe ? .all: .subviews)
+                    }
+                    , including: interactiveSwipe ? .all: .subviews)
             }
             .overlay(IOS6NavigationBar(navigationBarHeight: navigationBarHeight),alignment: .top)
             .background(IOS6NavigationWallpaper())

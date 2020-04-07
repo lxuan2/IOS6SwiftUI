@@ -9,18 +9,17 @@
 import SwiftUI
 
 public struct IOS6Divider: View {
-    let color: Color = Color(red: 202.0/255.0, green: 202.0/255.0, blue: 202.0/255.0)
-    let width: CGFloat = 1
+    let color: Color
+    let width: CGFloat
+    
     public var body: some View {
-        Rectangle()
-            .fill(color)
-            .frame(maxWidth: .infinity, minHeight: width, maxHeight: width)
-            .background(
-                Rectangle()
-                    .fill(Color(red: 253.0/255.0, green: 253.0/255.0, blue: 253.0/255.0))
-                    .frame(height: width)
-                .offset(x: 0, y: width)
-            )
+        color
+            .frame(minHeight: width, maxHeight: width)
+    }
+    
+    init(width: CGFloat = 1, color: Color = Color(red: 202.0/255.0, green: 202.0/255.0, blue: 202.0/255.0)) {
+        self.width = width
+        self.color = color
     }
 }
 

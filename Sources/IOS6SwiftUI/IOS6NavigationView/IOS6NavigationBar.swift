@@ -12,10 +12,11 @@ struct IOS6NavigationBar: View {
     let navigationBarHeight: CGFloat
     
     var body: some View {
-        Rectangle()
-            .frame(maxWidth: .infinity, maxHeight: navigationBarHeight)
-            .foregroundColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
-            .overlay(
+        ZStack {
+            VStack(spacing: 0) {
+                Color(red: 233/255, green: 244/255, blue: 255/255)
+                    .frame(height: 0.55)
+                
                 LinearGradient(
                     gradient:
                     Gradient(colors:
@@ -25,22 +26,44 @@ struct IOS6NavigationBar: View {
                     startPoint: .bottom,
                     endPoint: .top
                 )
-        )
-            .overlay(
-                Rectangle()
-                    .foregroundColor(Color(red: 233/255, green: 244/255, blue: 255/255))
-                    .frame(maxWidth: .infinity, maxHeight: 0.55)
-                ,
-                alignment: .top)
-            .overlay(
-                Rectangle()
-                    .foregroundColor(Color(red: 69/255, green: 91/255, blue: 125/255))
-                    .frame(maxWidth: .infinity, maxHeight: 1.1)
-                ,
-                alignment: .bottom)
-            .shadow(color: Color.gray.opacity(0.5), radius: 1, x: 0, y: 0.7)
+                
+                Color(red: 69/255, green: 91/255, blue: 125/255)
+                    .frame(height: 1.1)
+            }
+            .clipShape(UpRectangle(cornerRadius: 3))
             .edgesIgnoringSafeArea([.horizontal])
-            .overlay(IOS6NavigationBarItems(navigationBarHeight: navigationBarHeight))
+            
+            IOS6NavigationBarItems(navigationBarHeight: navigationBarHeight)
+        }
+        .frame(height: navigationBarHeight)
+        .compositingGroup()
+        .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
+    }
+    
+    struct UpRectangle: Shape {
+        let cornerRadius: CGFloat
+        
+        func path(in rect: CGRect) -> Path {
+            var path = Path()
+            path.move(to: CGPoint(x: cornerRadius, y: 0))
+            path.addLine(to: CGPoint(x: rect.width - cornerRadius, y: 0))
+            path.addArc(center: CGPoint(x: rect.width - cornerRadius, y: cornerRadius),
+                        radius: cornerRadius,
+                        startAngle: Angle(degrees: 270.0),
+                        endAngle: Angle(degrees: 0.00),
+                        clockwise: false,
+                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.addLine(to: CGPoint(x: 0, y: cornerRadius))
+            path.addArc(center: CGPoint(x: cornerRadius, y: cornerRadius),
+                        radius: cornerRadius,
+                        startAngle: Angle(degrees: 180.0),
+                        endAngle: Angle(degrees: 270.0),
+                        clockwise: false,
+                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
+            return path
+        }
     }
 }
 

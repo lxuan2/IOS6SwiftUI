@@ -9,13 +9,13 @@
 import SwiftUI
 
 class IOS6NavigationViewStack: ObservableObject {
-    @Published var stack = [NavigationTabView]()
+    @Published var stack = [EquatableView<AnyView>]()
     var titleStack = [String]()
     var boolStack = [Binding<Bool>]()
     @Published var offsetStack = [CGFloat]()
     
     init<Content: View>(rootView: Content, title: String) {
-        stack.append(NavigationTabView(view: AnyView(rootView)))
+        stack.append(EquatableView(content: AnyView(rootView)))
         titleStack.append(title)
         offsetStack.append(0)
     }
@@ -24,9 +24,9 @@ class IOS6NavigationViewStack: ObservableObject {
         return stack.count
     }
     
-    func item(of index: Int) -> NavigationTabView {
+    func item(of index: Int) -> EquatableView<AnyView> {
         if index >= stack.count {
-            return NavigationTabView(view: AnyView(Text("View Stack Index of \(index) exceed the maxmium count: \(stack.count)")))
+            return EquatableView(content:  AnyView(Text("View Stack Index of \(index) exceed the maxmium count: \(stack.count)")))
         }
         return stack[index]
     }
@@ -34,7 +34,7 @@ class IOS6NavigationViewStack: ObservableObject {
     func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {
         titleStack.append(title)
         boolStack.append(isPresent)
-        let newTabView = NavigationTabView(view: AnyView(newView.frame(maxWidth: .infinity, maxHeight: .infinity)))
+        let newTabView = EquatableView(content:  AnyView(newView.frame(maxWidth: .infinity, maxHeight: .infinity)))
         
         withAnimation(Animation.easeInOut(duration: 0.35).delay(0.15)) {
             self.stack.append(newTabView)
@@ -57,26 +57,18 @@ class IOS6NavigationViewStack: ObservableObject {
         }
     }
     
-    func pick() -> NavigationTabView {
-        return stack.last ?? NavigationTabView(view: AnyView(Text("Empty View Stack")))
+    func pick() -> EquatableView<AnyView> {
+        return stack.last ?? EquatableView(content: AnyView(Text("Empty View Stack")))
     }
     
     func updateOffset(newOffset: CGFloat) {
         offsetStack[offsetStack.count - 1] = newOffset
         offsetStack[offsetStack.count - 2] = newOffset - UIScreen.main.bounds.width
     }
-    
-    struct NavigationTabView: UIViewControllerRepresentable {
-        let view: AnyView
-        
-        func makeUIViewController(context: Self.Context) -> UIHostingController<AnyView> {
-            let newView = UIHostingController(rootView: view)
-            newView.view.backgroundColor = .clear
-            return newView
-        }
-        
-        func updateUIViewController(_ uiViewController: Self.UIViewControllerType, context: Self.Context) {
-            
-        }
+}
+
+extension AnyView: Equatable {
+    public static func == (lhs: AnyView, rhs: AnyView) -> Bool {
+        return true
     }
 }

@@ -15,33 +15,32 @@ public struct IOS6ToggleItem: View {
     var title: String = ""
     var color: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)
     //Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0) orange
+    
     public var body: some View {
         HStack(spacing: 0) {
             if image != nil {
                 image!.resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .cornerRadius(5)
                     .overlay(   // Round frame
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.black.opacity(0.4), lineWidth: 0.5)
-                    )
+                )
                     .scaledToFit()
-                    .padding(.vertical, 7)
-                    .padding(.leading, 8)
-                    .frame(height: 44.25)
             }
             
-            Spacer().frame(width: 12)
+            Spacer().frame(width: image != nil ? 12: 6)
             
             Text(title)
-                .padding(.vertical, 10)
-                .foregroundColor(.black)
+                .fontWeight(Font.Weight.bold)
+                .accentColor(.black)
             
             Spacer()
             
             IOS6Toggle(isOn: $isOn, toggleColor: color)
                 .padding(.trailing, 11)
         }
-        .font(Font.body.weight(.bold))
+        .frame(height: 30)
+        .IOS6NavigationItemPadding()
         .overlay(IOS6Divider(), alignment: .bottom)
     }
     public init(isOn: Binding<Bool>, image: Image? = nil, title: String = "", color: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)) {

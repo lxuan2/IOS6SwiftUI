@@ -18,7 +18,6 @@ public struct IOS6Form<Content: View>: View {
         ScrollView(showsIndicators: enableView) {
             VStack(spacing: 0) {
                 self.content()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }
