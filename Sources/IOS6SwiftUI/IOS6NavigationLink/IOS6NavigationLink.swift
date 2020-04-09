@@ -39,7 +39,6 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
             .foregroundColor(pressed || sheet ? .white : .accentColor)
         }
         .overlay(IOS6Divider(), alignment: .bottom)
-        .allowsHitTesting(!sheet)
         .onTapGesture {
             self.sheet = true
             self.viewStack.push(isPresent: self.$sheet,

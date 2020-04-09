@@ -15,10 +15,10 @@ struct IOS6NavigationBarItems: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                ForEach(0 ..< self.viewStack.count(), id: \.self) { index in
+                ForEach(0 ..< self.viewStack.stack.count, id: \.self) { index in
                     BarTextView(viewStack: self.viewStack, index: index)
-                        .offset(x: index == self.viewStack.count() - 1 ? 0 : -geo.size.width / 2, y: 0)
-                        .opacity(index == self.viewStack.count() - 1 ? 1 : 0)
+                        .offset(x: index == self.viewStack.stack.count - 1 ? 0 : -geo.size.width / 2, y: 0)
+                        .opacity(index == self.viewStack.stack.count - 1 ? 1 : 0)
                         .transition(.moveInXAndFade(offset: geo.size.width / 3))
                 }
             }
