@@ -10,71 +10,80 @@ import SwiftUI
 
 struct IOS6NavigationBarItems: View {
     @EnvironmentObject var viewStack: IOS6NavigationViewStack
-    let navigationBarHeight: CGFloat
     
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader { proxy in
             ZStack {
                 ForEach(0 ..< self.viewStack.stack.count, id: \.self) { index in
-                    BarTextView(viewStack: self.viewStack, index: index)
-                        .offset(x: index == self.viewStack.stack.count - 1 ? 0 : -geo.size.width / 2, y: 0)
-                        .opacity(index == self.viewStack.stack.count - 1 ? 1 : 0)
-                        .transition(.moveInXAndFade(offset: geo.size.width / 3))
+                    self.bartextview(at: index, width: proxy.size.width)
                 }
             }
         }
     }
+    
+    func bartextview(at index: Int, width: CGFloat) -> some View {
+        var offset: CGFloat = 0
+        var opacity: Double = 0
+        if index < self.viewStack.stack.count - 2 {
+            offset = -width
+            opacity = 0
+        } else if index == self.viewStack.stack.count - 2 {
+            offset = -width + self.viewStack.dragAmount
+            opacity = Double(self.viewStack.dragAmount / width)
+        } else {
+            offset = self.viewStack.dragAmount
+            opacity = Double(1 - self.viewStack.dragAmount / width)
+        }
+        return
+            ZStack {
+                Text(self.viewStack.titleStack[index])
+                    .foregroundColor(Color.black.opacity(0.5))
+                    .offset(x: 0, y: -1.1)
+                Text(self.viewStack.titleStack[index])
+                    .foregroundColor(.white)
+            }
+            .font(Font.system(size: 20, weight: .bold))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(
+                ZStack {
+                    if index > 0 {
+                        Button(self.viewStack.titleStack[index - 1].isEmpty ? "Back" : self.viewStack.titleStack[index - 1]) {
+                            self.viewStack.pop()
+                        }
+                        .buttonStyle(IOS6NavigationBackButtonStyle())
+                        .padding(.leading, 5.5)
+                    }
+                },
+                alignment: .leading)
+                .compositingGroup()
+                .offset(x: offset, y: 0)
+                .opacity(opacity)
+                .transition(.moveInXAndFade(offset: width / 3))
+                .clipped()
+    }
 }
 
-struct BarTextView: View {
-    let viewStack: IOS6NavigationViewStack
-    let index: Int
-    
-    var body: some View {
-        ZStack {
-            Text(self.viewStack.titleStack[index])
-                .foregroundColor(Color.black.opacity(0.5))
-                .offset(x: 0, y: -1.1)
-            Text(self.viewStack.titleStack[index])
-                .foregroundColor(.white)
-        }
-        .font(Font.system(size: 20, weight: .bold))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(
-            ZStack {
-                if index > 0 {
-                    Button(self.viewStack.titleStack[index - 1].isEmpty ? "Back" : self.viewStack.titleStack[index - 1]) {
-                        self.viewStack.pop()
-                    }
-                    .buttonStyle(IOS6NavigationBackButtonStyle())
-                    .padding(.leading, 5.5)
-                }
-            },
-            alignment: .leading)
+struct IOS6NavigationBarItems_Previews: PreviewProvider {
+    static var previews: some View {
+        IOS6NavigationBarItems()
     }
 }
 
 struct MoveInXAndFade: ViewModifier {
-    var isEnabled: Bool
-    var offsetAmount: CGFloat
+    var opacity: Double
+    var offset: CGFloat
     
     func body(content: Content) -> some View {
-        return content
-            .offset(x: offsetAmount, y: 0)
-            .opacity(isEnabled ? 0 : 1)
+        content
+            .offset(x: offset, y: 0)
+            .opacity(opacity)
     }
 }
 
 extension AnyTransition {
     static func moveInXAndFade(offset: CGFloat) -> AnyTransition {
         AnyTransition.modifier(
-            active: MoveInXAndFade(isEnabled: true, offsetAmount: offset),
-            identity: MoveInXAndFade(isEnabled: false, offsetAmount: 0))
-    }
-}
-
-struct IOS6NavigationBarItems_Previews: PreviewProvider {
-    static var previews: some View {
-        IOS6NavigationBarItems(navigationBarHeight: 45)
+            active: MoveInXAndFade(opacity: 0, offset: offset),
+            identity: MoveInXAndFade(opacity: 1, offset: 0))
     }
 }

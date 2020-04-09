@@ -16,22 +16,20 @@ public struct IOS6Section<Content: View>: View {
     public var body: some View {
         VStack(spacing: 0) {
             self.content()
+            Spacer().frame(height: 1.6)
         }
-        .padding(.vertical, 0.75)
         .background(Color(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0))
         .overlay(
             RoundedRectangle(cornerRadius: radius)
-                .stroke(Color(red: 80.0/255.0, green: 80.0/255.0, blue: 80.0/255.0), lineWidth: 0.5)
-                .blur(radius: 0.6)
-                .padding(EdgeInsets(top: 0.3, leading: -0.2, bottom: -0.5, trailing: -0.2))
+                .stroke(Color(red: 150.0/255.0, green: 150.0/255.0, blue: 150.0/255.0), lineWidth: 0.8)
+                .blur(radius: 1)
+                .padding(EdgeInsets(top: 0.5, leading: -0.2, bottom: -0.5, trailing: -0.2))
         )
             .cornerRadius(radius)
             .overlay(
-                GeometryReader { geo in
-                    RoundedRectangle(cornerRadius: self.radius)
-                        .strokeBorder(Color(red: 170.0/255.0, green: 172.0/255.0, blue: 176.0/255.0), lineWidth: 1)
-                        .frame(height: geo.size.height - 0.75)
-                }, alignment: .top
+                RoundedRectangle(cornerRadius: self.radius)
+                    .strokeBorder(Color(red: 170.0/255.0, green: 172.0/255.0, blue: 176.0/255.0), lineWidth: 1.1)
+                    .padding(.bottom, 1.6)
         )
             .padding(10)
     }

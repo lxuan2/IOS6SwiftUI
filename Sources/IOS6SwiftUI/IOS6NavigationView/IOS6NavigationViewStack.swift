@@ -13,6 +13,7 @@ class IOS6NavigationViewStack: ObservableObject {
     var titleStack = [String]()
     var boolStack = [Binding<Bool>]()
     @Published var blocking = false
+    @Published var dragAmount: CGFloat = 0
     
     init<Content: View>(rootView: Content, title: String) {
         stack.append(EquatableView(content: AnyView(rootView)))
@@ -43,6 +44,7 @@ class IOS6NavigationViewStack: ObservableObject {
             }
             
             withAnimation(Animation.easeInOut(duration: 0.35 * scale)) {
+                dragAmount = 0
                 stack.removeLast()
                 titleStack.removeLast()
             }

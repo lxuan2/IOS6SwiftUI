@@ -12,8 +12,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  iIOS6Divider
 
 ## Upcoming Features
+- \[ ] Without section, navigation links give correct the shape
 - \[ ] Enable presentation mode to dismiss view
-- \[ ] Anti Refresh
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 

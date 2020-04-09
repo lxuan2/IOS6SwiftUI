@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct IOS6NavigationBar: View {
-    let navigationBarHeight: CGFloat
-    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -30,45 +28,45 @@ struct IOS6NavigationBar: View {
                 Color(red: 69/255, green: 91/255, blue: 125/255)
                     .frame(height: 1.1)
             }
-            .clipShape(UpRectangle(cornerRadius: 3))
+            //.clipShape(UpRectangle(cornerRadius: 3))
+            .compositingGroup()
+            .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
             .edgesIgnoringSafeArea([.horizontal])
             
-            IOS6NavigationBarItems(navigationBarHeight: navigationBarHeight)
+            IOS6NavigationBarItems()
         }
-        .frame(height: navigationBarHeight)
-        .compositingGroup()
-        .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
-    }
-    
-    struct UpRectangle: Shape {
-        let cornerRadius: CGFloat
-        
-        func path(in rect: CGRect) -> Path {
-            var path = Path()
-            path.move(to: CGPoint(x: cornerRadius, y: 0))
-            path.addLine(to: CGPoint(x: rect.width - cornerRadius, y: 0))
-            path.addArc(center: CGPoint(x: rect.width - cornerRadius, y: cornerRadius),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 270.0),
-                        endAngle: Angle(degrees: 0.00),
-                        clockwise: false,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-            path.addLine(to: CGPoint(x: 0, y: rect.height))
-            path.addLine(to: CGPoint(x: 0, y: cornerRadius))
-            path.addArc(center: CGPoint(x: cornerRadius, y: cornerRadius),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 180.0),
-                        endAngle: Angle(degrees: 270.0),
-                        clockwise: false,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            return path
-        }
+        .frame(height: 45)
     }
 }
 
 struct IOS6NavigationBar_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationBar(navigationBarHeight: 45)
+        IOS6NavigationBar()
+    }
+}
+
+struct UpRectangle: Shape {
+    let cornerRadius: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: cornerRadius, y: 0))
+        path.addLine(to: CGPoint(x: rect.width - cornerRadius, y: 0))
+        path.addArc(center: CGPoint(x: rect.width - cornerRadius, y: cornerRadius),
+                    radius: cornerRadius,
+                    startAngle: Angle(degrees: 270.0),
+                    endAngle: Angle(degrees: 0.00),
+                    clockwise: false,
+                    transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
+        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: cornerRadius))
+        path.addArc(center: CGPoint(x: cornerRadius, y: cornerRadius),
+                    radius: cornerRadius,
+                    startAngle: Angle(degrees: 180.0),
+                    endAngle: Angle(degrees: 270.0),
+                    clockwise: false,
+                    transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
+        return path
     }
 }
