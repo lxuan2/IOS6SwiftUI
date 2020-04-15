@@ -7,12 +7,12 @@
 //
 
 import SwiftUI
+var viewStack: IOS6NavigationViewStack? = nil
 
 /// A view for presenting a stack of views representing a visible path in a
 /// navigation hierarchy.
 public struct IOS6NavigationView<Content: View>: View {
     let title: String
-    let content: () -> Content
     let interactiveSwipe: Bool
     
     public var body: some View {
@@ -27,14 +27,14 @@ public struct IOS6NavigationView<Content: View>: View {
                 .edgesIgnoringSafeArea(.bottom)
         }
         .background(IOS6NavigationWallpaper())
-        .environmentObject(IOS6NavigationViewStack(rootView: self.content(), title: title))
+        .environmentObject(viewStack ?? IOS6NavigationViewStack(rootView: EmptyView(), title: ""))
         .colorScheme(.light)
     }
     
     public init(_ title: String, interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
-        self.content = content
         self.title = title
         self.interactiveSwipe = interactiveSwipe
+        viewStack = IOS6NavigationViewStack(rootView: content(), title: title)
     }
     
     struct IOS6NavigationSubView: View {
@@ -48,14 +48,15 @@ public struct IOS6NavigationView<Content: View>: View {
                     ZStack {
                         ForEach(0 ..< self.viewStack.stack.count, id: \.self) { index in
                             self.viewStack.stack[index]
+                                .transition(.move(edge: .trailing))
                                 .offset(x: index < self.viewStack.stack.count - 2 ? -proxy.size.width :
                                     index == self.viewStack.stack.count - 2 ? -proxy.size.width + self.viewStack.dragAmount :
                                     self.viewStack.dragAmount,
                                         y: 0)
                         }
-                        .transition(.move(edge: .trailing))
                     }
-                    .disabled(self.viewStack.blocking)
+                    .compositingGroup()
+                    .gesture(TapGesture(), including: self.viewStack.blocking ? .none: .subviews)
                     
                     if self.interactiveSwipe {
                         Color.clear
@@ -63,44 +64,9 @@ public struct IOS6NavigationView<Content: View>: View {
                             .contentShape(Rectangle())
                             .gesture(
                                 DragGesture()
-                                    .onChanged{ value in
-                                        if self.viewStack.stack.count > 1 {
-                                            self.viewStack.dragAmount = value.translation.width
-                                            if !self.viewStack.blocking {
-                                                self.viewStack.blocking = true
-                                            }
-                                        }
-                                }
-                                .onEnded { value in
-                                    if self.viewStack.stack.count > 1 {
-                                        let half =  proxy.size.width / 2
-                                        if value.predictedEndTranslation.width > half || value.translation.width > half  {
-                                            let time = 0.35 * Double((proxy.size.width - value.translation.width)/proxy.size.width)
-                                            withAnimation(Animation.easeInOut(duration: time)) {
-                                                self.viewStack.dragAmount = proxy.size.width
-                                            }
-                                            withAnimation(.easeIn(duration: time + 0.15)) {
-                                                self.viewStack.boolStack.removeLast().wrappedValue = false
-                                            }
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + time + 0.15 + 0.1) {
-                                                self.viewStack.blocking = false
-                                                self.viewStack.stack.removeLast()
-                                                self.viewStack.titleStack.removeLast()
-                                                self.viewStack.dragAmount = 0
-                                            }
-                                        } else {
-                                            withAnimation(Animation.easeInOut(duration: 0.2)) {
-                                                self.viewStack.dragAmount = 0
-                                            }
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2 + 0.1) {
-                                                self.viewStack.blocking = false
-                                            }
-                                        }
-                                    }
-                                }
+                                    .onChanged { self.viewStack.updateOffset(with: $0) }
+                                    .onEnded { self.viewStack.endOffset(with: $0, in: proxy) }
                         )
-                    } else {
-                        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                     }
                 }
             }

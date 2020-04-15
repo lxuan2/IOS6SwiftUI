@@ -17,7 +17,6 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
     @State private var sheet = false
     @State private var pressed = false
     @State private var beforePressed = false
-    @EnvironmentObject var viewStack: IOS6NavigationViewStack
     
     public var body: some View {
         ZStack {
@@ -40,10 +39,12 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
         }
         .overlay(IOS6Divider(), alignment: .bottom)
         .onTapGesture {
-            self.sheet = true
-            self.viewStack.push(isPresent: self.$sheet,
-                                title: self.title,
-                                newView: self.destination())
+            if viewStack != nil {
+                self.sheet = true
+                viewStack!.push(isPresent: self.$sheet,
+                                    title: self.title,
+                                    newView: self.destination())
+            }
         }
         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: 5, pressing: pressingHandler, perform: {})
     }

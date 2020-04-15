@@ -15,6 +15,7 @@ struct IOS6NavigationWallpaper: View {
         ZStack {
             Color(red: 70/255, green: 94/255, blue: 125/255)
                 .cornerRadius(4)
+                .background(Color.black)
                 .edgesIgnoringSafeArea(.all)
             
             Color(red: 214/255, green: 217/255, blue: 225/255)

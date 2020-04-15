@@ -15,11 +15,6 @@ public struct IOS6Form<Content: View>: View {
     let content: () -> Content
     
     public var body: some View {
-//        ScrollView() {
-//            VStack(spacing: 0) {
-//                self.content()
-//            }
-//        }
         List {
             self.content()
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

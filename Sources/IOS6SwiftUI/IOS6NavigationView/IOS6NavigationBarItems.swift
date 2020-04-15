@@ -56,9 +56,9 @@ struct IOS6NavigationBarItems: View {
                 },
                 alignment: .leading)
                 .compositingGroup()
+                .transition(.moveInXAndFade(offset: width / 3))
                 .offset(x: offset, y: 0)
                 .opacity(opacity)
-                .transition(.moveInXAndFade(offset: width / 3))
                 .clipped()
     }
 }

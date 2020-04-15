@@ -23,14 +23,14 @@ public struct IOS6Section<Content: View>: View {
             RoundedRectangle(cornerRadius: radius)
                 .stroke(Color(red: 150.0/255.0, green: 150.0/255.0, blue: 150.0/255.0), lineWidth: 0.8)
                 .blur(radius: 1)
-                .padding(EdgeInsets(top: 0.5, leading: -0.2, bottom: -0.5, trailing: -0.2))
+                .padding(EdgeInsets(top: 1, leading: -0.1, bottom: -0.5, trailing: -0.1))
         )
-            .cornerRadius(radius)
             .overlay(
                 RoundedRectangle(cornerRadius: self.radius)
                     .strokeBorder(Color(red: 170.0/255.0, green: 172.0/255.0, blue: 176.0/255.0), lineWidth: 1.1)
                     .padding(.bottom, 1.6)
         )
+            .cornerRadius(radius)
             .padding(10)
     }
     
