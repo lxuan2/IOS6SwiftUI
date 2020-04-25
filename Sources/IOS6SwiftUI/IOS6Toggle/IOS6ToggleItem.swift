@@ -40,8 +40,7 @@ public struct IOS6ToggleItem: View {
                 .padding(.trailing, 11)
         }
         .frame(height: 30)
-        .IOS6NavigationItemPadding()
-        .overlay(IOS6Divider(), alignment: .bottom)
+        
     }
     public init(isOn: Binding<Bool>, image: Image? = nil, title: String = "", color: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)) {
         _isOn = isOn

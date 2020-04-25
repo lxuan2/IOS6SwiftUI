@@ -22,8 +22,6 @@ public struct IOS6NavigationView<Content: View>: View {
             
             IOS6NavigationSubView(interactiveSwipe: interactiveSwipe)
                 .zIndex(0)
-                .clipped()
-                .padding(0.5)
                 .edgesIgnoringSafeArea(.bottom)
         }
         .background(IOS6NavigationWallpaper())
@@ -35,6 +33,7 @@ public struct IOS6NavigationView<Content: View>: View {
         self.title = title
         self.interactiveSwipe = interactiveSwipe
         viewStack = IOS6NavigationViewStack(rootView: content(), title: title)
+        
     }
     
     struct IOS6NavigationSubView: View {
@@ -60,7 +59,7 @@ public struct IOS6NavigationView<Content: View>: View {
                     
                     if self.interactiveSwipe {
                         Color.clear
-                            .frame(width: 50)
+                            .frame(width: self.viewStack.blocking ? 0 : 20)
                             .contentShape(Rectangle())
                             .gesture(
                                 DragGesture()

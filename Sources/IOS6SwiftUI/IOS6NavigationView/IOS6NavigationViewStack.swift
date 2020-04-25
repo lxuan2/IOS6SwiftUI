@@ -12,27 +12,27 @@ import Combine
 class IOS6NavigationViewStack: ObservableObject {
     @Published var blocking = false
     @Published var dragAmount: CGFloat = 0
-    @Published var stack = [EquatableView<AnyView>]()
+    @Published var stack = [IOS6NavigationPage]()
     var boolStack = [Binding<Bool>]()
     var titleStack = [String]()
     let standardTime: Double = 0.35
     
     init<Content: View>(rootView: Content, title: String) {
-        stack.append(EquatableView(content: AnyView(rootView)))
+        stack.append(IOS6NavigationPage(page: rootView))
         titleStack.append(title)
     }
     
     func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {
+        
         titleStack.append(title)
         boolStack.append(isPresent)
-        let newTabView = EquatableView(content: AnyView(newView.frame(maxWidth: .infinity, maxHeight: .infinity)))
         blocking = true
         DispatchQueue.main.asyncAfter(deadline: .now() + standardTime + 0.15 + 0.1) {
             self.blocking = false
         }
         
         withAnimation(Animation.easeInOut(duration: standardTime).delay(0.15)) {
-            self.stack.append(newTabView)
+            self.stack.append(IOS6NavigationPage(page: newView.frame(maxWidth: .infinity, maxHeight: .infinity)))
         }
     }
     
@@ -91,8 +91,22 @@ class IOS6NavigationViewStack: ObservableObject {
     }
 }
 
-extension AnyView: Equatable {
-    public static func == (lhs: AnyView, rhs: AnyView) -> Bool {
-        return true
+struct IOS6NavigationPage: UIViewControllerRepresentable {
+    
+    let content: UIViewController
+    
+    init<Page: View>(page: Page) {
+        content = UIHostingController(rootView: page)
+        content.modalPresentationStyle = .overCurrentContext
+        content.view.backgroundColor = UIColor.clear
+        content.view.isOpaque = false
+    }
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        return content
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
     }
 }

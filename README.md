@@ -9,17 +9,17 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Form
 - \[x]  IOS6Section
 - \[x]  IOS6Toggle / IOS6ToggleItem
-- \[x]  iIOS6Divider
 
 ## Upcoming Features
-anti refresh
-list bug(group with duplicate)
-- \[ ] Without section, navigation links give correct the shape
+
 - \[ ] navigation title by modifier
 - \[ ] Enable presentation mode to dismiss view
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 
+## Finished Tasks
+- \[x] anti refresh
+- \[x] Without section, navigation links give correct the shape
 
 ## Installation
 

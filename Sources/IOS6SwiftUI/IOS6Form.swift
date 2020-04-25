@@ -15,18 +15,25 @@ public struct IOS6Form<Content: View>: View {
     let content: () -> Content
     
     public var body: some View {
-        List {
+        Form {
+            Section{
+                EmptyView()
+            }
             self.content()
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
+        .environment(\.horizontalSizeClass, .regular)
+        .padding(.horizontal, -3.5)
+        .padding(.vertical, -12.5)
     }
     
     public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
         if !Done {
             UITableView.appearance().backgroundColor = UIColor.clear
-            UITableViewCell.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
             UITableView.appearance().separatorStyle = .none
+            UITableView.appearance().sectionHeaderHeight = 12.8
+            UITableView.appearance().sectionFooterHeight = 12.8
             Done.toggle()
         }
     }

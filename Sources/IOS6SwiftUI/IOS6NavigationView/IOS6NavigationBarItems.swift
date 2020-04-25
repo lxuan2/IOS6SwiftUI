@@ -10,6 +10,7 @@ import SwiftUI
 
 struct IOS6NavigationBarItems: View {
     @EnvironmentObject var viewStack: IOS6NavigationViewStack
+    @Environment(\.sizeCategory) var sizeCategory
     
     var body: some View {
         GeometryReader { proxy in
@@ -42,7 +43,7 @@ struct IOS6NavigationBarItems: View {
                 Text(self.viewStack.titleStack[index])
                     .foregroundColor(.white)
             }
-            .font(Font.system(size: 20, weight: .bold))
+            .scaledFont(size: 20, weight: .bold)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(
                 ZStack {
@@ -59,7 +60,6 @@ struct IOS6NavigationBarItems: View {
                 .transition(.moveInXAndFade(offset: width / 3))
                 .offset(x: offset, y: 0)
                 .opacity(opacity)
-                .clipped()
     }
 }
 
@@ -85,5 +85,23 @@ extension AnyTransition {
         AnyTransition.modifier(
             active: MoveInXAndFade(opacity: 0, offset: offset),
             identity: MoveInXAndFade(opacity: 1, offset: 0))
+    }
+}
+
+struct ScaledFont: ViewModifier {
+    @Environment(\.sizeCategory) var sizeCategory
+    var size: CGFloat
+    var weight: Font.Weight
+
+    func body(content: Content) -> some View {
+       let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        return content.font(.system(size: scaledSize, weight: weight))
+    }
+}
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+extension View {
+    func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
+        return self.modifier(ScaledFont(size: size, weight: weight))
     }
 }

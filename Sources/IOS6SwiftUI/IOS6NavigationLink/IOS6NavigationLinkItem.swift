@@ -17,7 +17,9 @@ public struct IOS6NavigationLinkItem: View {
     public var body: some View {
         HStack(spacing: 0) {
             if image != nil {
-                image!.resizable()
+                image!
+                    .renderingMode(.original)
+                    .resizable()
                     .cornerRadius(5)
                     .overlay(   // Round frame
                         RoundedRectangle(cornerRadius: 5)
@@ -32,9 +34,10 @@ public struct IOS6NavigationLinkItem: View {
                 .fontWeight(Font.Weight.bold)
                 .accentColor(.black)
             
-            Spacer()
+            
             
             if !comment.isEmpty {
+                Spacer()
                 Text(comment)
                     .accentColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
             }
