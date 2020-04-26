@@ -31,7 +31,11 @@ struct IOS6NavigationBar: View {
             .compositingGroup()
             .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
             .edgesIgnoringSafeArea([.horizontal])
-            .overlay(IOS6NavigationBarItems())
+            .overlay(
+                GeometryReader { proxy in
+                    IOS6NavigationBarItems(width: proxy.size.width)
+                }
+        )
             .frame(height: 45)
     }
 }

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-var viewStack: IOS6NavigationViewStack? = nil
+var viewStack: IOS6NavigationStack? = nil
 
 /// A view for presenting a stack of views representing a visible path in a
 /// navigation hierarchy.
@@ -25,31 +25,31 @@ public struct IOS6NavigationView<Content: View>: View {
                 .edgesIgnoringSafeArea(.bottom)
         }
         .background(IOS6NavigationWallpaper())
-        .environmentObject(viewStack ?? IOS6NavigationViewStack(rootView: EmptyView(), title: ""))
+        .environmentObject(viewStack ?? IOS6NavigationStack(rootView: EmptyView(), title: ""))
         .colorScheme(.light)
     }
     
     public init(_ title: String, interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.interactiveSwipe = interactiveSwipe
-        viewStack = IOS6NavigationViewStack(rootView: content(), title: title)
+        viewStack = IOS6NavigationStack(rootView: content(), title: title)
         
     }
     
     struct IOS6NavigationSubView: View {
         let navigationBarHeight: CGFloat = 45
         let interactiveSwipe: Bool
-        @EnvironmentObject var viewStack: IOS6NavigationViewStack
+        @EnvironmentObject var viewStack: IOS6NavigationStack
         
         var body: some View {
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
                     ZStack {
-                        ForEach(0 ..< self.viewStack.stack.count, id: \.self) { index in
-                            self.viewStack.stack[index]
+                        ForEach(0 ..< self.viewStack.count, id: \.self) { index in
+                            self.viewStack[index].content
                                 .transition(.move(edge: .trailing))
-                                .offset(x: index < self.viewStack.stack.count - 2 ? -proxy.size.width :
-                                    index == self.viewStack.stack.count - 2 ? -proxy.size.width + self.viewStack.dragAmount :
+                                .offset(x: index < self.viewStack.count - 2 ? -proxy.size.width :
+                                    index == self.viewStack.count - 2 ? -proxy.size.width + self.viewStack.dragAmount :
                                     self.viewStack.dragAmount,
                                         y: 0)
                         }
