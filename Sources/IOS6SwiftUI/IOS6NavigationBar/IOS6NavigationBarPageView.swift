@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct IOS6NavigationBarPageView: View {
-    let title: String?
-    let backTitle: String?
-    
-    @EnvironmentObject private var stack: IOS6NavigationStack
+    var title: String?
+    var backTitle: String?
+    var index: Int
+    var dismiss: () -> Void
     
     var body: some View {
         ZStack {
-            if stack.count > 1 {
+            if index > 0 {
                 Button(backTitle ?? "Back") {
-                    self.stack.pop()
+                    self.dismiss()
                 }
                 .buttonStyle(IOS6NavigationBackButtonStyle())
                 .padding(.leading, 5.5)
@@ -35,6 +35,6 @@ struct IOS6NavigationBarPageView: View {
 
 struct IOS6NavigationBarPageView_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationBarPageView(title: "Title", backTitle: "Previous")
+        IOS6NavigationBarPageView(title: "Title", backTitle: "Previous", index: 1, dismiss: {})
     }
 }

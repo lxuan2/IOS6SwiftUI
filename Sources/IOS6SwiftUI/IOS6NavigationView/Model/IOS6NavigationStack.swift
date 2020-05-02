@@ -9,13 +9,18 @@
 import SwiftUI
 import Combine
 
-class IOS6NavigationStack: ObservableObject {
+class IOS6NavigationStack: NavigationStackModel, ObservableObject {
+    
     @Published private(set) var blocking = false
     @Published private(set) var dragAmount: CGFloat = 0
     @Published private var stack = [IOS6NavigationPage]()
     
     init<Content: View>(rootView: Content, title: String) {
         stack.append(IOS6NavigationPage(page: rootView, title: title))
+    }
+    
+    func push<Content>(_ newValue: Content) {
+        
     }
     
     func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {

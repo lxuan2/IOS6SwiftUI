@@ -89,7 +89,7 @@ struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
                     .layoutPriority(1)
                     .frame(minWidth: 30)
             }.gesture(gesture)
-            
+            .compositingGroup()
         }
     }
 }

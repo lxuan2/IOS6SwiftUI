@@ -34,8 +34,6 @@ public struct IOS6NavigationLinkItem: View {
                 .fontWeight(Font.Weight.bold)
                 .accentColor(.black)
             
-            
-            
             if !comment.isEmpty {
                 Spacer()
                 Text(comment)

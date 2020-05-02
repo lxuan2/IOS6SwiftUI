@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-var Done: Bool = false
 /// A container for grouping controls used for data entry, such as in settings
 /// or inspectors with IOS 6 style.
 public struct IOS6Form<Content: View>: View {
@@ -16,26 +15,25 @@ public struct IOS6Form<Content: View>: View {
     
     public var body: some View {
         Form {
-            Section{
-                EmptyView()
-            }
+            //            Section{
+            //                EmptyView()
+            //            }
             self.content()
         }
         .environment(\.horizontalSizeClass, .regular)
-        .padding(.horizontal, -3.5)
-        .padding(.vertical, -12.5)
+            //        .padding(.horizontal, -3.5)
+            //        .padding(.vertical, -12.5)
+            .padding(.vertical, -13)
     }
     
     public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        if !Done {
-            UITableView.appearance().backgroundColor = UIColor.clear
-            UITableViewCell.appearance().backgroundColor = UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
-            UITableView.appearance().separatorStyle = .none
-            UITableView.appearance().sectionHeaderHeight = 12.8
-            UITableView.appearance().sectionFooterHeight = 12.8
-            Done.toggle()
-        }
+        UITableView.appearance().backgroundColor = UIColor.clear
+        UITableViewCell.appearance().backgroundColor = UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
+        UITableView.appearance().separatorStyle = .none
+        UIView.appearance().isExclusiveTouch = true
+        //            UITableView.appearance().sectionHeaderHeight = 12.8
+        //            UITableView.appearance().sectionFooterHeight = 12.8
     }
 }
 

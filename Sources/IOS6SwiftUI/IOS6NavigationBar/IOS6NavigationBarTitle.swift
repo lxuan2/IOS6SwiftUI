@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct IOS6NavigationBarTitle: View {
-    let title: String?
+    var title: String?
     
     var body: some View {
         ZStack {

@@ -7,21 +7,30 @@
 
 import SwiftUI
 
-struct IOS6SectionItem: ViewModifier {
+struct IOS6SectionItem<Wallpaper: View>: ViewModifier {
     let pos: IOS6SectionItemPosition
+    let background: Wallpaper
     
-    init(at postion: IOS6SectionItemPosition) {
+    init(at postion: IOS6SectionItemPosition, background: Wallpaper) {
         pos = postion
+        self.background = background
     }
     
     func body(content: Content) -> some View {
         content
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowInsets(EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: 10))
             .listRowBackground(
                 ZStack {
+                    if pos == .bottom {
+                        DownRectangle(cornerRadius: 10, padding: 1).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                    }
+                    
+                    background
+                    
                     VStack(spacing: 0) {
                         if pos == .medium || pos == .bottom {
                             Color.white
+                                .blendMode(.destinationOver)
                                 .frame(minHeight: 1, maxHeight: 1)
                         }
                         
@@ -48,10 +57,6 @@ struct IOS6SectionItem: ViewModifier {
                             Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
                                 .frame(minWidth: 1, maxWidth: 1)
                         }
-                    }
-                    
-                    if pos == .bottom {
-                        DownRectangle(cornerRadius: 10, padding: 1).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                     }
                     
                     if pos == .all {
@@ -256,6 +261,6 @@ public enum IOS6SectionItemPosition: Equatable {
 
 public extension View {
     func ios6SecItem(at postion: IOS6SectionItemPosition) -> some View {
-        self.modifier(IOS6SectionItem(at: postion))
+        self.modifier(IOS6SectionItem(at: postion, background: Color.clear))
     }
 }

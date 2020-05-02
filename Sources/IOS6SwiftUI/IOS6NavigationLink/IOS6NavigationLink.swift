@@ -28,26 +28,18 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
         }) {
             HStack(spacing: 0) {
                 self.label()
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 9.5)
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .font(Font.footnote.weight(.heavy))
                     .accentColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                    .padding(.horizontal, 12)
+                    .padding(.leading, 12)
+                    .padding(.trailing, 2)
             }
-            .foregroundColor(sheet ? .white : .accentColor)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors:
-                        [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
-                         Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
-                    startPoint: .top, endPoint: .bottom)
-                    .opacity(sheet ? 1 : 0)
-            )
-        }.ios6SecItem(at: sectionPostion)
+        }
+        .buttonStyle(MyButtonStyle(at: sectionPostion, pressing: sheet))
+        
     }
     
     public init(title: String = "", @ViewBuilder destination: @escaping () -> Destination, @ViewBuilder label: @escaping () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {
@@ -70,3 +62,39 @@ struct IOS6NavigationLink_Previews: PreviewProvider {
     }
 }
 
+struct MyButtonStyle: ButtonStyle {
+    var at: IOS6SectionItemPosition
+    var pressing: Bool
+    
+    public func makeBody(configuration: MyButtonStyle.Configuration) -> some View {
+        MyButton(configuration: configuration, sectionPostion: at, pressing: pressing)
+    }
+    
+    struct MyButton: View {
+        var configuration: MyButtonStyle.Configuration
+        var sectionPostion: IOS6SectionItemPosition
+        var pressing: Bool
+        @State var isPressed: Bool = false
+        
+        var body: some View {
+            if isPressed != configuration.isPressed {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    self.isPressed = self.configuration.isPressed
+                }
+            }
+            let pressed = isPressed && configuration.isPressed || pressing
+            return configuration.label
+                .background(Color.white.opacity(0.01))
+                .foregroundColor(pressed ? .white : .accentColor)
+                .modifier(IOS6SectionItem(at: sectionPostion, background:
+                    LinearGradient(
+                        gradient: Gradient(colors:
+                            [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
+                             Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
+                        startPoint: .top, endPoint: .bottom)
+                        .opacity(pressed ? 1 : 0)
+                ))
+        }
+    }
+    
+}
