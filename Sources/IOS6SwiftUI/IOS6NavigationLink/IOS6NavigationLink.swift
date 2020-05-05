@@ -11,7 +11,6 @@ import Foundation
 
 /// A view that controls a navigation presentation with IOS 6 style.
 public struct IOS6NavigationLink<Label: View, Destination : View>: View {
-    let title: String
     let label: () -> Label
     let destination: () -> Destination
     let sectionPostion: IOS6SectionItemPosition
@@ -22,8 +21,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
             if viewStack != nil {
                 self.sheet = true
                 viewStack!.push(isPresent: self.$sheet,
-                                title: self.title,
-                                newView: self.destination())
+                                newView: self.destination)
             }
         }) {
             HStack(spacing: 0) {
@@ -42,17 +40,16 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
         
     }
     
-    public init(title: String = "", @ViewBuilder destination: @escaping () -> Destination, @ViewBuilder label: @escaping () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {
+    public init(@ViewBuilder destination: @escaping () -> Destination, @ViewBuilder label: @escaping () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {
         self.destination = destination
         self.label = label
-        self.title = title
         self.sectionPostion = sectionPostion
     }
 }
 
 struct IOS6NavigationLink_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationView("Settings") {
+        IOS6NavigationView {
             IOS6Form {
                 IOS6NavigationLink(destination: {Text("Hello World")}) {
                     Text("Tap Me")

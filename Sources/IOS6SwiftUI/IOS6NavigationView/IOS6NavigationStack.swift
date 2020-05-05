@@ -9,27 +9,29 @@
 import SwiftUI
 import Combine
 
-class IOS6NavigationStack: NavigationStackModel, ObservableObject {
+class IOS6NavigationStack: ObservableObject {
     
     @Published private(set) var blocking = false
     @Published private(set) var dragAmount: CGFloat = 0
-    @Published private var stack = [IOS6NavigationPage]()
+    @Published private(set) var stack = [IOS6NavigationPageView]()
+    @Published private(set) var barStack: [String?] = [String?]()
     
-    init<Content: View>(rootView: Content, title: String) {
-        stack.append(IOS6NavigationPage(page: rootView, title: title))
+    init<Content: View>(rootView: Content) {
+        stack.append(IOS6NavigationPageView(page: rootView))
+        barStack.append(nil)
+        DispatchQueue.main.async {
+            self.objectWillChange.send()
+        }
     }
     
-    func push<Content>(_ newValue: Content) {
-        
-    }
-    
-    func push<Content: View>(isPresent: Binding<Bool>, title: String, newView: Content) {
+    func push<Content: View>(isPresent: Binding<Bool>, newView: () -> Content) {
         // Lock
         blocking = true
         
         withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(0.15)) {
-            let extendedView = newView.frame(maxWidth: .infinity, maxHeight: .infinity)
-            self.stack.append(IOS6NavigationPage(page: extendedView, title: title, previousPageLock: isPresent))
+            let extendedView = newView()
+            self.stack.append(IOS6NavigationPageView(page: extendedView, previousPageLock: isPresent))
+            self.barStack.append(nil)
         }
         
         // Unlock
@@ -47,6 +49,7 @@ class IOS6NavigationStack: NavigationStackModel, ObservableObject {
             withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime)) {
                 dragAmount = 0
                 isLastPageSelected = stack.removeLast().lock
+                barStack.removeLast()
             }
             withAnimation(.easeIn(duration: IOS6NavigationStack.standardTime + 0.15)) {
                 isLastPageSelected?.wrappedValue = false
@@ -57,6 +60,10 @@ class IOS6NavigationStack: NavigationStackModel, ObservableObject {
                 self.blocking = false
             }
         }
+    }
+    
+    func updateTitle(at index: Int, with title: String?) {
+        barStack[index] = title
     }
     
     func updateOffset(with value: DragGesture.Value) {
@@ -98,20 +105,20 @@ class IOS6NavigationStack: NavigationStackModel, ObservableObject {
 }
 
 extension IOS6NavigationStack: RandomAccessCollection {
-    typealias Element = IOS6NavigationPage
+    typealias Element = IOS6NavigationPageView
     
     var startIndex: Int { stack.startIndex }
     var endIndex: Int { stack.endIndex }
     
-    subscript(position: Int) -> IOS6NavigationPage {
+    subscript(position: Int) -> IOS6NavigationPageView {
         return stack[position]
     }
 }
 
 extension IOS6NavigationStack {
-    func before(_ index: Int) -> IOS6NavigationPage? {
+    func before(_ index: Int) -> String? {
         if index - 1 >= 0 {
-            return stack[index - 1]
+            return barStack[index - 1]
         }
         return nil
     }

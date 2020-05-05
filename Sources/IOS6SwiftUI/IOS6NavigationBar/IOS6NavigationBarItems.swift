@@ -10,13 +10,15 @@ import SwiftUI
 
 struct IOS6NavigationBarItems: View {
     @EnvironmentObject private var viewStack: IOS6NavigationStack
-    
     var width: CGFloat
     
     var body: some View {
         ZStack {
             ForEach(0 ..< self.viewStack.count, id: \.self) { index in
-                IOS6NavigationBarPageView(title: self.viewStack[index].title, backTitle: self.viewStack.before(index)?.title, index: index, dismiss: {self.viewStack.pop()})
+                IOS6NavigationBarPageView(title: self.viewStack.barStack[index],
+                                          backTitle: self.viewStack.before(index),
+                                          index: index,
+                                          dismiss: {self.viewStack.pop()})
                     .transition(.moveInXAndFade(offset: self.width / 3))
                     .opacityAndOffset(self.parameters(at: index))
             }
