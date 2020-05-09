@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IOS6SectionItem<Wallpaper: View>: ViewModifier {
+struct IOS6FormSectionItem<Wallpaper: View>: ViewModifier {
     let pos: IOS6SectionItemPosition
     let background: Wallpaper
     
@@ -22,7 +22,8 @@ struct IOS6SectionItem<Wallpaper: View>: ViewModifier {
             .listRowBackground(
                 ZStack {
                     if pos == .bottom {
-                        DownRectangle(cornerRadius: 10, padding: 1).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                        DownRectangle(cornerRadius: 10, padding: 0.8)
+                            .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                     }
                     
                     background
@@ -260,7 +261,7 @@ public enum IOS6SectionItemPosition: Equatable {
 }
 
 public extension View {
-    func ios6SecItem(at postion: IOS6SectionItemPosition) -> some View {
-        self.modifier(IOS6SectionItem(at: postion, background: Color.clear))
+    func ios6FormSecItem(at postion: IOS6SectionItemPosition) -> some View {
+        self.modifier(IOS6FormSectionItem(at: postion, background: Color.clear))
     }
 }

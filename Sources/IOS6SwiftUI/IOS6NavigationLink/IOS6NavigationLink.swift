@@ -83,7 +83,7 @@ struct MyButtonStyle: ButtonStyle {
             return configuration.label
                 .background(Color.white.opacity(0.01))
                 .foregroundColor(pressed ? .white : .accentColor)
-                .modifier(IOS6SectionItem(at: sectionPostion, background:
+                .modifier(IOS6FormSectionItem(at: sectionPostion, background:
                     LinearGradient(
                         gradient: Gradient(colors:
                             [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),

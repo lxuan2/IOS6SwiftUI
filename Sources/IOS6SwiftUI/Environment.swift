@@ -30,7 +30,7 @@ var detailsTransitioningDelegate: InteractiveModalTransitioningDelegate!
 extension UIViewController {
     func present<Content: View>(style: UIModalPresentationStyle = .automatic, @ViewBuilder builder: () -> Content) {
         let toPresent = UIHostingController(rootView: AnyView(EmptyView()))
-        toPresent.modalPresentationStyle = .custom
+        toPresent.modalPresentationStyle = style
         detailsTransitioningDelegate = InteractiveModalTransitioningDelegate(from: true, to: true)
         toPresent.transitioningDelegate = detailsTransitioningDelegate
         toPresent.rootView = AnyView(

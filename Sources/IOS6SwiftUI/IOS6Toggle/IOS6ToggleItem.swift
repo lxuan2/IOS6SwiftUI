@@ -10,11 +10,8 @@ import SwiftUI
 
 /// A control that toggles between "on" and "off" states and label with IOS 6 style.
 public struct IOS6ToggleItem: View {
-    @Binding var isOn: Bool
     var image: Image? = nil
     var title: String = ""
-    var color: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)
-    //Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0) orange
     
     public var body: some View {
         HStack(spacing: 0) {
@@ -33,25 +30,17 @@ public struct IOS6ToggleItem: View {
             Text(title)
                 .fontWeight(Font.Weight.bold)
                 .accentColor(.black)
-            
-            Spacer()
-            
-            IOS6Toggle(isOn: $isOn, toggleColor: color)
-                .padding(.trailing, 11)
         }
         .frame(height: 30)
-        
     }
-    public init(isOn: Binding<Bool>, image: Image? = nil, title: String = "", color: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)) {
-        _isOn = isOn
+    public init(image: Image? = nil, title: String = "") {
         self.image = image
         self.title = title
-        self.color = color
     }
 }
 
 struct IOS6ToggleItem_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6ToggleItem(isOn: .constant(false), image: Image("ins"), title: "Toggle")
+        IOS6ToggleItem(image: Image("ins"), title: "Toggle")
     }
 }

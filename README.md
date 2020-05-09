@@ -2,26 +2,34 @@
 
 An implementation of IOS 6 UI using SwiftUI. This implementation takes advantages of SwiftUI autolayout and can automatic adapt to any screen size.
 
-## Features:
+## Features
 ### View
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink
 - \[x]  IOS6NavigationLinkItem
+- \[x]  IOS6Toggle
+- \[x]  IOS6ToggleItem
 - \[x]  IOS6Form
 - \[x]  IOS6Section
-- \[x]  IOS6Toggle / IOS6ToggleItem
+
 ### Modifer
 - \[x]  ios6NavigationBarTitle
+- \[x]  ios6FormSecItem
+
+### Environment Key
+- \[x]  ios6ToggleColor
 
 ## Upcoming Features
+- \[ ] Combine IOS6NavigationLinkItem and IOS6Toggle
 - \[ ] Enable presentation mode to dismiss view
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] update IOS6Toggle API
 - \[x] ios6NavigationBarTitle modifer
 - \[x] anti refresh
-- \[x] Without section, navigation links give correct the shape
+- \[x] without section, navigation links give correct the shape
 
 ## Installation
 
