@@ -45,26 +45,32 @@ Copy the address from github into search bar and hit the enter key. For more det
 Everything listed in the Feature section are useable. Here is an recommended implementation:  
 
 ```Swift
+import SwiftUI
 import IOS6SwiftUI
 
 struct ContentView: View {
     @State private var isOn = false
     
     var body: some View {
-        IOS6NavigationView("Settings") {
+        IOS6NavigationView(interactiveSwipe: true) {
             IOS6Form {
-                IOS6Section {
-                    IOS6ToggleItem(isOn: self.$isOn, image: Image("AppleIDAppstore"), title: "Messages")
+                Section {
+                    IOS6Toggle(isOn: self.$isOn) {
+                        IOS6FormRow(image: Image("AppleIDiCloud"), title: "iCloud")
+                    }
+                    .ios6FormRowPos(.top)
+                    .environment(\.ios6ToggleColor, Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                     
-                    IOS6NavigationLink(title: "Settings", destination: {Text("FaceTime")}) {
-                        IOS6NavigationLinkItem(image: Image("AppleIDMessages"), title: "Messages")
+                    IOS6NavigationLink(destination: {FormView()}, sectionPostion: .medium) {
+                        IOS6FormRow(image: Image("AppleIDMessages"), title: "Messages")
                     }
                     
-                    IOS6NavigationLink(title: "FaceTime", destination: {Text("FaceTime")}) {
-                        IOS6NavigationLinkItem(image: Image("AppleIDFaceTime"), title: "FaceTime")
+                    IOS6NavigationLink(destination: {Text("FaceTime").ios6NavigationBarTitle("FaceTime")}, sectionPostion: .bottom) {
+                        IOS6FormRow(image: Image("AppleIDFaceTime"), title: "FaceTime")
                     }
                 }
             }
+            .ios6NavigationBarTitle("Demo")
         }
     }
 }
