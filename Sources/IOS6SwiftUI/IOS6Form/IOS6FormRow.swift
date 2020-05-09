@@ -1,18 +1,18 @@
 //
-//  IOS6NavigationLinkItem.swift
-//  animation
+//  IOS6FormRow.swift
+//  IOS6
 //
-//  Created by Xuan Li on 1/25/20.
+//  Created by Xuan Li on 5/9/20.
 //  Copyright © 2020 Xuan Li. All rights reserved.
 //
 
 import SwiftUI
 
-/// A view for navigation link apperance with IOS 6 style.
-public struct IOS6NavigationLinkItem: View {
-    var image: Image? = nil
+/// A view for row apperance in the form with IOS 6 style.
+public struct IOS6FormRow: View {
+    let image: Image?
     let title: String
-    var comment: String = ""
+    let comment: String
     
     public var body: some View {
         HStack(spacing: 0) {
@@ -24,7 +24,7 @@ public struct IOS6NavigationLinkItem: View {
                     .overlay(   // Round frame
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.black.opacity(0.4), lineWidth: 0.5)
-                    )
+                )
                     .scaledToFit()
             }
             
@@ -50,8 +50,8 @@ public struct IOS6NavigationLinkItem: View {
     }
 }
 
-struct IOS6NavigationLinkItemView_Previews: PreviewProvider {
+struct IOS6FormRow_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationLinkItem(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
+        IOS6FormRow(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
     }
 }

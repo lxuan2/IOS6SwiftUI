@@ -6,26 +6,29 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### View
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink
-- \[x]  IOS6NavigationLinkItem
 - \[x]  IOS6Toggle
-- \[x]  IOS6ToggleItem
 - \[x]  IOS6Form
+- \[x]  IOS6FormRow
 - \[x]  IOS6Section
 
 ### Modifer
 - \[x]  ios6NavigationBarTitle
-- \[x]  ios6FormSecItem
+- \[x]  ios6FormRowPos
 
 ### Environment Key
 - \[x]  ios6ToggleColor
 
+### Style
+- \[x]  IOS6ToggleStyle
+- \[x]  IOS6NavigationBackButtonStyle
+
 ## Upcoming Features
-- \[ ] Combine IOS6NavigationLinkItem and IOS6Toggle
 - \[ ] Enable presentation mode to dismiss view
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Combine IOS6NavigationLinkItem and IOS6ToggleItem into IOS6FormRow
 - \[x] update IOS6Toggle API
 - \[x] ios6NavigationBarTitle modifer
 - \[x] anti refresh

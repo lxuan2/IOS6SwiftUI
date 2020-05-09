@@ -1,5 +1,5 @@
 //
-//  IOS6SectionItem.swift
+//  IO/Users/xuanli/Developer/IOS6SwiftUIS6FormSectionConfiguration.swift
 //  IOS6SwiftUI
 //
 //  Created by Xuan Li on 4/17/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IOS6FormSectionItem<Wallpaper: View>: ViewModifier {
+struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
     let pos: IOS6SectionItemPosition
     let background: Wallpaper
     
@@ -261,7 +261,7 @@ public enum IOS6SectionItemPosition: Equatable {
 }
 
 public extension View {
-    func ios6FormSecItem(at postion: IOS6SectionItemPosition) -> some View {
-        self.modifier(IOS6FormSectionItem(at: postion, background: Color.clear))
+    func ios6FormRowPos(_ postion: IOS6SectionItemPosition) -> some View {
+        self.modifier(IOS6FormRowConfiguration(at: postion, background: Color.clear))
     }
 }

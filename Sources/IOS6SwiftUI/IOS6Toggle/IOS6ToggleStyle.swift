@@ -8,15 +8,24 @@
 
 import SwiftUI
 
-struct IOS6ToggleStyle: ToggleStyle {
+public struct IOS6ToggleStyle: ToggleStyle {
     var color: Color
     
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.label
             Spacer()
             IOS6ToggleView(isOn: configuration.$isOn, toggleColor: color)
         }
+    }
+}
+
+struct IOS6ToggleStyle_Previews: PreviewProvider {
+    static var previews: some View {
+        Toggle(isOn: .constant(false)) {
+            Text("Toggle")
+        }
+        .toggleStyle(IOS6ToggleStyle(color: Color.green))
     }
 }
 
@@ -30,14 +39,5 @@ extension EnvironmentValues {
     public var ios6ToggleColor: Color {
         get { return self[IOS6ToggleColorKey.self] }
         set { self[IOS6ToggleColorKey.self] = newValue }
-    }
-}
-
-struct IOS6ToggleStyle_Previews: PreviewProvider {
-    static var previews: some View {
-        Toggle(isOn: .constant(false)) {
-            Text("Toggle")
-        }
-        .toggleStyle(IOS6ToggleStyle(color: Color.green))
     }
 }

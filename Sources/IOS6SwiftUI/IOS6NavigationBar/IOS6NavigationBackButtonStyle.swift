@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
+public struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
     public func makeBody(configuration: IOS6NavigationBackButtonStyle.Configuration) -> some View {
         IOS6NavigationBackButton(configuration: configuration)
     }
