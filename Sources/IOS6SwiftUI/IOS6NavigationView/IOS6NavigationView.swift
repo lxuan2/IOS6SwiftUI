@@ -21,7 +21,7 @@ public struct IOS6NavigationView<Content: View>: View {
             
             IOS6NavigationContentView(interactiveSwipe: interactiveSwipe)
                 .zIndex(0)
-                .edgesIgnoringSafeArea(.bottom)
+                .edgesIgnoringSafeArea([.bottom])
         }
         .background(IOS6NavigationWallpaper())
         .environmentObject(viewStack ?? IOS6NavigationStack(rootView: EmptyView()))

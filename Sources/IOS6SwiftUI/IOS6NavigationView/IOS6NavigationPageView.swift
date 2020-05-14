@@ -21,7 +21,7 @@ struct IOS6NavigationPageView: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return content
+        content
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

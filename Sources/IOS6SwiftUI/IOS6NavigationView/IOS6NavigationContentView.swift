@@ -22,8 +22,7 @@ struct IOS6NavigationContentView: View {
                             .transition(.move(edge: .trailing))
                             .offset(x: index < self.viewStack.count - 2 ? -proxy.size.width :
                                 index == self.viewStack.count - 2 ? -proxy.size.width + self.viewStack.dragAmount :
-                                self.viewStack.dragAmount,
-                                    y: 0)
+                                self.viewStack.dragAmount, y: 0)
                             .onPreferenceChange(IOS6NavigationBarTitleKey.self) { title in
                                 self.viewStack.updateTitle(at: index, with: title)
                         }

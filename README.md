@@ -12,10 +12,12 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Section
 
 ### Modifer
+- \[x]  present
 - \[x]  ios6NavigationBarTitle
 - \[x]  ios6FormRowPos
 
 ### Environment Key
+- \[x]  presentMode -> Dismiss this model
 - \[x]  ios6ToggleColor
 
 ### Style
@@ -23,6 +25,9 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6NavigationBackButtonStyle
 
 ## Upcoming Features
+- \[ ] generalize all items not to list
+- \[ ] IOS6Button
+- \[ ] Fix toggle to extended touch area
 - \[ ] Enable presentation mode to dismiss view
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
@@ -61,7 +66,7 @@ struct ContentView: View {
                     .ios6FormRowPos(.top)
                     .environment(\.ios6ToggleColor, Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                     
-                    IOS6NavigationLink(destination: {FormView()}, sectionPostion: .medium) {
+                    IOS6NavigationLink(destination: {Text("Messages").ios6NavigationBarTitle("Messages")}, sectionPostion: .medium) {
                         IOS6FormRow(image: Image("AppleIDMessages"), title: "Messages")
                     }
                     

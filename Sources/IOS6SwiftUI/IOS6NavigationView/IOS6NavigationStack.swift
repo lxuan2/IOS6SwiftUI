@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Combine
 
 class IOS6NavigationStack: ObservableObject {
     
@@ -24,12 +23,12 @@ class IOS6NavigationStack: ObservableObject {
         }
     }
     
-    func push<Content: View>(isPresent: Binding<Bool>, newView: () -> Content) {
+    func push<Content: View>(isPresent: Binding<Bool>, newView: Content) {
         // Lock
         blocking = true
         
         withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(0.15)) {
-            let extendedView = newView()
+            let extendedView = newView
             self.stack.append(IOS6NavigationPageView(page: extendedView, previousPageLock: isPresent))
             self.barStack.append(nil)
         }
