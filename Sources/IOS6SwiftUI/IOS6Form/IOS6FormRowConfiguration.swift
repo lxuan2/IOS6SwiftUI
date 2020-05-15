@@ -18,7 +18,7 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .listRowInsets(EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: 10))
+            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: 10))
             .listRowBackground(
                 ZStack {
                     if pos == .bottom {
@@ -243,6 +243,7 @@ public enum IOS6SectionItemPosition: Equatable {
     case medium
     case bottom
     case all
+    case none
     
     public static func ==(lhs: IOS6SectionItemPosition, rhs: IOS6SectionItemPosition) -> Bool {
         switch (lhs, rhs) {
@@ -253,6 +254,8 @@ public enum IOS6SectionItemPosition: Equatable {
         case (.bottom,.bottom):
             return true
         case (.all,.all):
+            return true
+        case (.none,.none):
             return true
         default:
             return false

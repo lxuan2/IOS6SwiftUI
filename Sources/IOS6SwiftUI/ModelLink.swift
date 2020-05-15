@@ -25,7 +25,7 @@ public struct ModelLink<Label: View, Destination : View>: View {
                 label
                 Spacer()
             }
-        }.buttonStyle(IOS6ListButtonStyle(at: sectionPostion))
+        }.buttonStyle(IOS6ButtonStyle(at: sectionPostion))
     }
     
     public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {
@@ -35,7 +35,7 @@ public struct ModelLink<Label: View, Destination : View>: View {
     }
 }
 
-struct IOS6Button_Previews: PreviewProvider {
+struct ModelLink_Previews: PreviewProvider {
     static var previews: some View {
         ModelLink(destination: {Text("Destination")}, label: {Text("Model Link")})
     }

@@ -36,11 +36,11 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                     .padding(.trailing, 2)
             }
         }
-        .buttonStyle(IOS6ListButtonStyle(at: sectionPostion, is: sheet))
+        .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet))
         
     }
     
-    public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {
+    public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
         self.destination = destination()
         self.label = label()
         self.sectionPostion = sectionPostion
