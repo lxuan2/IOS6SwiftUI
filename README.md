@@ -17,7 +17,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  ios6FormRowPos
 
 ### Environment Key
-- \[x]  presentMode -> Dismiss this model
+- \[x]  presentMode
 - \[x]  ios6ToggleColor
 
 ### Style

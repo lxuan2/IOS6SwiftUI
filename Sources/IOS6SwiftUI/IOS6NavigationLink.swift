@@ -36,7 +36,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                     .padding(.trailing, 2)
             }
         }
-        .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet))
+        .buttonStyle(IOS6ListButtonStyle(at: sectionPostion, is: sheet))
         
     }
     

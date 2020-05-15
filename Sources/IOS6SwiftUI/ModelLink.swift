@@ -17,15 +17,15 @@ public struct ModelLink<Label: View, Destination : View>: View {
     
     public var body: some View {
         Button(action: {
-            self.viewController?.present(with: .easeOut(duration: 0.4)) {
-                self.destination
-            }
+//            self.viewController?.present(with: .easeOut(duration: 0.4)) {
+//                self.destination
+//            }
         }) {
             HStack(spacing: 0){
                 label
                 Spacer()
             }
-        }.buttonStyle(IOS6ButtonStyle(at: sectionPostion))
+        }.buttonStyle(IOS6ListButtonStyle(at: sectionPostion))
     }
     
     public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .medium) {

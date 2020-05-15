@@ -8,29 +8,36 @@
 
 import SwiftUI
 
+public struct PresentModeKey: EnvironmentKey {
+    public static var defaultValue: PresentMode {
+        PresentMode(show: nil)
+    }
+}
+
+public extension EnvironmentValues {
+    var presentMode: PresentMode {
+        get { return self[PresentModeKey.self] }
+        set { self[PresentModeKey.self] = newValue }
+    }
+}
+
 public struct PresentMode {
     let show: Binding<Bool>?
+    let dismissFunc: (() -> Void)?
+    
+    init(show: Binding<Bool>?, dismiss: (() -> Void)? = nil) {
+        self.show = show
+        self.dismissFunc = dismiss
+    }
     
     public var isPresented: Bool {
         show != nil
     }
     
-    public func dismiss(with animation: Animation? = .default) {
-        withAnimation(animation) {
-            self.show?.wrappedValue = false
+    public func dismiss() {
+        if dismissFunc != nil {
+            return self.dismissFunc!()
         }
-    }
-}
-
-public struct PresentModeKey: EnvironmentKey {
-    public static var defaultValue: Binding<PresentMode> {
-        .constant(PresentMode(show: nil))
-    }
-}
-
-public extension EnvironmentValues {
-    var presentMode: Binding<PresentMode> {
-        get { return self[PresentModeKey.self] }
-        set { self[PresentModeKey.self] = newValue }
+        self.show?.wrappedValue = false
     }
 }

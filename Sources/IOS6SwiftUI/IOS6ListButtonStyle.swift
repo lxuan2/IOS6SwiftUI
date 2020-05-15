@@ -8,38 +8,43 @@
 
 import SwiftUI
 
-public struct IOS6ButtonStyle: ButtonStyle {
+public struct IOS6ListButtonStyle: ButtonStyle {
     var at: IOS6SectionItemPosition
     var pressing: Bool
+    var delay: Double
     
     init(at position: IOS6SectionItemPosition, is pressing: Bool) {
         at = position
         self.pressing = pressing
+        delay = 0.15
     }
     
     public init(at position: IOS6SectionItemPosition) {
         at = position
         pressing = false
+        delay = 0
     }
     
-    public func makeBody(configuration: IOS6ButtonStyle.Configuration) -> some View {
-        MyButton(configuration: configuration, sectionPostion: at, pressing: pressing)
+    public func makeBody(configuration: IOS6ListButtonStyle.Configuration) -> some View {
+        MyButton(configuration: configuration, sectionPostion: at, pressing: pressing, delay: delay)
     }
     
     struct MyButton: View {
-        var configuration: IOS6ButtonStyle.Configuration
+        var configuration: IOS6ListButtonStyle.Configuration
         var sectionPostion: IOS6SectionItemPosition
         var pressing: Bool
+        var delay: Double
         @State var isPressed: Bool = false
         
         var body: some View {
             if isPressed != configuration.isPressed {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                     self.isPressed = self.configuration.isPressed
                 }
             }
             let pressed = isPressed && configuration.isPressed || pressing
             return configuration.label
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .background(Color.white.opacity(0.01))
                 .foregroundColor(pressed ? .white : .accentColor)
                 .modifier(IOS6FormRowConfiguration(at: sectionPostion, background:
@@ -59,6 +64,6 @@ public struct IOS6ButtonStyle: ButtonStyle {
 struct IOS6ButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Button") {}
-            .buttonStyle(IOS6ButtonStyle(at: .medium))
+            .buttonStyle(IOS6ListButtonStyle(at: .medium))
     }
 }
