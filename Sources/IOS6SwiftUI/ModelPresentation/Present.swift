@@ -15,10 +15,10 @@ public extension View {
     }
     
     func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, content: @escaping () -> Content) -> some View {
-        modifier(PresentViewModiferDefault(isPresented: isPresented, with: style, sheet: content))
+        modifier(PresentViewModiferUIKit(isPresented: isPresented, with: style, given: nil, sheet: content))
     }
     
     func present<Content: View>(isPresented: Binding<Bool>, with transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
-        modifier(PresentViewModiferCustom(isPresented: isPresented, with: transDelegate, sheet: content))
+        modifier(PresentViewModiferUIKit(isPresented: isPresented, with: .custom, given: transDelegate, sheet: content))
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 public struct PresentModeKey: EnvironmentKey {
     public static var defaultValue: PresentMode {
-        PresentMode(show: nil)
+        PresentMode()
     }
 }
 
@@ -25,13 +25,13 @@ public struct PresentMode {
     let show: Binding<Bool>?
     let dismissFunc: (() -> Void)?
     
-    init(show: Binding<Bool>?, dismiss: (() -> Void)? = nil) {
+    init(show: Binding<Bool>? = nil, dismiss: (() -> Void)? = nil) {
         self.show = show
         self.dismissFunc = dismiss
     }
     
     public var isPresented: Bool {
-        show != nil
+        show != nil || dismissFunc != nil
     }
     
     public func dismiss() {

@@ -11,7 +11,6 @@ import SwiftUI
 struct PresentViewModifer<NewContent: View>: ViewModifier {
     @Environment(\.viewController) private var viewController
     @Binding var isPresented: Bool
-    @State private var allow: Bool = false
     
     let sheet: NewContent
     let animation: Animation?
@@ -23,22 +22,19 @@ struct PresentViewModifer<NewContent: View>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        if isPresented, viewController?.presentedViewController == nil, allow {
-            self.viewController?.present {
-                ModalCoodinatorView(show: self.$isPresented, content: self.sheet, animation: self.animation)
-            }
-        }
-        return content.onAppear {
-            if !self.allow {
-                if self.isPresented {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.allow = true
+        content
+            .preference(key: PresentationKey.self, value: isPresented)
+            .onPreferenceChange(PresentationKey.self) { show in
+                if show, !self.isShown {
+                    self.viewController?.present {
+                        ModalCoodinatorView(show: self.$isPresented, content: self.sheet, animation: self.animation)
                     }
-                } else {
-                    self.allow = true
                 }
-            }
         }
+    }
+    
+    var isShown: Bool {
+        viewController?.presentedViewController != nil
     }
 }
 

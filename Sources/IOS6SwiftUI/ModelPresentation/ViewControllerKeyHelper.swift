@@ -19,17 +19,17 @@ extension UIViewController {
         present(toPresent, animated: false, completion: nil)
     }
     
-    func present<Content: View>(style: UIModalPresentationStyle = .automatic, builder: @escaping () -> Content) {
+    func present<Content: View>(style: UIModalPresentationStyle = .automatic, transDelegate: UIViewControllerTransitioningDelegate? = nil, builder: @escaping () -> Content) {
         let toPresent = UIHostingController(rootView: builder().environment(\.viewController, nil))
-        toPresent.modalPresentationStyle = style
-        toPresent.rootView = builder().environment(\.viewController, toPresent)
-        present(toPresent, animated: true, completion: nil)
-    }
-    
-    func present<Content: View>(transDelegate: UIViewControllerTransitioningDelegate, builder: @escaping () -> Content) {
-        let toPresent = UIHostingController(rootView: builder().environment(\.viewController, nil))
-        toPresent.modalPresentationStyle = .custom
-        toPresent.transitioningDelegate = transDelegate
+        
+        // Check if Delegate is enabled
+        if transDelegate != nil {
+            toPresent.modalPresentationStyle = .custom
+            toPresent.transitioningDelegate = transDelegate
+        } else {
+            toPresent.modalPresentationStyle = style
+        }
+        
         toPresent.rootView = builder().environment(\.viewController, toPresent)
         present(toPresent, animated: true, completion: nil)
     }
