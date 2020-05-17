@@ -32,7 +32,6 @@ public struct IOS6FormRow: View {
             
             Text(title)
                 .fontWeight(Font.Weight.bold)
-                .accentColor(.black)
             
             if !comment.isEmpty {
                 Spacer()

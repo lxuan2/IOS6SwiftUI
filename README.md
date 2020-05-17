@@ -27,14 +27,15 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6ButtonStyle
 
 ## Upcoming Features
-- \[ ] Test model is enabled at start
 - \[ ] Undismissable sheet
+- \[ ] present customized system model
 - \[ ] Fix toggle to extended touch area
 - \[ ] Enable presentation mode to dismiss view
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Test modal is enabled at start
 - \[x] present Model
 - \[x] generalize all items not to list
 - \[x] IOS6Button

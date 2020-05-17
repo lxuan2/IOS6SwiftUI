@@ -12,7 +12,7 @@ extension UIViewController {
     
     func present<Content: View>(builder: @escaping () -> Content) {
         let toPresent = UIHostingController(rootView: builder().environment(\.viewController, nil))
-        toPresent.modalPresentationStyle = .overCurrentContext
+        toPresent.modalPresentationStyle = .overFullScreen
         toPresent.view.isOpaque = true
         toPresent.view.backgroundColor = .clear
         toPresent.rootView = builder().environment(\.viewController, toPresent)
@@ -22,6 +22,14 @@ extension UIViewController {
     func present<Content: View>(style: UIModalPresentationStyle = .automatic, builder: @escaping () -> Content) {
         let toPresent = UIHostingController(rootView: builder().environment(\.viewController, nil))
         toPresent.modalPresentationStyle = style
+        toPresent.rootView = builder().environment(\.viewController, toPresent)
+        present(toPresent, animated: true, completion: nil)
+    }
+    
+    func present<Content: View>(transDelegate: UIViewControllerTransitioningDelegate, builder: @escaping () -> Content) {
+        let toPresent = UIHostingController(rootView: builder().environment(\.viewController, nil))
+        toPresent.modalPresentationStyle = .custom
+        toPresent.transitioningDelegate = transDelegate
         toPresent.rootView = builder().environment(\.viewController, toPresent)
         present(toPresent, animated: true, completion: nil)
     }

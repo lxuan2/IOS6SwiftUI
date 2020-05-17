@@ -17,16 +17,16 @@ public struct IOS6ButtonStyle: ButtonStyle {
         self.pressing = pressing
     }
     
-    public init(at position: IOS6SectionItemPosition) {
+    public init(at position: IOS6SectionItemPosition = .none) {
         at = position
         pressing = false
     }
     
     public func makeBody(configuration: IOS6ButtonStyle.Configuration) -> some View {
-        MyButton(configuration: configuration, sectionPostion: at, pressing: pressing)
+        IOS6ButtonStyleButton(configuration: configuration, sectionPostion: at, pressing: pressing)
     }
     
-    struct MyButton: View {
+    struct IOS6ButtonStyleButton: View {
         var configuration: IOS6ButtonStyle.Configuration
         var sectionPostion: IOS6SectionItemPosition
         var pressing: Bool
@@ -54,7 +54,7 @@ public struct IOS6ButtonStyle: ButtonStyle {
                             startPoint: .top, endPoint: .bottom)
                     }
                 })
-                .foregroundColor(pressed ? .white : .accentColor)
+                .foregroundColor(pressed ? .white : .black)
                 .modifier(IOS6FormRowConfiguration(at: sectionPostion, background:
                     LinearGradient(
                         gradient: Gradient(colors:

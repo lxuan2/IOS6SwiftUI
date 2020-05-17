@@ -15,6 +15,10 @@ public extension View {
     }
     
     func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, content: @escaping () -> Content) -> some View {
-        modifier(DefaultPresentViewModifer(isPresented: isPresented, with: style, sheet: content))
+        modifier(PresentViewModiferDefault(isPresented: isPresented, with: style, sheet: content))
+    }
+    
+    func present<Content: View>(isPresented: Binding<Bool>, with transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
+        modifier(PresentViewModiferCustom(isPresented: isPresented, with: transDelegate, sheet: content))
     }
 }
