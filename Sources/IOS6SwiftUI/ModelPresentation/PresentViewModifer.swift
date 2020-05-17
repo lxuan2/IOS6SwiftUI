@@ -27,10 +27,17 @@ struct PresentViewModifer<NewContent: View>: ViewModifier {
             .onPreferenceChange(PresentationKey.self) { show in
                 if show, !self.isShown {
                     self.viewController?.present {
-                        ModalCoodinatorView(show: self.$isPresented, content: self.sheet, animation: self.animation)
+                        ModalPresentationView(show: self.$isPresented, content: self.configuredSheet, animation: self.animation)
                     }
                 }
         }
+    }
+    
+    var configuredSheet: some View{
+        sheet
+            .compositingGroup()
+            .environment(\.presentMode, PresentMode(show: self.$isPresented))
+            .onDisappear {self.viewController?.dismiss(animated: false, completion: nil)}
     }
     
     var isShown: Bool {
@@ -53,17 +60,16 @@ struct PresentViewModifer_Previews: PreviewProvider {
     }
 }
 
-struct ModalCoodinatorView<Content: View>: View {
+struct ModalPresentationView<Content: View>: View {
     @State private var localShow: Bool = false
-    @Environment(\.viewController) private var viewController
-    
     @Binding var show: Bool
+    
     let content: Content
     let animation: Animation?
     
     var body: some View {
         ZStack {
-            Spacer()
+            EmptyView()
             
             if show {
                 Spacer()
@@ -81,10 +87,6 @@ struct ModalCoodinatorView<Content: View>: View {
             
             if localShow {
                 content
-                    .environment(\.presentMode, PresentMode(show: $show))
-                    .onDisappear {
-                        self.viewController?.dismiss(animated: false, completion: nil)
-                }
             }
         }
     }

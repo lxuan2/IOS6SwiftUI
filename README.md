@@ -15,7 +15,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### Modifer
 - \[x]  ios6FormRowPos
 - \[x]  ios6NavigationBarTitle
-- \[x]  present
+- \[x]  present (Note: Currently only one view can be enabled in the same level)
 
 ### Environment Key
 - \[x]  ios6ToggleColor

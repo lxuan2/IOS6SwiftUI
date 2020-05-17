@@ -11,7 +11,6 @@ import SwiftUI
 struct PresentViewModiferUIKit<NewContent: View>: ViewModifier {
     @Environment(\.viewController) private var viewController
     @Binding var isPresented: Bool
-    @State private var allow: Bool = false
     
     let sheet: NewContent
     let style: UIModalPresentationStyle
@@ -34,6 +33,11 @@ struct PresentViewModiferUIKit<NewContent: View>: ViewModifier {
                             .environment(\.presentMode, PresentMode {
                                 self.viewController?.dismiss(animated: true, completion: { self.isPresented = false })
                             })
+                            .onDisappear {
+                                if !self.isShown, self.isPresented {
+                                    self.isPresented = false
+                                }
+                        }
                     }
                 } else if !show, self.isShown {
                     self.viewController?.dismiss(animated: true, completion: nil)
