@@ -15,39 +15,18 @@ public struct IOS6FormRow: View {
     let comment: String
     
     public var body: some View {
-        HStack(spacing: 0) {
-            if image != nil {
-                image!
-                    .renderingMode(.original)
-                    .resizable()
-                    .cornerRadius(5)
-                    .overlay(   // Round frame
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.black.opacity(0.4), lineWidth: 0.5)
-                )
-                    .scaledToFit()
-            }
-            
-            Spacer().frame(width: image != nil ? 12: 6)
-            
-            Text(title)
-                .fontWeight(Font.Weight.bold)
-                .ios6ForegroundColor(.black)
-                .padding(.trailing, image != nil ? 12: 6)
-            
-            if !comment.isEmpty {
-                Spacer()
-                Text(comment)
-                    .accentColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
-            }
-        }
-        .frame(minHeight: 30, maxHeight: 30)
+        IOS6FormRowAdv(image: image, title: title, comment: commentView)
     }
     
     public init(image: Image? = nil, title: String, comment: String = "") {
         self.image = image
         self.title = title
         self.comment = comment
+    }
+    
+    private var commentView: some View {
+        Text(comment)
+            .ios6ForegroundColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
     }
 }
 

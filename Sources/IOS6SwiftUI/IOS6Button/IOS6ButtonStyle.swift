@@ -45,7 +45,8 @@ public struct IOS6ButtonStyle<Background: View>: ButtonStyle {
             return configuration.label
                 .frame(maxWidth: frame, maxHeight: frame, alignment: alignment)
                 .contentShape(Rectangle())
-                .ios6AccentColor(pressed ? .white : nil)
+                .accentColor(pressed ? .white : nil)
+                .ios6ActiveColor(pressed ? .white : nil)
                 .background(backgroundView)
                 .modifier(IOS6FormRowConfiguration(at: sectionPostion, background: background.opacity(pressed ? 1 : 0)))
         }
@@ -73,7 +74,7 @@ public struct IOS6ButtonStyle<Background: View>: ButtonStyle {
     }
 }
 
-var IOS6ButtonDefaultBackground: some View {
+var IOS6ButtonDefaultBackground: LinearGradient {
     LinearGradient(
         gradient: Gradient(colors:
             [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),

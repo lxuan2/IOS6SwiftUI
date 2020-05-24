@@ -12,11 +12,14 @@ public struct IOS6Button<Label: View>: View {
     let action: () -> Void
     let label: Label
     let position: IOS6SectionItemPosition
+    let background: LinearGradient
     @State private var pressing: Bool = false
     
     public var body: some View {
         Button(action: {
-            self.pressing = true
+            DispatchQueue.main.async {
+                self.pressing = true
+            }
             self.action()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.easeOut(duration: 0.1)) {
@@ -26,12 +29,13 @@ public struct IOS6Button<Label: View>: View {
         }) {
             label
         }
-        .buttonStyle(IOS6ButtonStyle(at: position, is: pressing, background: IOS6ButtonDefaultBackground))
+        .buttonStyle(IOS6ButtonStyle(at: position, is: pressing, background: background))
     }
     
-    public init(action: @escaping () -> Void, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
+    public init(background: LinearGradient? = nil, action: @escaping () -> Void, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
         self.action = action
         self.label = label()
+        self.background = background ?? IOS6ButtonDefaultBackground
         self.position = sectionPostion
     }
 }

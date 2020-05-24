@@ -10,12 +10,14 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
 - \[x]  IOS6FormRow
+- \[x]  IOS6FormRowAdv
 - \[x]  IOS6Section
 
 ### Modifer
 - \[x]  ios6FormRowPos
 - \[x]  ios6NavigationBarTitle
 - \[x]  present (Note: Currently only one view can be enabled in the same level)
+- \[x]  ios6ForegroundColor
 
 ### Environment Key
 - \[x]  ios6ToggleColor
@@ -35,6 +37,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] ios6ForegroundColor, IOS6FormRowAdv
 - \[x] Test modal is enabled at start
 - \[x] present Model
 - \[x] generalize all items not to list

@@ -27,12 +27,11 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
             HStack(spacing: 0) {
                 self.label
                 
-                Spacer()
+                Spacer(minLength: 12)
                 
                 Image(systemName: "chevron.right")
                     .font(Font.footnote.weight(.heavy))
                     .ios6ForegroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                    .padding(.leading, 12)
                     .padding(.trailing, 2)
             }
         }

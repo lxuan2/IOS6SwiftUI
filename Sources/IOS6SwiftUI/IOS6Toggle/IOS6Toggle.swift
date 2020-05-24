@@ -12,16 +12,20 @@ import SwiftUI
 public struct IOS6Toggle<Label: View>: View {
     var isOn: Binding<Bool>
     var label: () -> Label
+    let position: IOS6SectionItemPosition
     
-    public init(isOn: Binding<Bool>, @ViewBuilder label: @escaping () -> Label) {
+    public init(isOn: Binding<Bool>, @ViewBuilder label: @escaping () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
         self.isOn = isOn
         self.label = label
+        self.position = sectionPostion
     }
     
     public var body: some View {
         Toggle(isOn: isOn) {
             label()
-        }.toggleStyle(IOS6ToggleStyle())
+        }
+            .toggleStyle(IOS6ToggleStyle())
+            .ios6FormRowPos(position)
     }
 }
 
