@@ -44,7 +44,7 @@ class IOS6NavigationStack: ObservableObject {
             // Lock
             blocking = true
             
-            withAnimation(Animation.easeIn(duration: 0.15).delay(IOS6NavigationStack.standardTime)) {
+            withAnimation(Animation.easeIn(duration: 0.15 + IOS6NavigationStack.standardTime)) {
                 stack.last?.lock?.wrappedValue = false
             }
             
@@ -82,7 +82,7 @@ class IOS6NavigationStack: ObservableObject {
             let half =  proxy.size.width / 2
             if value.predictedEndTranslation.width > half || value.translation.width > half  {
                 let time = IOS6NavigationStack.standardTime * Double((proxy.size.width - value.translation.width)/proxy.size.width)
-                withAnimation(Animation.easeIn(duration: 0.15).delay(time)) {
+                withAnimation(Animation.easeIn(duration: 0.15 + time)) {
                     stack.last?.lock?.wrappedValue = false
                 }
                 withAnimation(Animation.easeInOut(duration: time)) {

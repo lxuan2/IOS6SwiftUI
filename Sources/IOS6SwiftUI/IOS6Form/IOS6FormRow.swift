@@ -32,7 +32,7 @@ public struct IOS6FormRow: View {
             
             Text(title)
                 .fontWeight(Font.Weight.bold)
-                .accentColor(.black)
+                .ios6ForegroundColor(.black)
                 .padding(.trailing, image != nil ? 12: 6)
             
             if !comment.isEmpty {

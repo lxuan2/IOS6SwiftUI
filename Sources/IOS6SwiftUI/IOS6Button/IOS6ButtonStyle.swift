@@ -45,8 +45,8 @@ public struct IOS6ButtonStyle<Background: View>: ButtonStyle {
             return configuration.label
                 .frame(maxWidth: frame, maxHeight: frame, alignment: alignment)
                 .contentShape(Rectangle())
+                .ios6AccentColor(pressed ? .white : nil)
                 .background(backgroundView)
-                .foregroundColor(pressed ? .white : .accentColor)
                 .modifier(IOS6FormRowConfiguration(at: sectionPostion, background: background.opacity(pressed ? 1 : 0)))
         }
         

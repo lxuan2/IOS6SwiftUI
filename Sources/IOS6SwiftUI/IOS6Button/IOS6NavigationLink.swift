@@ -28,11 +28,10 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                 self.label
                 
                 Spacer()
-                Text(String(sheet))
                 
                 Image(systemName: "chevron.right")
                     .font(Font.footnote.weight(.heavy))
-                    .accentColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
+                    .ios6ForegroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
                     .padding(.leading, 12)
                     .padding(.trailing, 2)
             }
@@ -40,7 +39,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
         .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet, background: IOS6ButtonDefaultBackground))
     }
     
-    public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
+    public init(destination: () -> Destination, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
         self.destination = destination()
         self.label = label()
         self.sectionPostion = sectionPostion
