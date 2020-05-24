@@ -10,7 +10,6 @@ import SwiftUI
 
 /// A control that toggles between "on" and "off" states with IOS 6 style.
 public struct IOS6Toggle<Label: View>: View {
-    @Environment(\.ios6ToggleColor) var color: Color
     var isOn: Binding<Bool>
     var label: () -> Label
     
@@ -22,7 +21,7 @@ public struct IOS6Toggle<Label: View>: View {
     public var body: some View {
         Toggle(isOn: isOn) {
             label()
-        }.toggleStyle(IOS6ToggleStyle(color: color))
+        }.toggleStyle(IOS6ToggleStyle())
     }
 }
 
@@ -33,5 +32,3 @@ struct IOS6Toggle_Previews: PreviewProvider {
         }
     }
 }
-
-

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct IOS6NavigationBarItems: View {
     @EnvironmentObject private var viewStack: IOS6NavigationStack
-    var width: CGFloat
+    let width: CGFloat
     
     var body: some View {
         ZStack {
@@ -35,7 +35,7 @@ struct IOS6NavigationBarItems: View {
             offset = -width + self.viewStack.dragAmount
             opacity = Double(self.viewStack.dragAmount / width)
         } else {
-            offset = self.viewStack.dragAmount
+            offset = self.viewStack.dragAmount / 3
             opacity = Double(1 - self.viewStack.dragAmount / width)
         }
         return (opacity, offset)

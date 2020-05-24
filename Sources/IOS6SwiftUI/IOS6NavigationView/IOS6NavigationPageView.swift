@@ -14,7 +14,6 @@ struct IOS6NavigationPageView: UIViewControllerRepresentable {
     
     init<Page: View>(page: Page, previousPageLock: Binding<Bool>? = nil) {
         content = UIHostingController(rootView: page)
-        content.modalPresentationStyle = .overCurrentContext
         content.view.backgroundColor = UIColor.clear
         content.view.isOpaque = false
         lock = previousPageLock

@@ -28,6 +28,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                 self.label
                 
                 Spacer()
+                Text(String(sheet))
                 
                 Image(systemName: "chevron.right")
                     .font(Font.footnote.weight(.heavy))
@@ -36,8 +37,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                     .padding(.trailing, 2)
             }
         }
-        .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet))
-        
+        .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet, background: IOS6ButtonDefaultBackground))
     }
     
     public init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {

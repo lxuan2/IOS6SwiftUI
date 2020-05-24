@@ -44,18 +44,18 @@ class IOS6NavigationStack: ObservableObject {
             // Lock
             blocking = true
             
-            var isLastPageSelected: Binding<Bool>? = nil
-            withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime)) {
-                dragAmount = 0
-                isLastPageSelected = stack.removeLast().lock
-                barStack.removeLast()
+            withAnimation(Animation.easeIn(duration: 0.15).delay(IOS6NavigationStack.standardTime)) {
+                stack.last?.lock?.wrappedValue = false
             }
-            withAnimation(.easeIn(duration: IOS6NavigationStack.standardTime + 0.15)) {
-                isLastPageSelected?.wrappedValue = false
+            
+            withAnimation(.easeInOut(duration: IOS6NavigationStack.standardTime)) {
+                dragAmount = 0
+                stack.removeLast()
+                barStack.removeLast()
             }
             
             // Unlock
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + 0.15 + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + 0.15) {
                 self.blocking = false
             }
         }
@@ -76,25 +76,29 @@ class IOS6NavigationStack: ObservableObject {
     
     func endOffset(with value: DragGesture.Value, in proxy: GeometryProxy)  {
         if stack.count > 1 {
+            // Lock
+            self.blocking = true
+            
             let half =  proxy.size.width / 2
             if value.predictedEndTranslation.width > half || value.translation.width > half  {
                 let time = IOS6NavigationStack.standardTime * Double((proxy.size.width - value.translation.width)/proxy.size.width)
+                withAnimation(Animation.easeIn(duration: 0.15).delay(time)) {
+                    stack.last?.lock?.wrappedValue = false
+                }
                 withAnimation(Animation.easeInOut(duration: time)) {
-                    dragAmount = proxy.size.width
+                    dragAmount = 0
+                    stack.removeLast()
+                    barStack.removeLast()
                 }
-                let isLastPageSelected: Binding<Bool>? = stack.last?.lock
-                withAnimation(.easeIn(duration: time + 0.15)) {
-                    isLastPageSelected?.wrappedValue = false
-                }
+                // Unlock
                 DispatchQueue.main.asyncAfter(deadline: .now() + time + 0.15 + 0.1) {
                     self.blocking = false
-                    self.stack.removeLast()
-                    self.dragAmount = 0
                 }
             } else {
                 withAnimation(Animation.easeInOut(duration: 0.2)) {
                     dragAmount = 0
                 }
+                // Unlock
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2 + 0.1) {
                     self.blocking = false
                 }

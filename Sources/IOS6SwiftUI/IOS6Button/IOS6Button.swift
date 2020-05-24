@@ -26,7 +26,7 @@ public struct IOS6Button<Label: View>: View {
         }) {
             label
         }
-        .buttonStyle(IOS6ButtonStyle(at: position, is: pressing))
+        .buttonStyle(IOS6ButtonStyle(at: position, is: pressing, background: IOS6ButtonDefaultBackground))
     }
     
     public init(action: @escaping () -> Void, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {

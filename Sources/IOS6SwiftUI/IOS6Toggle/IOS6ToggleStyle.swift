@@ -9,13 +9,12 @@
 import SwiftUI
 
 public struct IOS6ToggleStyle: ToggleStyle {
-    var color: Color
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.label
             Spacer()
-            IOS6ToggleView(isOn: configuration.$isOn, toggleColor: color)
+            IOS6ToggleView(isOn: configuration.$isOn)
         }
     }
 }
@@ -25,7 +24,7 @@ struct IOS6ToggleStyle_Previews: PreviewProvider {
         Toggle(isOn: .constant(false)) {
             Text("Toggle")
         }
-        .toggleStyle(IOS6ToggleStyle(color: Color.green))
+        .toggleStyle(IOS6ToggleStyle())
     }
 }
 

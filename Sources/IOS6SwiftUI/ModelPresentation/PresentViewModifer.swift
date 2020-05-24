@@ -43,6 +43,38 @@ struct PresentViewModifer<NewContent: View>: ViewModifier {
     var isShown: Bool {
         viewController?.presentedViewController != nil
     }
+    
+    struct ModalPresentationView<Content: View>: View {
+        @State private var localShow: Bool = false
+        @Binding var show: Bool
+        
+        let content: Content
+        let animation: Animation?
+        
+        var body: some View {
+            ZStack {
+                EmptyView()
+                
+                if show {
+                    Spacer()
+                        .onAppear {
+                            withAnimation(self.animation) {
+                                self.localShow = true
+                            }
+                    }
+                    .onDisappear {
+                        withAnimation(self.animation) {
+                            self.localShow = false
+                        }
+                    }
+                }
+                
+                if localShow {
+                    content
+                }
+            }
+        }
+    }
 }
 
 struct PresentViewModifer_Previews: PreviewProvider {
@@ -56,38 +88,6 @@ struct PresentViewModifer_Previews: PreviewProvider {
                     Text("Model")
                         .zIndex(1)
                 }.transition(.move(edge: .bottom))
-        }
-    }
-}
-
-struct ModalPresentationView<Content: View>: View {
-    @State private var localShow: Bool = false
-    @Binding var show: Bool
-    
-    let content: Content
-    let animation: Animation?
-    
-    var body: some View {
-        ZStack {
-            EmptyView()
-            
-            if show {
-                Spacer()
-                    .onAppear {
-                        withAnimation(self.animation) {
-                            self.localShow = true
-                        }
-                }
-                .onDisappear {
-                    withAnimation(self.animation) {
-                        self.localShow = false
-                    }
-                }
-            }
-            
-            if localShow {
-                content
-            }
         }
     }
 }
