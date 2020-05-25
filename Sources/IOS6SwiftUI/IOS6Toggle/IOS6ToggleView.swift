@@ -12,6 +12,7 @@ public struct IOS6ToggleView: View {
     let height: CGFloat = 26
     let width: CGFloat = 74
     
+    @Environment(\.isEnabled) private var isEnabled
     @GestureState private var isPressed: Bool = false
     @State private var oldPercent: CGFloat
     @State private var percent: CGFloat
@@ -33,6 +34,8 @@ public struct IOS6ToggleView: View {
     public var body: some View {
         ZStack {
             Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
+                .opacity(isEnabled ? 1 : 0.7)
+            
             RoundedRectangle(cornerRadius: 9)
                 .fill(
                     LinearGradient(
@@ -73,7 +76,6 @@ public struct IOS6ToggleView: View {
                     self.isOn = self.isOn ? false: true
                 })
         )
-        
     }
     
     struct IOS6ToggleButton: View {

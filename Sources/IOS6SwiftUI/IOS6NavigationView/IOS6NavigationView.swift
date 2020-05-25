@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-var viewStack: IOS6NavigationStack? = nil
 
 /// A view for presenting a stack of views representing a visible path in a
 /// navigation hierarchy.
@@ -24,14 +23,16 @@ public struct IOS6NavigationView<Content: View>: View {
                 .edgesIgnoringSafeArea([.bottom])
         }
         .background(IOS6NavigationWallpaper())
-        .environmentObject(viewStack ?? IOS6NavigationStack(rootView: EmptyView()))
+        .environment(\.ios6NavigationStack, stack)
+        .environmentObject(stack)
         .colorScheme(.light)
     }
     
+    private let stack: IOS6NavigationStack
+    
     public init(interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.interactiveSwipe = interactiveSwipe
-        viewStack = IOS6NavigationStack(rootView: content())
-        
+        stack = IOS6NavigationStack(rootView: content())
     }
 }
 

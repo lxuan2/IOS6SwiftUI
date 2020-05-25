@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct IOS6NavigationBar: View {
+    @Environment(\.isEnabled) private var isEnabled
+    
     var body: some View {
         VStack(spacing: 0) {
             Color(red: 233/255, green: 244/255, blue: 255/255)
@@ -34,6 +36,7 @@ struct IOS6NavigationBar: View {
             .overlay(
                 GeometryReader { proxy in
                     IOS6NavigationBarItems(width: proxy.size.width)
+                        .opacity(self.isEnabled ? 1 : 0.8)
                 }
         )
             .frame(height: 45)

@@ -25,10 +25,6 @@ struct IOS6NavigationWallpaper: View {
         }
     }
     
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return true
-    }
-    
     struct Strips: Shape {
         
         func path(in rect: CGRect) -> Path {

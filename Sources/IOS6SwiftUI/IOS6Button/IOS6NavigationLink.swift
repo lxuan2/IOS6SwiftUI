@@ -15,13 +15,14 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
     let destination: Destination
     let sectionPostion: IOS6SectionItemPosition
     @State private var sheet = false
+    @Environment(\.ios6NavigationStack) private var stack
     
     public var body: some View {
         Button(action: {
-            if viewStack != nil {
+            if self.stack != nil {
                 self.sheet = true
-                viewStack!.push(isPresent: self.$sheet,
-                                newView: self.destination)
+                self.stack!.push(isPresent: self.$sheet,
+                                 newView: self.destination)
             }
         }) {
             HStack(spacing: 0) {
@@ -33,9 +34,11 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                     .font(Font.footnote.weight(.heavy))
                     .ios6ForegroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
                     .padding(.trailing, 2)
+                    .opacity(stack == nil ? 0.6 : 1)
             }
         }
         .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet, background: IOS6ButtonDefaultBackground))
+        .disabled(stack == nil)
     }
     
     public init(destination: () -> Destination, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {

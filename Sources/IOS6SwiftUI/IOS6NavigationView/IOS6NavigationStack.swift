@@ -27,14 +27,14 @@ class IOS6NavigationStack: ObservableObject {
         // Lock
         blocking = true
         
-        withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(0.15)) {
+        withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(IOS6NavigationStack.unselectedTime)) {
             let extendedView = newView
             self.stack.append(IOS6NavigationPageView(page: extendedView, previousPageLock: isPresent))
             self.barStack.append(nil)
         }
         
         // Unlock
-        DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + 0.15 + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + IOS6NavigationStack.unselectedTime + 0.1) {
             self.blocking = false
         }
     }
@@ -44,7 +44,7 @@ class IOS6NavigationStack: ObservableObject {
             // Lock
             blocking = true
             
-            withAnimation(Animation.easeIn(duration: 0.15 + IOS6NavigationStack.standardTime)) {
+            withAnimation(Animation.easeIn(duration: IOS6NavigationStack.unselectedTime + IOS6NavigationStack.standardTime)) {
                 stack.last?.lock?.wrappedValue = false
             }
             
@@ -55,7 +55,7 @@ class IOS6NavigationStack: ObservableObject {
             }
             
             // Unlock
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + 0.15) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + IOS6NavigationStack.unselectedTime) {
                 self.blocking = false
             }
         }
@@ -82,7 +82,7 @@ class IOS6NavigationStack: ObservableObject {
             let half =  proxy.size.width / 2
             if value.predictedEndTranslation.width > half || value.translation.width > half  {
                 let time = IOS6NavigationStack.standardTime * Double((proxy.size.width - value.translation.width)/proxy.size.width)
-                withAnimation(Animation.easeIn(duration: 0.15 + time)) {
+                withAnimation(Animation.easeIn(duration: IOS6NavigationStack.unselectedTime + time)) {
                     stack.last?.lock?.wrappedValue = false
                 }
                 withAnimation(Animation.easeInOut(duration: time)) {
@@ -91,7 +91,7 @@ class IOS6NavigationStack: ObservableObject {
                     barStack.removeLast()
                 }
                 // Unlock
-                DispatchQueue.main.asyncAfter(deadline: .now() + time + 0.15 + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + time + IOS6NavigationStack.unselectedTime + 0.1) {
                     self.blocking = false
                 }
             } else {
@@ -129,4 +129,5 @@ extension IOS6NavigationStack {
 
 extension IOS6NavigationStack {
     private static let standardTime: Double = 0.35
+    private static let unselectedTime: Double = 0.15
 }

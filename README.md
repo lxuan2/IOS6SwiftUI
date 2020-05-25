@@ -9,9 +9,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Button
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
-- \[x]  IOS6FormRow
-- \[x]  IOS6FormRowAdv
-- \[x]  IOS6Section
+- \[x]  IOS6TableCell
+- \[x]  IOS6TableCellAdv
 
 ### Modifer
 - \[x]  ios6FormRowPos
@@ -29,6 +28,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6ButtonStyle
 
 ## Upcoming Features
+- \[ ] bring presentMode to IOS6NavigationView
 - \[ ] Undismissable sheet
 - \[ ] present customized system model
 - \[ ] Fix toggle to extended touch area
@@ -37,6 +37,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] add disabled navigation control
+- \[x] rename IOS6FormRow to IOS6TableCell
 - \[x] ios6ForegroundColor, IOS6FormRowAdv
 - \[x] Test modal is enabled at start
 - \[x] present Model

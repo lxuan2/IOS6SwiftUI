@@ -14,6 +14,7 @@ public struct IOS6Button<Label: View>: View {
     let position: IOS6SectionItemPosition
     let background: LinearGradient
     @State private var pressing: Bool = false
+    @Environment(\.isEnabled) private var isEnable
     
     public var body: some View {
         Button(action: {
