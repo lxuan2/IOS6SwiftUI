@@ -13,6 +13,8 @@ import SwiftUI
 public struct IOS6NavigationView<Content: View>: View {
     var interactiveSwipe: Bool
     
+    private let stack: IOS6NavigationStack
+    
     public var body: some View {
         VStack(spacing: 0) {
             IOS6NavigationBar()
@@ -25,10 +27,9 @@ public struct IOS6NavigationView<Content: View>: View {
         .background(IOS6NavigationWallpaper())
         .environment(\.ios6NavigationStack, stack)
         .environmentObject(stack)
+        .accentColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
         .colorScheme(.light)
     }
-    
-    private let stack: IOS6NavigationStack
     
     public init(interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.interactiveSwipe = interactiveSwipe

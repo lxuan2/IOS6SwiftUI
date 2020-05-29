@@ -10,10 +10,9 @@ import SwiftUI
 import Foundation
 
 /// A view that controls a navigation presentation with IOS 6 style.
-public struct IOS6NavigationLink<Label: View, Destination : View>: View {
-    let label: Label
+public struct IOS6NavigationLink<Label: View, SubLabel: View, Destination : View>: View {
+    let label: (Bool) -> Label
     let destination: Destination
-    let sectionPostion: IOS6SectionItemPosition
     @State private var sheet = false
     @Environment(\.ios6NavigationStack) private var stack
     
@@ -24,27 +23,25 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
                 self.stack!.push(isPresent: self.$sheet,
                                  newView: self.destination)
             }
-        }) {
-            HStack(spacing: 0) {
-                self.label
-                
-                Spacer(minLength: 12)
-                
-                Image(systemName: "chevron.right")
-                    .font(Font.footnote.weight(.heavy))
-                    .ios6ForegroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                    .padding(.trailing, 2)
-                    .opacity(stack == nil ? 0.6 : 1)
-            }
-        }
-        .buttonStyle(IOS6ButtonStyle(at: sectionPostion, is: sheet, background: IOS6ButtonDefaultBackground))
-        .disabled(stack == nil)
+        }, label: {EmptyView()})
+            .buttonStyle(IOS6ButtonStyle() { isPressed in
+                    self.label(isPressed || self.sheet)
+            })
     }
-    
-    public init(destination: () -> Destination, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
+}
+
+extension IOS6NavigationLink where SubLabel == Never {
+    public init(destination: () -> Destination, label: @escaping (Bool) -> Label) {
         self.destination = destination()
-        self.label = label()
-        self.sectionPostion = sectionPostion
+        self.label = label
+    }
+}
+
+public extension IOS6NavigationLink where Label == IOS6ButtonLabel<SubLabel> {
+    init(destination: () -> Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
+        self.init(label: { isPressed in
+            IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: true)
+        }, destination: destination())
     }
 }
 

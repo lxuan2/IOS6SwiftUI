@@ -10,7 +10,6 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
 - \[x]  IOS6TableCell
-- \[x]  IOS6TableCellAdv
 
 ### Modifer
 - \[x]  ios6FormRowPos
@@ -25,7 +24,6 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### Style
 - \[x]  IOS6NavigationBackButtonStyle
 - \[x]  IOS6ToggleStyle
-- \[x]  IOS6ButtonStyle
 
 ## Upcoming Features
 - \[ ] bring presentMode to IOS6NavigationView

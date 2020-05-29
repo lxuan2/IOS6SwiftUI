@@ -9,19 +9,19 @@
 import SwiftUI
 
 struct IOS6NavigationWallpaper: View {
-    @Environment(\.verticalSizeClass) var sizeClass
     
     var body: some View {
-        ZStack {
-            Color(red: 70/255, green: 94/255, blue: 125/255)
-                .cornerRadius(4)
-                .background(Color.black)
-                .edgesIgnoringSafeArea(.all)
-            
-            Color(red: 214/255, green: 217/255, blue: 225/255)
-                .overlay(Strips().foregroundColor(Color(red: 210/255, green: 214/255, blue: 224/255)))
-                .cornerRadius(4)
-                .edgesIgnoringSafeArea([.bottom, .horizontal])
+        GeometryReader { proxy in
+            VStack {
+                Color(red: 70/255, green: 94/255, blue: 125/255)
+                    .frame(height: proxy.safeAreaInsets.top)
+                
+                Color(red: 214/255, green: 217/255, blue: 225/255)
+                    .overlay(Strips().foregroundColor(Color(red: 210/255, green: 214/255, blue: 224/255)))
+            }
+            .cornerRadius(4)
+            .background(Color.black)
+            .edgesIgnoringSafeArea(.all)
         }
     }
     

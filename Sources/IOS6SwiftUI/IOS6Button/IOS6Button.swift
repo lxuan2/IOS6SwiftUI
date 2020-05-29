@@ -1,20 +1,17 @@
 //
-//  IOS6Button.swift
+//  DebounceButton.swift
 //  IOS6
 //
-//  Created by Xuan Li on 5/14/20.
+//  Created by Xuan Li on 5/27/20.
 //  Copyright © 2020 Xuan Li. All rights reserved.
 //
 
 import SwiftUI
 
-public struct IOS6Button<Label: View>: View {
-    let action: () -> Void
-    let label: Label
-    let position: IOS6SectionItemPosition
-    let background: LinearGradient
+public struct IOS6Button<Label: View, SubLabel: View>: View {
     @State private var pressing: Bool = false
-    @Environment(\.isEnabled) private var isEnable
+    let action: () -> Void
+    let label: (Bool) -> Label
     
     public var body: some View {
         Button(action: {
@@ -27,22 +24,28 @@ public struct IOS6Button<Label: View>: View {
                     self.pressing = false
                 }
             }
-        }) {
-            label
-        }
-        .buttonStyle(IOS6ButtonStyle(at: position, is: pressing, background: background))
-    }
-    
-    public init(background: LinearGradient? = nil, action: @escaping () -> Void, label: () -> Label, sectionPostion: IOS6SectionItemPosition = .none) {
-        self.action = action
-        self.label = label()
-        self.background = background ?? IOS6ButtonDefaultBackground
-        self.position = sectionPostion
+        }, label: {EmptyView()})
+            .buttonStyle(IOS6ButtonStyle() { isPressed in
+                self.label(isPressed || self.pressing)
+            })
     }
 }
 
-struct IOS6Button_Previews: PreviewProvider {
+extension IOS6Button where SubLabel == Never {
+    public init(action: @escaping () -> Void, label: @escaping (Bool) -> Label) {
+        self.action = action
+        self.label = label
+    }
+}
+
+public extension IOS6Button where Label == IOS6ButtonLabel<SubLabel> {
+    init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
+        self.init(action: action, label: { isPressed in IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position)})
+    }
+}
+
+struct DebounceButton_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6Button(action: {}, label: {Text("D")})
+        IOS6Button(action: {}, label: { _ in Text("Debounce Button")})
     }
 }
