@@ -17,14 +17,12 @@ struct IOS6NavigationContentView: View {
         GeometryReader { proxy in
             ZStack(alignment: .leading) {
                 ZStack {
-                    ForEach(0 ..< self.viewStack.count, id: \.self) { index in
-                        self.viewStack[index]
+                    ForEach(self.viewStack) { page in
+                        page
                             .transition(.move(edge: .trailing))
-                            .offset(x: index < self.viewStack.count - 2 ? -proxy.size.width :
-                                index == self.viewStack.count - 2 ? -proxy.size.width + self.viewStack.dragAmount :
-                                self.viewStack.dragAmount, y: 0)
+                            .offset(x: self.amount(page, proxy.size.width), y: 0)
                             .onPreferenceChange(IOS6NavigationBarTitleKey.self) { title in
-                                self.viewStack.updateTitle(at: index, with: title)
+                                self.viewStack.updateTitle(at: page.id, with: title)
                         }
                     }
                 }
@@ -42,6 +40,16 @@ struct IOS6NavigationContentView: View {
                     )
                 }
             }
+        }
+    }
+    
+    func amount(_ view: IOS6NavigationStack.Element, _ width: CGFloat) -> CGFloat {
+        if view.id < self.viewStack.count - 2 {
+            return -width
+        } else if view.id == self.viewStack.count - 2 {
+            return -width + self.viewStack.dragAmount
+        } else {
+            return self.viewStack.dragAmount
         }
     }
 }

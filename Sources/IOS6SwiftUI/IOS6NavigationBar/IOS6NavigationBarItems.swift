@@ -18,7 +18,7 @@ struct IOS6NavigationBarItems: View {
                 IOS6NavigationBarPageView(title: self.viewStack.barStack[index],
                                           backTitle: self.viewStack.before(index),
                                           index: index,
-                                          dismiss: {self.viewStack.pop()})
+                                          dismiss: {self.viewStack.pop(to: index)})
                     .transition(.moveInXAndFade(offset: self.width / 3))
                     .opacityAndOffset(self.parameters(at: index))
             }

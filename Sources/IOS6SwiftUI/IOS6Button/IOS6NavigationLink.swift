@@ -31,17 +31,17 @@ public struct IOS6NavigationLink<Label: View, SubLabel: View, Destination : View
 }
 
 extension IOS6NavigationLink where SubLabel == Never {
-    public init(destination: () -> Destination, label: @escaping (Bool) -> Label) {
-        self.destination = destination()
+    public init(destination: Destination, label: @escaping (Bool) -> Label) {
+        self.destination = destination
         self.label = label
     }
 }
 
 public extension IOS6NavigationLink where Label == IOS6ButtonLabel<SubLabel> {
-    init(destination: () -> Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
+    init(destination: Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
         self.init(label: { isPressed in
             IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: true)
-        }, destination: destination())
+        }, destination: destination)
     }
 }
 
@@ -49,7 +49,7 @@ struct IOS6NavigationLink_Previews: PreviewProvider {
     static var previews: some View {
         IOS6NavigationView {
             IOS6Form {
-                IOS6NavigationLink(destination: {Text("Hello World")}) {
+                IOS6NavigationLink(destination: Text("Hello World")) {
                     Text("Tap Me")
                 }
             }

@@ -8,15 +8,17 @@
 
 import SwiftUI
 
-struct IOS6NavigationPageView: UIViewControllerRepresentable {
+struct IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
     let content: UIViewController
     let lock: Binding<Bool>?
+    let id: Int
     
-    init<Page: View>(page: Page, previousPageLock: Binding<Bool>? = nil) {
+    init<Page: View>(page: Page, index: Int, previousPageLock: Binding<Bool>? = nil) {
         content = UIHostingController(rootView: page)
         content.view.backgroundColor = UIColor.clear
         content.view.isOpaque = false
         lock = previousPageLock
+        id = index
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
@@ -28,6 +30,6 @@ struct IOS6NavigationPageView: UIViewControllerRepresentable {
 
 struct IOS6NavigationPageView_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationPageView(page: Text("Test"))
+        IOS6NavigationPageView(page: Text("Test"), index: 0)
     }
 }

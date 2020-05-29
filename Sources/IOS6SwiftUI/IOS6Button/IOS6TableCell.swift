@@ -33,7 +33,7 @@ public struct IOS6TableCell<Comment: View>: View {
             }
             
             Text(title)
-                .fontWeight(Font.Weight.bold)
+                .fontWeight(.bold)
                 .ios6ForegroundColor(isEnable ? .black : Color(red: 0.4, green: 0.4, blue: 0.4))
                 .padding(.horizontal, 2)
                 .layoutPriority(1)
@@ -66,7 +66,7 @@ extension IOS6TableCell where Comment == Text {
     public init<S>(image: Image? = nil, title: String, comment: S) where S : StringProtocol {
         self.image = image
         self.title = title
-        commentView = comment.isEmpty ? nil : Text(comment)
+        commentView = comment.isEmpty ? nil : Text(comment).fontWeight(.medium)
         commentIsText = true
     }
     

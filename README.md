@@ -16,6 +16,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  ios6NavigationBarTitle
 - \[x]  present (Note: Currently only one view can be enabled in the same level)
 - \[x]  ios6ForegroundColor
+- \[x]  scaledFont
 
 ### Environment Key
 - \[x]  ios6ToggleColor
@@ -35,6 +36,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] enable presentMode to dismiss IOS6NavigationView page
 - \[x] add disabled navigation control
 - \[x] rename IOS6FormRow to IOS6TableCell
 - \[x] ios6ForegroundColor, IOS6FormRowAdv

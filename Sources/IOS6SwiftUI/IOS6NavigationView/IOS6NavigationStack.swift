@@ -16,7 +16,7 @@ class IOS6NavigationStack: ObservableObject {
     @Published private(set) var barStack: [String?] = [String?]()
     
     init<Content: View>(rootView: Content) {
-        stack.append(IOS6NavigationPageView(page: rootView))
+        stack.append(IOS6NavigationPageView(page: rootView, index: 0))
         barStack.append(nil)
         DispatchQueue.main.async {
             self.objectWillChange.send()
@@ -27,9 +27,13 @@ class IOS6NavigationStack: ObservableObject {
         // Lock
         blocking = true
         
+        let index = count
+        let extendedView = newView
+            .environment(\.presentMode, PresentMode{
+                self.pop(to: index)
+            })
         withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(IOS6NavigationStack.unselectedTime)) {
-            let extendedView = newView
-            self.stack.append(IOS6NavigationPageView(page: extendedView, previousPageLock: isPresent))
+            self.stack.append(IOS6NavigationPageView(page: extendedView, index: index, previousPageLock: isPresent))
             self.barStack.append(nil)
         }
         
@@ -39,13 +43,27 @@ class IOS6NavigationStack: ObservableObject {
         }
     }
     
-    func pop() {
+    func pop(to pageIndex: Int?  = nil) {
         if stack.count > 1 {
+            // Unwrap index and check validation
+            let lastIndex = stack.count - 1
+            let index = pageIndex == nil ? lastIndex : pageIndex!
+            if index <= 0 || index > lastIndex {
+                return
+            }
+            
             // Lock
             blocking = true
             
+            // Remove views from before last to index
+            let lock = stack[index].lock
+            let range = index..<lastIndex
+            stack.removeSubrange(range)
+            barStack.removeSubrange(range)
+            
+            // Remove last view with animation
             withAnimation(Animation.easeIn(duration: IOS6NavigationStack.unselectedTime + IOS6NavigationStack.standardTime)) {
-                stack.last?.lock?.wrappedValue = false
+                lock?.wrappedValue = false
             }
             
             withAnimation(.easeInOut(duration: IOS6NavigationStack.standardTime)) {

@@ -10,15 +10,23 @@ import SwiftUI
 struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
     let pos: IOS6SectionItemPosition
     let background: Wallpaper
+    let isLink: Bool
     
     init(at postion: IOS6SectionItemPosition, background: Wallpaper) {
         pos = postion
         self.background = background
+        isLink = false
+    }
+    
+    init(at postion: IOS6SectionItemPosition, background: Wallpaper, isLink: Bool) {
+        pos = postion
+        self.background = background
+        self.isLink = isLink
     }
     
     func body(content: Content) -> some View {
         content
-            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: 10))
+            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
             .listRowBackground(
                 ZStack {
                     if pos == .bottom {
@@ -44,7 +52,7 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
                     }
                     
                     if pos == .top {
-                        UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.25), lineWidth: 1).blur(radius: 0.6)
+                        UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
                         UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                     }
                     
@@ -68,12 +76,6 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
         
     }
 }
-
-//struct IOS6SectionItem_Previews: PreviewProvider {
-//    static var previews: some View {
-//        IOS6SectionItem()
-//    }
-//}
 
 struct UpCap: Shape, InsettableShape {
     

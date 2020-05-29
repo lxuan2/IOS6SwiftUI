@@ -20,7 +20,6 @@ struct IOS6NavigationBarTitle: View {
                 .foregroundColor(.white)
         }
         .scaledFont(size: 20, weight: .bold)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -43,6 +42,12 @@ struct ScaledFont: ViewModifier {
 
 @available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
+    /// Set the font with size and weight and automatically scale font
+    /// based on system control
+    /// - Parameters:
+    ///   - size: Font size
+    ///   - weight: Font weight
+    /// - Returns: A text view that uses the system control font value and the font value you supply.
     func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
         return self.modifier(ScaledFont(size: size, weight: weight))
     }

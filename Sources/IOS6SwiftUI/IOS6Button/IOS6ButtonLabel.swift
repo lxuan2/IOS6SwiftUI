@@ -16,20 +16,9 @@ public struct IOS6ButtonLabel<Label: View>: View {
     let isLink: Bool
     
     public var body: some View {
-        HStack(spacing: 0) {
-            label
-            if isLink {
-                Spacer(minLength: 12)
-
-                Image(systemName: "chevron.right")
-                    .font(Font.footnote.weight(.heavy))
-                    .ios6ForegroundColor(Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                    .padding(.trailing, 2)
-            }
-        }
+        label
             .frame(maxWidth: self.frame, maxHeight: self.frame, alignment: self.alignment)
             .contentShape(Rectangle())
-            .ios6ActiveColor(isPressed ? .white : nil)
             .background(
                 ZStack {
                     EmptyView()
@@ -37,11 +26,12 @@ public struct IOS6ButtonLabel<Label: View>: View {
                         IOS6ButtonDefaultBackground
                     }
             })
-            .modifier(IOS6FormRowConfiguration(at: self.position, background: IOS6ButtonDefaultBackground.opacity(isPressed ? 1 : 0)))
+            .modifier(IOS6FormRowConfiguration(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
+            .ios6ActiveColor(isPressed ? .white : nil)
             .opacity(self.isEnabled ? 1 : 0.9)
     }
     
-    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6SectionItemPosition = .none, isLink: Bool = false) {
+    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6SectionItemPosition, isLink: Bool) {
         self.isPressed = isPressed
         self.label = label
         self.position = sectionPostion
@@ -62,10 +52,25 @@ public struct IOS6ButtonLabel<Label: View>: View {
                 [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
                  Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
             startPoint: .top, endPoint: .bottom)
+    
+    var IOS6ButtonDefaultListBackground: some View {
+        IOS6ButtonDefaultBackground
+            .opacity(isPressed ? 1 : 0)
+            .overlay(
+                HStack {
+                    Spacer()
+                    if isLink {
+                        Image(systemName: "chevron.right")
+                            .font(Font.footnote.weight(.heavy))
+                            .ios6ForegroundColor(isPressed ? .white : Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
+                            .padding(.trailing, 12)
+                    }
+            })
+    }
 }
 
 struct IOS6ButtonLabel_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6ButtonLabel(false, label: Text("test"), sectionPostion: .none)
+        IOS6ButtonLabel(false, label: Text("test"), sectionPostion: .none, isLink: false)
     }
 }

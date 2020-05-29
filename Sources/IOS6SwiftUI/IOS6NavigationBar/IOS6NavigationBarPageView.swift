@@ -15,21 +15,30 @@ struct IOS6NavigationBarPageView: View {
     var dismiss: () -> Void
     
     var body: some View {
-        ZStack {
-            if index > 0 {
-                Button(backTitle ?? "Back") {
-                    self.dismiss()
+        GeometryReader { proxy in
+            ZStack {
+                if self.isBackButtonShown {
+                    HStack(spacing: 0) {
+                        Button(self.backTitle ?? "Back") {
+                            self.dismiss()
+                        }
+                        .buttonStyle(IOS6NavigationBackButtonStyle())
+                        .padding(.leading, 5.5)
+                        Spacer(minLength: proxy.size.width / 4 * 3)
+                    }
+                    .zIndex(1)
                 }
-                .buttonStyle(IOS6NavigationBackButtonStyle())
-                .padding(.leading, 5.5)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .zIndex(1)
+                
+                IOS6NavigationBarTitle(title: self.title)
+                    .padding(.horizontal, proxy.size.width / 4)
+                    .zIndex(0)
             }
-            
-            IOS6NavigationBarTitle(title: title)
-                .zIndex(0)
+            .lineLimit(1)
         }
-        
+    }
+    
+    var isBackButtonShown: Bool {
+        self.index > 0
     }
 }
 

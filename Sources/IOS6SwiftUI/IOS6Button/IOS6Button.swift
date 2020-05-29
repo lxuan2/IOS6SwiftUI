@@ -40,7 +40,7 @@ extension IOS6Button where SubLabel == Never {
 
 public extension IOS6Button where Label == IOS6ButtonLabel<SubLabel> {
     init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
-        self.init(action: action, label: { isPressed in IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position)})
+        self.init(action: action, label: { isPressed in IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: false)})
     }
 }
 
