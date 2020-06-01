@@ -14,7 +14,7 @@ public struct IOS6ToggleStyle: ToggleStyle {
         HStack {
             configuration.label
             Spacer()
-            IOS6ToggleView(isOn: configuration.$isOn)
+            _IOS6ToggleView(isOn: configuration.$isOn)
         }
     }
 }
@@ -25,18 +25,5 @@ struct IOS6ToggleStyle_Previews: PreviewProvider {
             Text("Toggle")
         }
         .toggleStyle(IOS6ToggleStyle())
-    }
-}
-
-struct IOS6ToggleColorKey: EnvironmentKey {
-    static var defaultValue: Color = Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0)
-    // Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0) blue
-    // Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0) orange
-}
-
-extension EnvironmentValues {
-    public var ios6ToggleColor: Color {
-        get { return self[IOS6ToggleColorKey.self] }
-        set { self[IOS6ToggleColorKey.self] = newValue }
     }
 }

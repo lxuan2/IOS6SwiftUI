@@ -9,7 +9,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6Button
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
-- \[x]  IOS6TableCell
+- \[x]  IOS6FormCell
 
 ### Modifer
 - \[x]  ios6FormRowPos
@@ -17,17 +17,15 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  present (Note: Currently only one view can be enabled in the same level)
 - \[x]  ios6ForegroundColor
 - \[x]  scaledFont
+- \[x]  ios6ToggleColor
 
 ### Environment Key
-- \[x]  ios6ToggleColor
 - \[x]  presentMode
 
 ### Style
-- \[x]  IOS6NavigationBackButtonStyle
 - \[x]  IOS6ToggleStyle
 
 ## Upcoming Features
-- \[ ] bring presentMode to IOS6NavigationView
 - \[ ] Undismissable sheet
 - \[ ] present customized system model
 - \[ ] Fix toggle to extended touch area
@@ -36,7 +34,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
-- \[x] enable presentMode to dismiss IOS6NavigationView page
+- \[x] set private framework
+- \[x] bring presentMode to IOS6NavigationView
 - \[x] add disabled navigation control
 - \[x] rename IOS6FormRow to IOS6TableCell
 - \[x] ios6ForegroundColor, IOS6FormRowAdv
@@ -72,17 +71,17 @@ struct ContentView: View {
             IOS6Form {
                 Section {
                     IOS6Toggle(isOn: self.$isOn) {
-                        IOS6FormRow(image: Image("AppleIDiCloud"), title: "iCloud")
+                        IOS6FormCell(image: Image("AppleIDiCloud"), title: "iCloud")
                     }
                     .ios6FormRowPos(.top)
                     .environment(\.ios6ToggleColor, Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                     
                     IOS6NavigationLink(destination: {Text("Messages").ios6NavigationBarTitle("Messages")}, sectionPostion: .medium) {
-                        IOS6FormRow(image: Image("AppleIDMessages"), title: "Messages")
+                        IOS6FormCell(image: Image("AppleIDMessages"), title: "Messages")
                     }
                     
                     IOS6NavigationLink(destination: {Text("FaceTime").ios6NavigationBarTitle("FaceTime")}, sectionPostion: .bottom) {
-                        IOS6FormRow(image: Image("AppleIDFaceTime"), title: "FaceTime")
+                        IOS6FormCell(image: Image("AppleIDFaceTime"), title: "FaceTime")
                     }
                 }
             }

@@ -1,5 +1,5 @@
 //
-//  IOS6TableCell.swift
+//  IOS6FormCell.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/9/20.
@@ -9,11 +9,11 @@
 import SwiftUI
 
 /// A view for row apperance in the form with IOS 6 style.
-public struct IOS6TableCell<Comment: View>: View {
-    let image: Image?
-    let title: String
-    let commentView: Comment?
-    let commentIsText: Bool
+public struct IOS6FormCell<Comment: View>: View {
+    private let image: Image?
+    private let title: String
+    private let commentView: Comment?
+    private let commentIsText: Bool
     @Environment(\.isEnabled) private var isEnable
     
     public var body: some View {
@@ -62,7 +62,7 @@ public struct IOS6TableCell<Comment: View>: View {
     }
 }
 
-extension IOS6TableCell where Comment == Text {
+extension IOS6FormCell where Comment == Text {
     public init<S>(image: Image? = nil, title: String, comment: S) where S : StringProtocol {
         self.image = image
         self.title = title
@@ -80,6 +80,6 @@ extension IOS6TableCell where Comment == Text {
 
 struct IOS6TableCell_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6TableCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
+        IOS6FormCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
     }
 }

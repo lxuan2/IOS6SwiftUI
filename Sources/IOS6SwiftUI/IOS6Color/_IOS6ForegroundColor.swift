@@ -1,5 +1,5 @@
 //
-//  IOS6ForegroundColor.swift
+//  _IOS6ForegroundColor.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/24/20.
@@ -10,8 +10,8 @@ import SwiftUI
 
 /// A foreground color view modifer set all view inside with
 /// `regular` or `active` color with animation.
-struct IOS6ForegroundColor: ViewModifier {
-    @Environment(\.ios6ActiveColor) private var activeColor
+struct _IOS6ForegroundColor: ViewModifier {
+    @Environment(\._ios6ActiveColor) private var activeColor
     let regular: Color
     let active: Color?
     
@@ -37,7 +37,7 @@ extension View {
     ///     - active: The color to use as foreground color when IOS6
     ///     active color exists. If active is `nil`, the active color is used.
     public func ios6ForegroundColor(regular: Color, active: Color?) -> some View {
-        modifier(IOS6ForegroundColor(regular: regular, active: active))
+        modifier(_IOS6ForegroundColor(regular: regular, active: active))
     }
     
     /// Sets the color that the view uses for foreground elements
@@ -50,7 +50,7 @@ extension View {
     /// - Parameter regular: The color to use as an foreground
     ///   color when IOS6 active color is `nil`.
     public func ios6ForegroundColor(_ regular: Color) -> some View {
-        modifier(IOS6ForegroundColor(regular: regular, active: nil))
+        modifier(_IOS6ForegroundColor(regular: regular, active: nil))
     }
 }
 

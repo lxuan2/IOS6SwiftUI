@@ -10,8 +10,8 @@ import SwiftUI
 
 public struct IOS6Button<Label: View, SubLabel: View>: View {
     @State private var pressing: Bool = false
-    let action: () -> Void
-    let label: (Bool) -> Label
+    private let action: () -> Void
+    private let label: (Bool) -> Label
     
     public var body: some View {
         Button(action: {
@@ -25,7 +25,7 @@ public struct IOS6Button<Label: View, SubLabel: View>: View {
                 }
             }
         }, label: {EmptyView()})
-            .buttonStyle(IOS6ButtonStyle() { isPressed in
+            .buttonStyle(_IOS6ButtonStyle() { isPressed in
                 self.label(isPressed || self.pressing)
             })
     }
@@ -38,9 +38,9 @@ extension IOS6Button where SubLabel == Never {
     }
 }
 
-public extension IOS6Button where Label == IOS6ButtonLabel<SubLabel> {
-    init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
-        self.init(action: action, label: { isPressed in IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: false)})
+extension IOS6Button where Label == _IOS6ButtonLabel<SubLabel> {
+    public init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6FormCellSectionPosition = .none) {
+        self.init(action: action, label: { isPressed in _IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: false)})
     }
 }
 

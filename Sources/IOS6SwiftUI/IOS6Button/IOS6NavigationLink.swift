@@ -11,20 +11,20 @@ import Foundation
 
 /// A view that controls a navigation presentation with IOS 6 style.
 public struct IOS6NavigationLink<Label: View, SubLabel: View, Destination : View>: View {
-    let label: (Bool) -> Label
-    let destination: Destination
+    private let label: (Bool) -> Label
+    private let destination: Destination
     @State private var sheet = false
-    @Environment(\.ios6NavigationStack) private var stack
+    @Environment(\._ios6NavigationStack) private var stack
     
     public var body: some View {
         Button(action: {
-            if self.stack != nil {
+            if self.stack != nil, !self.stack!.blocking {
                 self.sheet = true
                 self.stack!.push(isPresent: self.$sheet,
                                  newView: self.destination)
             }
         }, label: {EmptyView()})
-            .buttonStyle(IOS6ButtonStyle() { isPressed in
+            .buttonStyle(_IOS6ButtonStyle() { isPressed in
                     self.label(isPressed || self.sheet)
             })
     }
@@ -37,10 +37,10 @@ extension IOS6NavigationLink where SubLabel == Never {
     }
 }
 
-public extension IOS6NavigationLink where Label == IOS6ButtonLabel<SubLabel> {
-    init(destination: Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionItemPosition = .none) {
+extension IOS6NavigationLink where Label == _IOS6ButtonLabel<SubLabel> {
+    public init(destination: Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6FormCellSectionPosition = .none) {
         self.init(label: { isPressed in
-            IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: true)
+            _IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: true)
         }, destination: destination)
     }
 }

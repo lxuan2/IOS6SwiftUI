@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationPageView.swift
+//  _IOS6NavigationPageView.swift
 //  IOS6
 //
 //  Created by Xuan Li on 4/25/20.
@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-struct IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
-    let content: UIViewController
+struct _IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
+    private let content: UIViewController
     let lock: Binding<Bool>?
     let id: Int
     
@@ -30,6 +30,6 @@ struct IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
 
 struct IOS6NavigationPageView_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationPageView(page: Text("Test"), index: 0)
+        _IOS6NavigationPageView(page: Text("Test"), index: 0)
     }
 }

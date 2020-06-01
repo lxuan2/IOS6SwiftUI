@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
-    let pos: IOS6SectionItemPosition
-    let background: Wallpaper
-    let isLink: Bool
+struct _IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
+    private let pos: IOS6FormCellSectionPosition
+    private let background: Wallpaper
+    private let isLink: Bool
     
-    init(at postion: IOS6SectionItemPosition, background: Wallpaper) {
+    init(at postion: IOS6FormCellSectionPosition, background: Wallpaper) {
         pos = postion
         self.background = background
         isLink = false
     }
     
-    init(at postion: IOS6SectionItemPosition, background: Wallpaper, isLink: Bool) {
+    init(at postion: IOS6FormCellSectionPosition, background: Wallpaper, isLink: Bool) {
         pos = postion
         self.background = background
         self.isLink = isLink
@@ -30,7 +30,7 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
             .listRowBackground(
                 ZStack {
                     if pos == .bottom {
-                        DownRectangle(cornerRadius: 10, padding: 0.8)
+                        _DownRectangle(cornerRadius: 10, padding: 0.8)
                             .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                     }
                     
@@ -52,8 +52,8 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
                     }
                     
                     if pos == .top {
-                        UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
-                        UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                        _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
+                        _UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                     }
                     
                     if pos == .medium {
@@ -77,10 +77,10 @@ struct IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
     }
 }
 
-struct UpCap: Shape, InsettableShape {
+struct _UpCap: Shape, InsettableShape {
     
-    let cornerRadius: CGFloat
-    var insetAmount: CGFloat = 0
+    private let cornerRadius: CGFloat
+    private var insetAmount: CGFloat = 0
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -103,6 +103,10 @@ struct UpCap: Shape, InsettableShape {
         return path
     }
     
+    init(cornerRadius: CGFloat) {
+        self.cornerRadius = cornerRadius
+    }
+    
     func inset(by amount: CGFloat) -> some InsettableShape {
         var arc = self
         arc.insetAmount += amount
@@ -111,10 +115,10 @@ struct UpCap: Shape, InsettableShape {
 }
 
 
-struct UpRectangle: Shape, InsettableShape {
+struct _UpRectangle: Shape, InsettableShape {
     
-    let cornerRadius: CGFloat
-    var insetAmount: CGFloat = 0
+    private let cornerRadius: CGFloat
+    private var insetAmount: CGFloat = 0
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -139,6 +143,10 @@ struct UpRectangle: Shape, InsettableShape {
         return path
     }
     
+    init(cornerRadius: CGFloat) {
+        self.cornerRadius = cornerRadius
+    }
+    
     func inset(by amount: CGFloat) -> some InsettableShape {
         var arc = self
         arc.insetAmount += amount
@@ -146,11 +154,11 @@ struct UpRectangle: Shape, InsettableShape {
     }
 }
 
-struct DownRectangle: Shape, InsettableShape {
+struct _DownRectangle: Shape, InsettableShape {
     
-    let cornerRadius: CGFloat
-    let padding: CGFloat
-    var insetAmount: CGFloat = 0
+    private let cornerRadius: CGFloat
+    private let padding: CGFloat
+    private var insetAmount: CGFloat = 0
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -175,62 +183,9 @@ struct DownRectangle: Shape, InsettableShape {
         return path
     }
     
-    func inset(by amount: CGFloat) -> some InsettableShape {
-        var arc = self
-        arc.insetAmount += amount
-        return arc
-    }
-}
-
-struct IOS6SectionRectangle: Shape, InsettableShape {
-    let direction: IOS6SectionItemPosition
-    let cornerRadius: CGFloat
-    let padding: CGFloat // Only for down
-    var insetAmount: CGFloat = 0
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        if direction == .top {
-            path.move(to: CGPoint(x: insetAmount, y: rect.height))
-            path.addLine(to: CGPoint(x: insetAmount, y: cornerRadius + insetAmount))
-            path.addArc(center: CGPoint(x: cornerRadius + insetAmount, y: cornerRadius + insetAmount),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 180.0),
-                        endAngle: Angle(degrees: 270.0),
-                        clockwise: false,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            path.addLine(to: CGPoint(x: rect.width - cornerRadius - insetAmount, y: insetAmount))
-            path.addArc(center: CGPoint(x: rect.width - cornerRadius - insetAmount, y: cornerRadius + insetAmount),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 270.0),
-                        endAngle: Angle(degrees: 0.00),
-                        clockwise: false,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            path.addLine(to: CGPoint(x: rect.width - insetAmount, y: rect.height))
-        } else if direction == .medium {
-            return Rectangle().path(in: rect)
-        } else if direction == .bottom {
-            path.move(to: CGPoint(x: insetAmount, y: 0))
-            path.addLine(to: CGPoint(x: insetAmount, y: rect.height - cornerRadius - insetAmount - padding))
-            path.addArc(center: CGPoint(x: cornerRadius + insetAmount, y: rect.height - cornerRadius - insetAmount - padding),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 180.0),
-                        endAngle: Angle(degrees: 90.0),
-                        clockwise: true,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            path.addLine(to: CGPoint(x: rect.width - cornerRadius - insetAmount, y: rect.height - insetAmount - padding))
-            path.addArc(center: CGPoint(x: rect.width - cornerRadius - insetAmount, y: rect.height - cornerRadius - insetAmount - padding),
-                        radius: cornerRadius,
-                        startAngle: Angle(degrees: 90.0),
-                        endAngle: Angle(degrees: 360.00),
-                        clockwise: true,
-                        transform: CGAffineTransform(scaleX: 1.00, y: 1.00))
-            path.addLine(to: CGPoint(x: rect.width - insetAmount, y: 0))
-        } else {
-            return RoundedRectangle(cornerRadius: cornerRadius).path(in: rect)
-        }
-        
-        return path
+    init(cornerRadius: CGFloat, padding: CGFloat) {
+        self.cornerRadius = cornerRadius
+        self.padding = padding
     }
     
     func inset(by amount: CGFloat) -> some InsettableShape {
@@ -240,33 +195,8 @@ struct IOS6SectionRectangle: Shape, InsettableShape {
     }
 }
 
-public enum IOS6SectionItemPosition: Equatable {
-    case top
-    case medium
-    case bottom
-    case all
-    case none
-    
-    public static func ==(lhs: IOS6SectionItemPosition, rhs: IOS6SectionItemPosition) -> Bool {
-        switch (lhs, rhs) {
-        case (.top, .top):
-            return true
-        case (.medium,.medium):
-            return true
-        case (.bottom,.bottom):
-            return true
-        case (.all,.all):
-            return true
-        case (.none,.none):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-public extension View {
-    func ios6FormRowPos(_ postion: IOS6SectionItemPosition) -> some View {
-        self.modifier(IOS6FormRowConfiguration(at: postion, background: Color.clear))
+extension View {
+    public func ios6FormRowPos(_ postion: IOS6FormCellSectionPosition) -> some View {
+        self.modifier(_IOS6FormRowConfiguration(at: postion, background: Color.clear))
     }
 }

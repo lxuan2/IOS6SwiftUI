@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct IOS6ActiveColorKey: EnvironmentKey {
+struct _IOS6ActiveColorKey: EnvironmentKey {
     static var defaultValue: Color? = nil
 }
 
 extension EnvironmentValues {
-    var ios6ActiveColor: Color? {
-        get { return self[IOS6ActiveColorKey.self] }
-        set { self[IOS6ActiveColorKey.self] = newValue }
+    var _ios6ActiveColor: Color? {
+        get { return self[_IOS6ActiveColorKey.self] }
+        set { self[_IOS6ActiveColorKey.self] = newValue }
     }
 }
 
@@ -28,8 +28,8 @@ extension View {
     ///
     /// - Parameter color: The color to use as an active color. If `nil`,
     ///   the active color depends on given IOS6 foreground color.
-    func ios6ActiveColor(_ color: Color?) -> some View {
-        environment(\.ios6ActiveColor, color)
+    func _ios6ActiveColor(_ color: Color?) -> some View {
+        environment(\._ios6ActiveColor, color)
     }
 }
 

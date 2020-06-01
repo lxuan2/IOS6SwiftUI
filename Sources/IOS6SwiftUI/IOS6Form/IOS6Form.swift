@@ -11,7 +11,7 @@ import SwiftUI
 /// A container for grouping controls used for data entry, such as in settings
 /// or inspectors with IOS 6 style.
 public struct IOS6Form<Content: View>: View {
-    let content: () -> Content
+    private let content: () -> Content
     
     public var body: some View {
         Form {

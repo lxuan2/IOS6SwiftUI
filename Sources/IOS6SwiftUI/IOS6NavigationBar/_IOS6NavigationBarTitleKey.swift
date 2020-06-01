@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationBarTitleKey.swift
+//  _IOS6NavigationBarTitleKey.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/3/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct IOS6NavigationBarTitleKey: PreferenceKey {
+struct _IOS6NavigationBarTitleKey: PreferenceKey {
     typealias Value = String?
     
     static var defaultValue: Value = nil
@@ -20,6 +20,6 @@ struct IOS6NavigationBarTitleKey: PreferenceKey {
 
 extension View {
     public func ios6NavigationBarTitle(_ title: String) -> some View {
-        self.preference(key: IOS6NavigationBarTitleKey.self, value: title)
+        self.preference(key: _IOS6NavigationBarTitleKey.self, value: title)
     }
 }

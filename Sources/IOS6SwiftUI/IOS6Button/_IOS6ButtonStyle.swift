@@ -1,5 +1,5 @@
 //
-//  DebounceButtonStyle.swift
+//  _IOS6ButtonStyle.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/13/20.
@@ -8,19 +8,19 @@
 
 import SwiftUI
 
-struct IOS6ButtonStyle<Label: View>: ButtonStyle {
-    let label: (Bool) -> Label
+struct _IOS6ButtonStyle<Label: View>: ButtonStyle {
+    private let label: (Bool) -> Label
     
     init(label: @escaping (Bool) -> Label) {
         self.label = label
     }
     
-    func makeBody(configuration: IOS6ButtonStyle.Configuration) -> some View {
-        IOS6ButtonStyleButton(configuration: configuration, label: label)
+    func makeBody(configuration: _IOS6ButtonStyle.Configuration) -> some View {
+        _IOS6ButtonStyleButton(configuration: configuration, label: label)
     }
     
-    struct IOS6ButtonStyleButton: View {
-        let configuration: IOS6ButtonStyle.Configuration
+    private struct _IOS6ButtonStyleButton: View {
+        let configuration: _IOS6ButtonStyle.Configuration
         let label: (Bool) -> Label
         @State private var isPressed: Bool = false
         
@@ -38,7 +38,7 @@ struct IOS6ButtonStyle<Label: View>: ButtonStyle {
 struct DebounceButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Not Shown") {}
-            .buttonStyle(IOS6ButtonStyle { isPressed in
+            .buttonStyle(_IOS6ButtonStyle { isPressed in
                 Text("Shown")
                     .foregroundColor(isPressed ? .red : .black)
             })

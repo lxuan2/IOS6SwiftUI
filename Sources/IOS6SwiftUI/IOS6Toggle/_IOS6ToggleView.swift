@@ -1,5 +1,5 @@
 //
-//  IOS6ToggleView.swift
+//  _IOS6ToggleView.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/8/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct IOS6ToggleView: View {
+struct _IOS6ToggleView: View {
     let height: CGFloat = 26
     let width: CGFloat = 74
     
@@ -25,13 +25,13 @@ public struct IOS6ToggleView: View {
         }
     }
     
-    public init(isOn: Binding<Bool>) {
+    init(isOn: Binding<Bool>) {
         _isOn = isOn
         _oldPercent = State(initialValue: isOn.wrappedValue ? self.width - self.height / 2:self.height / 2)
         _percent = _oldPercent
     }
     
-    public var body: some View {
+    var body: some View {
         ZStack {
             Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
                 .opacity(isEnabled ? 1 : 0.7)
@@ -94,7 +94,7 @@ public struct IOS6ToggleView: View {
     
     struct IOS6ToggleButtonStyle: ButtonStyle {
         
-        public func makeBody(configuration: IOS6ToggleButtonStyle.Configuration) -> some View {
+        func makeBody(configuration: IOS6ToggleButtonStyle.Configuration) -> some View {
             iOS6ToggleButton(configuration: configuration)
         }
         
@@ -238,7 +238,7 @@ public struct IOS6ToggleView: View {
     struct Background: View {
         let offset: CGFloat
         
-        @Environment(\.ios6ToggleColor) private var color
+        @Environment(\._ios6ToggleColor) private var color
         private let white = Color(red: 238.0/255.0, green: 238.0/255.0, blue: 238.0/255.0)
         
         var body: some View {
@@ -285,6 +285,6 @@ public struct IOS6ToggleView: View {
 
 struct IOS6ToggleView_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6ToggleView(isOn: .constant(false))
+        _IOS6ToggleView(isOn: .constant(false))
     }
 }

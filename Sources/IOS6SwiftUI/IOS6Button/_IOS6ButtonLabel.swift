@@ -1,5 +1,5 @@
 //
-//  IOS6ButtonLabel.swift
+//  _IOS6ButtonLabel.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/28/20.
@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-public struct IOS6ButtonLabel<Label: View>: View {
+public struct _IOS6ButtonLabel<Label: View>: View {
     @Environment(\.isEnabled) private var isEnabled
-    let isPressed: Bool
-    let label: Label
-    let position: IOS6SectionItemPosition
-    let isLink: Bool
+    private let isPressed: Bool
+    private let label: Label
+    private let position: IOS6FormCellSectionPosition
+    private let isLink: Bool
     
     public var body: some View {
         label
@@ -26,34 +26,34 @@ public struct IOS6ButtonLabel<Label: View>: View {
                         IOS6ButtonDefaultBackground
                     }
             })
-            .modifier(IOS6FormRowConfiguration(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
-            .ios6ActiveColor(isPressed ? .white : nil)
+            .modifier(_IOS6FormRowConfiguration(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
+            ._ios6ActiveColor(isPressed ? .white : nil)
             .opacity(self.isEnabled ? 1 : 0.9)
     }
     
-    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6SectionItemPosition, isLink: Bool) {
+    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6FormCellSectionPosition, isLink: Bool) {
         self.isPressed = isPressed
         self.label = label
         self.position = sectionPostion
         self.isLink = isLink
     }
     
-    var frame: CGFloat? {
+    private var frame: CGFloat? {
         position == .none ? .none : .infinity
     }
     
-    var alignment: Alignment {
+    private var alignment: Alignment {
         position == .none ? .center : .leading
     }
     
-    let IOS6ButtonDefaultBackground =
+    private let IOS6ButtonDefaultBackground =
         LinearGradient(
             gradient: Gradient(colors:
                 [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
                  Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
             startPoint: .top, endPoint: .bottom)
     
-    var IOS6ButtonDefaultListBackground: some View {
+    private var IOS6ButtonDefaultListBackground: some View {
         IOS6ButtonDefaultBackground
             .opacity(isPressed ? 1 : 0)
             .overlay(
@@ -71,6 +71,6 @@ public struct IOS6ButtonLabel<Label: View>: View {
 
 struct IOS6ButtonLabel_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6ButtonLabel(false, label: Text("test"), sectionPostion: .none, isLink: false)
+        _IOS6ButtonLabel(false, label: Text("test"), sectionPostion: .none, isLink: false)
     }
 }

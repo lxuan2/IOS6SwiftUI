@@ -8,15 +8,15 @@
 
 import SwiftUI
 
-class IOS6NavigationStack: ObservableObject {
+class _IOS6NavigationStack: ObservableObject {
     
     @Published private(set) var blocking = false
     @Published private(set) var dragAmount: CGFloat = 0
-    @Published private(set) var stack = [IOS6NavigationPageView]()
+    @Published private(set) var stack = [_IOS6NavigationPageView]()
     @Published private(set) var barStack: [String?] = [String?]()
     
     init<Content: View>(rootView: Content) {
-        stack.append(IOS6NavigationPageView(page: rootView, index: 0))
+        stack.append(_IOS6NavigationPageView(page: rootView, index: 0))
         barStack.append(nil)
         DispatchQueue.main.async {
             self.objectWillChange.send()
@@ -32,13 +32,13 @@ class IOS6NavigationStack: ObservableObject {
             .environment(\.presentMode, PresentMode{
                 self.pop(to: index)
             })
-        withAnimation(Animation.easeInOut(duration: IOS6NavigationStack.standardTime).delay(IOS6NavigationStack.unselectedTime)) {
-            self.stack.append(IOS6NavigationPageView(page: extendedView, index: index, previousPageLock: isPresent))
+        withAnimation(Animation.easeInOut(duration: _IOS6NavigationStack.standardTime).delay(_IOS6NavigationStack.unselectedTime)) {
+            self.stack.append(_IOS6NavigationPageView(page: extendedView, index: index, previousPageLock: isPresent))
             self.barStack.append(nil)
         }
         
         // Unlock
-        DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + IOS6NavigationStack.unselectedTime + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + _IOS6NavigationStack.standardTime + _IOS6NavigationStack.unselectedTime + 0.1) {
             self.blocking = false
         }
     }
@@ -62,18 +62,18 @@ class IOS6NavigationStack: ObservableObject {
             barStack.removeSubrange(range)
             
             // Remove last view with animation
-            withAnimation(Animation.easeIn(duration: IOS6NavigationStack.unselectedTime + IOS6NavigationStack.standardTime)) {
+            withAnimation(Animation.easeIn(duration: _IOS6NavigationStack.unselectedTime + _IOS6NavigationStack.standardTime)) {
                 lock?.wrappedValue = false
             }
             
-            withAnimation(.easeInOut(duration: IOS6NavigationStack.standardTime)) {
+            withAnimation(.easeInOut(duration: _IOS6NavigationStack.standardTime)) {
                 dragAmount = 0
                 stack.removeLast()
                 barStack.removeLast()
             }
             
             // Unlock
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6NavigationStack.standardTime + IOS6NavigationStack.unselectedTime) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + _IOS6NavigationStack.standardTime + _IOS6NavigationStack.unselectedTime) {
                 self.blocking = false
             }
         }
@@ -99,8 +99,8 @@ class IOS6NavigationStack: ObservableObject {
             
             let half =  proxy.size.width / 2
             if value.predictedEndTranslation.width > half || value.translation.width > half  {
-                let time = IOS6NavigationStack.standardTime * Double((proxy.size.width - value.translation.width)/proxy.size.width)
-                withAnimation(Animation.easeIn(duration: IOS6NavigationStack.unselectedTime + time)) {
+                let time = _IOS6NavigationStack.standardTime * Double((proxy.size.width - value.translation.width)/proxy.size.width)
+                withAnimation(Animation.easeIn(duration: _IOS6NavigationStack.unselectedTime + time)) {
                     stack.last?.lock?.wrappedValue = false
                 }
                 withAnimation(Animation.easeInOut(duration: time)) {
@@ -109,7 +109,7 @@ class IOS6NavigationStack: ObservableObject {
                     barStack.removeLast()
                 }
                 // Unlock
-                DispatchQueue.main.asyncAfter(deadline: .now() + time + IOS6NavigationStack.unselectedTime + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + time + _IOS6NavigationStack.unselectedTime + 0.1) {
                     self.blocking = false
                 }
             } else {
@@ -125,18 +125,18 @@ class IOS6NavigationStack: ObservableObject {
     }
 }
 
-extension IOS6NavigationStack: RandomAccessCollection {
-    typealias Element = IOS6NavigationPageView
+extension _IOS6NavigationStack: RandomAccessCollection {
+    typealias Element = _IOS6NavigationPageView
     
     var startIndex: Int { stack.startIndex }
     var endIndex: Int { stack.endIndex }
     
-    subscript(position: Int) -> IOS6NavigationPageView {
+    subscript(position: Int) -> _IOS6NavigationPageView {
         return stack[position]
     }
 }
 
-extension IOS6NavigationStack {
+extension _IOS6NavigationStack {
     func before(_ index: Int) -> String? {
         if index - 1 >= 0 {
             return barStack[index - 1]
@@ -145,7 +145,7 @@ extension IOS6NavigationStack {
     }
 }
 
-extension IOS6NavigationStack {
+extension _IOS6NavigationStack {
     private static let standardTime: Double = 0.35
     private static let unselectedTime: Double = 0.15
 }

@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationBarTitle.swift
+//  _IOS6NavigationBarTitle.swift
 //  IOS6
 //
 //  Created by Xuan Li on 4/25/20.
@@ -8,24 +8,28 @@
 
 import SwiftUI
 
-struct IOS6NavigationBarTitle: View {
-    var title: String?
+struct _IOS6NavigationBarTitleView: View {
+    var title: String
     
     var body: some View {
         ZStack {
-            Text(title ?? "")
+            Text(title)
                 .foregroundColor(Color.black.opacity(0.5))
                 .offset(x: 0, y: -1.1)
-            Text(title ?? "")
+            Text(title)
                 .foregroundColor(.white)
         }
         .scaledFont(size: 20, weight: .bold)
+    }
+    
+    init(title: String?) {
+        self.title = title ?? ""
     }
 }
 
 struct IOS6NavigationBarTitle_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationBarTitle(title: "Test")
+        _IOS6NavigationBarTitleView(title: "Test")
     }
 }
 

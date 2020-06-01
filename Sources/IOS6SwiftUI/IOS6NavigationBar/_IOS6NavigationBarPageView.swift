@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationBarPageView.swift
+//  _IOS6NavigationBarPageView.swift
 //  IOS6
 //
 //  Created by Xuan Li on 4/25/20.
@@ -8,11 +8,12 @@
 
 import SwiftUI
 
-struct IOS6NavigationBarPageView: View {
+struct _IOS6NavigationBarPageView: View {
     var title: String?
     var backTitle: String?
     var index: Int
     var dismiss: () -> Void
+    let space: CGFloat = 5.5
     
     var body: some View {
         GeometryReader { proxy in
@@ -22,16 +23,17 @@ struct IOS6NavigationBarPageView: View {
                         Button(self.backTitle ?? "Back") {
                             self.dismiss()
                         }
-                        .buttonStyle(IOS6NavigationBackButtonStyle())
-                        .padding(.leading, 5.5)
+                        .buttonStyle(_IOS6NavigationBackButtonStyle())
+                        .padding(.horizontal, self.space)
                         Spacer(minLength: proxy.size.width / 4 * 3)
                     }
-                    .zIndex(1)
+                    .zIndex(0)
                 }
                 
-                IOS6NavigationBarTitle(title: self.title)
-                    .padding(.horizontal, proxy.size.width / 4)
-                    .zIndex(0)
+                _IOS6NavigationBarTitleView(title: self.title)
+                    .padding(.horizontal, proxy.size.width / 4.5)
+                    .truncationMode(.middle)
+                    .zIndex(1)
             }
             .lineLimit(1)
         }
@@ -44,6 +46,6 @@ struct IOS6NavigationBarPageView: View {
 
 struct IOS6NavigationBarPageView_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationBarPageView(title: "Title", backTitle: "Previous", index: 1, dismiss: {})
+        _IOS6NavigationBarPageView(title: "Title", backTitle: "Previous", index: 1, dismiss: {})
     }
 }

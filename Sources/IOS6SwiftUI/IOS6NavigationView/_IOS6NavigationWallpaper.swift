@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationWallpaper.swift
+//  _IOS6NavigationWallpaper.swift
 //  animation
 //
 //  Created by Xuan Li on 2/4/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct IOS6NavigationWallpaper: View {
+struct _IOS6NavigationWallpaper: View {
     
     var body: some View {
         GeometryReader { proxy in
@@ -46,6 +46,6 @@ struct IOS6NavigationWallpaper: View {
 
 struct IOS6NavigationWallpaper_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationWallpaper()
+        _IOS6NavigationWallpaper()
     }
 }

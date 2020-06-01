@@ -1,5 +1,5 @@
 //
-//  PresentViewModifer.swift
+//  _ModalPresentViewModifer.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/13/20.
@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-struct PresentViewModifer<NewContent: View>: ViewModifier {
-    @Environment(\.viewController) private var viewController
-    @Binding var isPresented: Bool
+struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
+    @Environment(\._viewController) private var viewController
+    @Binding private var isPresented: Bool
     
-    let sheet: NewContent
-    let animation: Animation?
+    private let sheet: NewContent
+    private let animation: Animation?
     
     init(isPresented : Binding<Bool>, with animation: Animation? = .default, sheet: @escaping () -> NewContent) {
         self._isPresented = isPresented
@@ -23,28 +23,28 @@ struct PresentViewModifer<NewContent: View>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .preference(key: PresentationKey.self, value: isPresented)
-            .onPreferenceChange(PresentationKey.self) { show in
+            .preference(key: _ModalPresentKey.self, value: isPresented)
+            .onPreferenceChange(_ModalPresentKey.self) { show in
                 if show, !self.isShown {
                     self.viewController?.present {
-                        ModalPresentationView(show: self.$isPresented, content: self.configuredSheet, animation: self.animation)
+                        _PresentationView(show: self.$isPresented, content: self.configuredSheet, animation: self.animation)
                     }
                 }
         }
     }
     
-    var configuredSheet: some View{
+    private var configuredSheet: some View {
         sheet
             .compositingGroup()
             .environment(\.presentMode, PresentMode(show: self.$isPresented))
             .onDisappear {self.viewController?.dismiss(animated: false, completion: nil)}
     }
     
-    var isShown: Bool {
+    private var isShown: Bool {
         viewController?.presentedViewController != nil
     }
     
-    struct ModalPresentationView<Content: View>: View {
+    struct _PresentationView<Content: View>: View {
         @State private var localShow: Bool = false
         @Binding var show: Bool
         
@@ -89,5 +89,11 @@ struct PresentViewModifer_Previews: PreviewProvider {
                         .zIndex(1)
                 }.transition(.move(edge: .bottom))
         }
+    }
+}
+
+public extension View {
+    func present<Content: View>(isPresented: Binding<Bool>, with animation: Animation? = .default, @ViewBuilder content: @escaping () -> Content) -> some View {
+        modifier(_ModalPresentViewModifer(isPresented: isPresented, with: animation, sheet: content))
     }
 }

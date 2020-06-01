@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationBarItems.swift
+//  _IOS6NavigationBarContentView.swift
 //  animation
 //
 //  Created by Xuan Li on 2/4/20.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct IOS6NavigationBarItems: View {
-    @EnvironmentObject private var viewStack: IOS6NavigationStack
+struct _IOS6NavigationBarContentView: View {
+    @EnvironmentObject private var viewStack: _IOS6NavigationStack
     let width: CGFloat
     
     var body: some View {
         ZStack {
             ForEach(0 ..< self.viewStack.count, id: \.self) { index in
-                IOS6NavigationBarPageView(title: self.viewStack.barStack[index],
+                _IOS6NavigationBarPageView(title: self.viewStack.barStack[index],
                                           backTitle: self.viewStack.before(index),
                                           index: index,
                                           dismiss: {self.viewStack.pop(to: index)})
@@ -45,7 +45,7 @@ struct IOS6NavigationBarItems: View {
 
 struct IOS6NavigationBarItems_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6NavigationBarItems(width: 100)
+        _IOS6NavigationBarContentView(width: 100)
     }
 }
 

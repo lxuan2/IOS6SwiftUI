@@ -8,22 +8,22 @@
 
 import SwiftUI
 
-public struct PresentModeKey: EnvironmentKey {
-    public static var defaultValue: PresentMode {
+struct _PresentModeKey: EnvironmentKey {
+    static var defaultValue: PresentMode {
         PresentMode()
     }
 }
 
-public extension EnvironmentValues {
-    var presentMode: PresentMode {
-        get { return self[PresentModeKey.self] }
-        set { self[PresentModeKey.self] = newValue }
+extension EnvironmentValues {
+    public var presentMode: PresentMode {
+        get { return self[_PresentModeKey.self] }
+        set { self[_PresentModeKey.self] = newValue }
     }
 }
 
 public struct PresentMode {
-    let show: Binding<Bool>?
-    let dismissFunc: (() -> Void)?
+    private let show: Binding<Bool>?
+    private let dismissFunc: (() -> Void)?
     
     init(show: Binding<Bool>? = nil, dismiss: (() -> Void)? = nil) {
         self.show = show

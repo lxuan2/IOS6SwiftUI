@@ -7,13 +7,13 @@
 //
 
 import SwiftUI
-public struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
-    public func makeBody(configuration: IOS6NavigationBackButtonStyle.Configuration) -> some View {
-        IOS6NavigationBackButton(configuration: configuration)
+struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
+    func makeBody(configuration: _IOS6NavigationBackButtonStyle.Configuration) -> some View {
+        _IOS6NavigationBackButton(configuration: configuration)
     }
     
-    struct IOS6NavigationBackButton: View {
-        let configuration: IOS6NavigationBackButtonStyle.Configuration
+    private struct _IOS6NavigationBackButton: View {
+        let configuration: _IOS6NavigationBackButtonStyle.Configuration
         let height: CGFloat = 25
         @State private var isPressed: Bool = false
         @State private var isValid: Bool = true
@@ -43,12 +43,12 @@ public struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
             }
             
             return ZStack {
-                IOS6NavigationBackButtonShape()
+                _IOS6NavigationBackButtonShape()
                     .fill(Color.white)
                     .offset(x: 0, y: 0.5)
                     .blur(radius: 0.4)
                 
-                IOS6NavigationBackButtonShape()
+                _IOS6NavigationBackButtonShape()
                     .fill(isPressed ?
                         LinearGradient(
                             gradient: Gradient(colors:
@@ -64,14 +64,14 @@ public struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
                             startPoint: .top, endPoint: .bottom)
                 )
                     .overlay(
-                        IOS6NavigationBackButtonShape()
+                        _IOS6NavigationBackButtonShape()
                             .stroke(Color(red: 51.0/255.0, green: 72.0/255.0, blue: 105.0/255.0), lineWidth: 1))
                     .overlay(
-                        IOS6NavigationBackButtonShape()
+                        _IOS6NavigationBackButtonShape()
                             .stroke(Color(red: 30/255.0, green: 40/255.0, blue: 50/255.0), lineWidth: 1)
                             .blur(radius: 0.4)
                             .offset(x: 0, y: 0.4))
-                    .clipShape(IOS6NavigationBackButtonShape())
+                    .clipShape(_IOS6NavigationBackButtonShape())
                 
                 
                 configuration.label
@@ -94,7 +94,7 @@ public struct IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
     }
 }
 
-struct IOS6NavigationBackButtonShape: Shape {
+struct _IOS6NavigationBackButtonShape: Shape {
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -134,7 +134,6 @@ struct IOS6NavigationBackButton_Previews: PreviewProvider {
         Button("Back to First") {
             
         }
-        .buttonStyle(IOS6NavigationBackButtonStyle())
-        //IOS6NavigationBackButtonShape().fill(Color.blue).frame(width: 80, height: 30)
+        .buttonStyle(_IOS6NavigationBackButtonStyle())
     }
 }

@@ -10,8 +10,8 @@ import SwiftUI
 
 /// A control that toggles between "on" and "off" states with IOS 6 style.
 public struct IOS6Toggle<Label: View>: View {
-    var isOn: Binding<Bool>
-    var label: () -> Label
+    private var isOn: Binding<Bool>
+    private var label: () -> Label
     
     public init(isOn: Binding<Bool>, @ViewBuilder label: @escaping () -> Label) {
         self.isOn = isOn
