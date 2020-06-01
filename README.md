@@ -14,7 +14,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### Modifer
 - \[x]  ios6FormRowPos
 - \[x]  ios6NavigationBarTitle
-- \[x]  present (Note: Currently only one view can be enabled in the same level)
+- \[x]  present
 - \[x]  ios6ForegroundColor
 - \[x]  scaledFont
 - \[x]  ios6ToggleColor
@@ -34,6 +34,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] allow multi-modal in same level
 - \[x] set private framework
 - \[x] bring presentMode to IOS6NavigationView
 - \[x] add disabled navigation control

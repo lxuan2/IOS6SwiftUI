@@ -26,7 +26,7 @@ public struct _IOS6ButtonLabel<Label: View>: View {
                         IOS6ButtonDefaultBackground
                     }
             })
-            .modifier(_IOS6FormRowConfiguration(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
+            .modifier(_IOS6FormCellConfig(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
             ._ios6ActiveColor(isPressed ? .white : nil)
             .opacity(self.isEnabled ? 1 : 0.9)
     }

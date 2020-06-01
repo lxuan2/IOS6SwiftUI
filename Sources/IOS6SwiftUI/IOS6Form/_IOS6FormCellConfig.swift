@@ -1,5 +1,5 @@
 //
-//  IO/Users/xuanli/Developer/IOS6SwiftUIS6FormSectionConfiguration.swift
+//  _IOS6FormCellConfig.swift
 //  IOS6SwiftUI
 //
 //  Created by Xuan Li on 4/17/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct _IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
+struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
     private let pos: IOS6FormCellSectionPosition
     private let background: Wallpaper
     private let isLink: Bool
@@ -27,53 +27,60 @@ struct _IOS6FormRowConfiguration<Wallpaper: View>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
-            .listRowBackground(
-                ZStack {
-                    if pos == .bottom {
-                        _DownRectangle(cornerRadius: 10, padding: 0.8)
-                            .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+            .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
+        
+    }
+    
+    struct _BackgroundView<_Background: View>: View {
+        let pos: IOS6FormCellSectionPosition
+        let background: _Background
+        
+        var body: some View {
+            ZStack {
+                if pos == .bottom {
+                    _DownRectangle(cornerRadius: 10, padding: 0.8)
+                        .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                }
+                
+                background
+                
+                VStack(spacing: 0) {
+                    if pos == .medium || pos == .bottom {
+                        Color.white
+                            .blendMode(.destinationOver)
+                            .frame(minHeight: 1, maxHeight: 1)
                     }
                     
-                    background
+                    Spacer()
                     
-                    VStack(spacing: 0) {
-                        if pos == .medium || pos == .bottom {
-                            Color.white
-                                .blendMode(.destinationOver)
-                                .frame(minHeight: 1, maxHeight: 1)
-                        }
+                    if pos == .medium || pos == .top {
+                        Color.black.opacity(0.18)
+                            .frame(minHeight: 1, maxHeight: 1)
+                    }
+                }
+                
+                if pos == .top {
+                    _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
+                    _UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                }
+                
+                if pos == .medium {
+                    HStack {
+                        Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
+                            .frame(minWidth: 1, maxWidth: 1)
                         
                         Spacer()
                         
-                        if pos == .medium || pos == .top {
-                            Color.black.opacity(0.18)
-                                .frame(minHeight: 1, maxHeight: 1)
-                        }
-                    }
-                    
-                    if pos == .top {
-                        _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
-                        _UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
-                    }
-                    
-                    if pos == .medium {
-                        HStack {
-                            Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
-                                .frame(minWidth: 1, maxWidth: 1)
-                            
-                            Spacer()
-                            
-                            Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
-                                .frame(minWidth: 1, maxWidth: 1)
-                        }
-                    }
-                    
-                    if pos == .all {
-                        RoundedRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                        Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
+                            .frame(minWidth: 1, maxWidth: 1)
                     }
                 }
-        )
-        
+                
+                if pos == .all {
+                    RoundedRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                }
+            }
+        }
     }
 }
 
@@ -197,6 +204,6 @@ struct _DownRectangle: Shape, InsettableShape {
 
 extension View {
     public func ios6FormRowPos(_ postion: IOS6FormCellSectionPosition) -> some View {
-        self.modifier(_IOS6FormRowConfiguration(at: postion, background: Color.clear))
+        self.modifier(_IOS6FormCellConfig(at: postion, background: EmptyView()))
     }
 }

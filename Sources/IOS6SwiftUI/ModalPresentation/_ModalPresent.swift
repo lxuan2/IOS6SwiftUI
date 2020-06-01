@@ -1,5 +1,5 @@
 //
-//  _ModalPresentViewModifer.swift
+//  _ModalPresent.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/13/20.
@@ -8,16 +8,17 @@
 
 import SwiftUI
 
-struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
+struct _ModalPresent<NewContent: View>: ViewModifier {
     @Environment(\._viewController) private var viewController
     @Binding private var isPresented: Bool
+    @State private var vc: Bool = false
     
     private let sheet: NewContent
     private let animation: Animation?
     
-    init(isPresented : Binding<Bool>, with animation: Animation? = .default, sheet: @escaping () -> NewContent) {
+    init(isPresented : Binding<Bool>, with animation: Animation? = .default, sheet: NewContent) {
         self._isPresented = isPresented
-        self.sheet = sheet()
+        self.sheet = sheet
         self.animation = animation
     }
     
@@ -26,34 +27,38 @@ struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
             .preference(key: _ModalPresentKey.self, value: isPresented)
             .onPreferenceChange(_ModalPresentKey.self) { show in
                 if show, !self.isShown {
-                    self.viewController?.present {
-                        _PresentationView(show: self.$isPresented, content: self.configuredSheet, animation: self.animation)
+                    var controller: UIViewController
+                    if var ctl = self.viewController {
+                        while ctl.presentedViewController != nil {
+                            ctl = ctl.presentedViewController!
+                        }
+                        controller = ctl
+                    } else { return }
+                    controller.present {
+                        _PresentationView(show: self.$isPresented, content: self.sheet, animation: self.animation)
                     }
+                    self.vc = true
+                } else if !show, self.isShown {
+                    self.vc = false
                 }
         }
     }
     
-    private var configuredSheet: some View {
-        sheet
-            .compositingGroup()
-            .environment(\.ios6PresentationMode, IOS6PresentationMode(show: self.$isPresented))
-            .onDisappear {self.viewController?.dismiss(animated: false, completion: nil)}
-    }
-    
     private var isShown: Bool {
-        viewController?.presentedViewController != nil
+        vc
     }
     
     struct _PresentationView<Content: View>: View {
         @State private var localShow: Bool = false
         @Binding var show: Bool
+        @Environment(\._viewController) private var viewController
         
         let content: Content
         let animation: Animation?
         
         var body: some View {
             ZStack {
-                EmptyView()
+                Spacer()
                 
                 if show {
                     Spacer()
@@ -63,6 +68,9 @@ struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
                             }
                     }
                     .onDisappear {
+                        if let ctl = self.viewController {
+                            _ModalPresentUIKit<Spacer>.removeChild(viewController: ctl)
+                        }
                         withAnimation(self.animation) {
                             self.localShow = false
                         }
@@ -70,9 +78,13 @@ struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
                 }
                 
                 if localShow {
+                    Spacer()
+                        .onDisappear {
+                            self.viewController?.dismiss(animated: false, completion: nil)
+                    }
                     content
                 }
-            }
+            }.environment(\.ios6PresentationMode, IOS6PresentationMode(show: self.$show))
         }
     }
 }
@@ -94,6 +106,6 @@ struct PresentViewModifer_Previews: PreviewProvider {
 
 public extension View {
     func present<Content: View>(isPresented: Binding<Bool>, with animation: Animation? = .default, @ViewBuilder content: @escaping () -> Content) -> some View {
-        modifier(_ModalPresentViewModifer(isPresented: isPresented, with: animation, sheet: content))
+        modifier(_ModalPresent(isPresented: isPresented, with: animation, sheet: content()))
     }
 }
