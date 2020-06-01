@@ -30,7 +30,7 @@ struct _ModalPresentViewModiferUIKit<NewContent: View>: ViewModifier {
                 if show, !self.isShown {
                     self.viewController?.present(style: self.style, transDelegate: self.delegate) {
                         self.sheet
-                            .environment(\.presentMode, PresentMode {
+                            .environment(\.ios6PresentationMode, IOS6PresentationMode {
                                 self.viewController?.dismiss(animated: true, completion: { self.isPresented = false })
                             })
                             .onDisappear {

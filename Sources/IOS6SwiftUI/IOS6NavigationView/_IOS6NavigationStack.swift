@@ -29,7 +29,7 @@ class _IOS6NavigationStack: ObservableObject {
         
         let index = count
         let extendedView = newView
-            .environment(\.presentMode, PresentMode{
+            .environment(\.ios6PresentationMode, IOS6PresentationMode{
                 self.pop(to: index)
             })
         withAnimation(Animation.easeInOut(duration: _IOS6NavigationStack.standardTime).delay(_IOS6NavigationStack.unselectedTime)) {

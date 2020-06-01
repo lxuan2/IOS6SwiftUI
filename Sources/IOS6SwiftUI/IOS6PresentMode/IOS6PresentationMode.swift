@@ -1,27 +1,14 @@
 //
-//  PresentMode.swift
+//  IOS6PresentationMode.swift
 //  IOS6
 //
-//  Created by Xuan Li on 5/13/20.
+//  Created by Xuan Li on 5/31/20.
 //  Copyright © 2020 Xuan Li. All rights reserved.
 //
 
 import SwiftUI
 
-struct _PresentModeKey: EnvironmentKey {
-    static var defaultValue: PresentMode {
-        PresentMode()
-    }
-}
-
-extension EnvironmentValues {
-    public var presentMode: PresentMode {
-        get { return self[_PresentModeKey.self] }
-        set { self[_PresentModeKey.self] = newValue }
-    }
-}
-
-public struct PresentMode {
+public struct IOS6PresentationMode {
     private let show: Binding<Bool>?
     private let dismissFunc: (() -> Void)?
     

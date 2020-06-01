@@ -36,7 +36,7 @@ struct _ModalPresentViewModifer<NewContent: View>: ViewModifier {
     private var configuredSheet: some View {
         sheet
             .compositingGroup()
-            .environment(\.presentMode, PresentMode(show: self.$isPresented))
+            .environment(\.ios6PresentationMode, IOS6PresentationMode(show: self.$isPresented))
             .onDisappear {self.viewController?.dismiss(animated: false, completion: nil)}
     }
     
