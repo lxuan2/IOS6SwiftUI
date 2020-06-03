@@ -12,14 +12,10 @@ struct _IOS6NavigationBarTitleView: View {
     var title: String
     
     var body: some View {
-        ZStack {
-            Text(title)
-                .foregroundColor(Color.black.opacity(0.5))
-                .offset(x: 0, y: -1.1)
-            Text(title)
-                .foregroundColor(.white)
-        }
-        .scaledFont(size: 20, weight: .bold)
+        Text(title)
+            .foregroundColor(.white)
+            .scaledFont(size: 20, weight: .bold)
+            .shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1.1)
     }
     
     init(title: String?) {
@@ -37,9 +33,9 @@ struct ScaledFont: ViewModifier {
     @Environment(\.sizeCategory) var sizeCategory
     var size: CGFloat
     var weight: Font.Weight
-
+    
     func body(content: Content) -> some View {
-       let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        let scaledSize = UIFontMetrics.default.scaledValue(for: size)
         return content.font(.system(size: scaledSize, weight: weight))
     }
 }

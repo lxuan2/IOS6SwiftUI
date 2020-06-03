@@ -12,16 +12,16 @@ struct _IOS6NavigationWallpaper: View {
     
     var body: some View {
         GeometryReader { proxy in
-            VStack {
+            VStack(spacing: 0) {
                 Color(red: 70/255, green: 94/255, blue: 125/255)
                     .frame(height: proxy.safeAreaInsets.top)
                 
                 Color(red: 214/255, green: 217/255, blue: 225/255)
                     .overlay(Strips().foregroundColor(Color(red: 210/255, green: 214/255, blue: 224/255)))
             }
+            .compositingGroup()
             .cornerRadius(4)
             .background(Color.black)
-            .edgesIgnoringSafeArea(.all)
         }
     }
     

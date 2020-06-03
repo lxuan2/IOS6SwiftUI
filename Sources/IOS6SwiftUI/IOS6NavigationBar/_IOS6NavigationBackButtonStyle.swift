@@ -73,17 +73,10 @@ struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
                             .offset(x: 0, y: 0.4))
                     .clipShape(_IOS6NavigationBackButtonShape())
                 
-                
-                configuration.label
-                    .foregroundColor(Color.black.opacity(0.6))
-                    .font(Font.system(size: 11.5, weight: .bold))
-                    .padding(.leading, height / 2)
-                    .padding([.vertical, .trailing], height / 3.01)
-                    .offset(x: 0, y: -1)
-                
                 configuration.label
                     .foregroundColor(.white)
-                    .font(Font.system(size: 11.5, weight: .bold))
+                    .scaledFont(size: 11.5, weight: .bold)
+                    .shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1)
                     .padding(.leading, height / 2)
                     .padding([.vertical, .trailing], height / 2.9)
                     .layoutPriority(1)

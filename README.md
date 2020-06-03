@@ -12,7 +12,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6FormCell
 
 ### Modifer
-- \[x]  ios6FormRowPos
+- \[x]  ios6SecPosition
 - \[x]  ios6NavigationBarTitle
 - \[x]  present
 - \[x]  ios6ForegroundColor
@@ -74,26 +74,34 @@ struct ContentView: View {
                     IOS6Toggle(isOn: self.$isOn) {
                         IOS6FormCell(image: Image("AppleIDiCloud"), title: "iCloud")
                     }
-                    .ios6FormRowPos(.top)
-                    .environment(\.ios6ToggleColor, Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
+                    .ios6SecPosition(.top)
+                    .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                     
-                    IOS6NavigationLink(destination: {Text("Messages").ios6NavigationBarTitle("Messages")}, sectionPostion: .medium) {
-                        IOS6FormCell(image: Image("AppleIDMessages"), title: "Messages")
+                    IOS6NavigationLink(destination: Text("Messages").ios6NavigationBarTitle("Messages"), sectionPostion: .medium) {
+                        IOS6FormCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
                     }
                     
-                    IOS6NavigationLink(destination: {Text("FaceTime").ios6NavigationBarTitle("FaceTime")}, sectionPostion: .bottom) {
-                        IOS6FormCell(image: Image("AppleIDFaceTime"), title: "FaceTime")
+                    IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime"), sectionPostion: .bottom) {
+                        IOS6FormCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: self.commentIcon)
                     }
                 }
             }
             .ios6NavigationBarTitle("Demo")
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    var commentIcon: some View {
+        Capsule()
+            .fill(Color.white)
+            .ios6ForegroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
+            .overlay(
+                Text("1")
+                    .fontWeight(.medium)
+                    .ios6ForegroundColor(regular: .white,
+                                         active: Color(red: 44.0/255.0,
+                                                       green: 108.0/255.0,
+                                                       blue: 234.0/255.0)))
+            .frame(maxWidth: 33, maxHeight: 22.5)
     }
 }
 ```

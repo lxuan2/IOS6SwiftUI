@@ -15,14 +15,14 @@ struct _IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
     
     init<Page: View>(page: Page, index: Int, previousPageLock: Binding<Bool>? = nil) {
         content = UIHostingController(rootView: page)
-        content.view.backgroundColor = UIColor.clear
-        content.view.isOpaque = false
         lock = previousPageLock
         id = index
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
-        content
+        content.view.backgroundColor = UIColor.clear
+        content.view.isOpaque = false
+        return content
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

@@ -31,10 +31,11 @@ struct _IOS6NavigationBar: View {
         }
             .compositingGroup()
             .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
-            .edgesIgnoringSafeArea([.horizontal])
             .overlay(
                 GeometryReader { proxy in
                     _IOS6NavigationBarContentView(width: proxy.size.width)
+                        .padding(.leading, proxy.safeAreaInsets.leading)
+                        .padding(.trailing, proxy.safeAreaInsets.trailing)
                         .opacity(self.isEnabled ? 1 : 0.8)
                 }
         )

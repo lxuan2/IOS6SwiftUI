@@ -203,7 +203,7 @@ struct _DownRectangle: Shape, InsettableShape {
 }
 
 extension View {
-    public func ios6FormRowPos(_ postion: IOS6FormCellSectionPosition) -> some View {
+    public func ios6SecPosition(_ postion: IOS6FormCellSectionPosition) -> some View {
         self.modifier(_IOS6FormCellConfig(at: postion, background: EmptyView()))
     }
 }
