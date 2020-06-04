@@ -21,10 +21,24 @@ public struct IOS6NavigationView<Content: View>: View {
                     .padding(.top, proxy.safeAreaInsets.top)
                     .zIndex(1)
                 
-                _IOS6NavigationContentView(interactiveSwipe: self.interactiveSwipe)
-                    .zIndex(0)
+                ZStack(alignment: .leading) {
+                    _IOS6NavigationContentView(width: proxy.size.width)
+                        .gesture(TapGesture(), including: self.stack.blocking ? .none: .subviews)
+                    
+                    if self.interactiveSwipe {
+                        Color.clear
+                            .frame(width: self.stack.blocking ? 0 : 20 + proxy.safeAreaInsets.leading)
+                            .contentShape(Rectangle())
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { self.stack.updateOffset(with: $0) }
+                                    .onEnded { self.stack.endOffset(with: $0, in: proxy) }
+                        )
+                    }
+                }.zIndex(0)
             }
         }
+        
         .background(_IOS6NavigationWallpaper())
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)

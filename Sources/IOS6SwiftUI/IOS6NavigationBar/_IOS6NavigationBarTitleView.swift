@@ -15,7 +15,7 @@ struct _IOS6NavigationBarTitleView: View {
         Text(title)
             .foregroundColor(.white)
             .scaledFont(size: 20, weight: .bold)
-            .shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1.1)
+            .etched()
     }
     
     init(title: String?) {
@@ -49,6 +49,10 @@ extension View {
     ///   - weight: Font weight
     /// - Returns: A text view that uses the system control font value and the font value you supply.
     func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
-        return self.modifier(ScaledFont(size: size, weight: weight))
+        modifier(ScaledFont(size: size, weight: weight))
+    }
+    
+    func etched() -> some View {
+        shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: -1)
     }
 }

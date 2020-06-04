@@ -18,22 +18,24 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  ios6ForegroundColor
 - \[x]  scaledFont
 - \[x]  ios6ToggleColor
+- \[x]  etched
 
 ### Environment Key
-- \[x]  presentMode
+- \[x]  ios6PresentationMode
 
 ### Style
 - \[x]  IOS6ToggleStyle
 
 ## Upcoming Features
-- \[ ] Undismissable sheet
-- \[ ] present customized system model
-- \[ ] Fix toggle to extended touch area
-- \[ ] Enable presentation mode to dismiss view
+- \[ ] Fix over extended toggle touch area
+- \[ ] Add more documents
+- \[ ] Add an example project to show everything
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Undismissable sheet
+- \[x] present customized system model
 - \[x] allow multi-modal in same level
 - \[x] set private framework
 - \[x] bring presentMode to IOS6NavigationView

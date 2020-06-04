@@ -15,14 +15,15 @@ struct _ModalPresentUIKit<NewContent: View>: ViewModifier {
     
     private let sheet: NewContent
     private let style: UIModalPresentationStyle
-    private let delegate: UIViewControllerTransitioningDelegate?
+    private let transDelegate: UIViewControllerTransitioningDelegate?
+    private let adaptDelegate: UIAdaptivePresentationControllerDelegate?
     
-    
-    init(isPresented : Binding<Bool>, with style: UIModalPresentationStyle, given transDelegate: UIViewControllerTransitioningDelegate?, sheet: NewContent) {
+    init(isPresented : Binding<Bool>, with style: UIModalPresentationStyle, given transDelegate: UIViewControllerTransitioningDelegate?, onDismissAttempt: (() -> Void)?, allowDismiss: Binding<Bool>, sheet: NewContent) {
         self._isPresented = isPresented
         self.sheet = sheet
         self.style = style
-        self.delegate = transDelegate
+        self.transDelegate = transDelegate
+        self.adaptDelegate = AdaptiveDelegate(onDismissAttempt: onDismissAttempt, allowDismiss: allowDismiss)
     }
     
     func body(content: Content) -> some View {
@@ -37,7 +38,7 @@ struct _ModalPresentUIKit<NewContent: View>: ViewModifier {
                         }
                         controller = ctl
                     } else { return }
-                    controller.present(style: self.style, transDelegate: self.delegate) {
+                    controller.present(style: self.style, transDelegate: self.transDelegate, adaptDelegate: self.adaptDelegate) {
                         self.sheet
                             .environment(\.ios6PresentationMode, IOS6PresentationMode {
                                 if let ctler = self._vc.wrappedValue.value {
@@ -74,27 +75,47 @@ struct _ModalPresentUIKit<NewContent: View>: ViewModifier {
             viewController.dismiss(animated: true, completion: nil)
         }
     }
+    
+    class AdaptiveDelegate: NSObject, UIAdaptivePresentationControllerDelegate {
+        var onDismissAttempt: (() -> Void)?
+        var allowDismiss: Binding<Bool>
+        
+        init(onDismissAttempt: (() -> Void)?, allowDismiss: Binding<Bool>) {
+            self.onDismissAttempt = onDismissAttempt
+            self.allowDismiss = allowDismiss
+        }
+        
+        func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+            if let attempt = onDismissAttempt {
+                attempt()
+            }
+        }
+        
+        func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+            allowDismiss.wrappedValue
+        }
+    }
 }
 
 struct PresentViewModiferCustom_Previews: PreviewProvider {
     static var previews: some View {
         Text("test")
-            .present(isPresented: .constant(true), with: PartialSheetTransitioningDelegate(from: true, to: true)) {
+            .present(isPresented: .constant(true), given: PartialSheetTransitioningDelegate(from: true, to: true)) {
                 Text("Model")
         }
     }
 }
 
 public extension View {
-    func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, content: @escaping () -> Content) -> some View {
-        modifier(_ModalPresentUIKit(isPresented: isPresented, with: style, given: nil, sheet: content()))
+    func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, content: () -> Content) -> some View {
+        modifier(_ModalPresentUIKit(isPresented: isPresented, with: style, given: nil, onDismissAttempt: nil, allowDismiss: .constant(true), sheet: content()))
     }
-    
-    func present<Content: View>(isPresented: Binding<Bool>, with transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
-        modifier(_ModalPresentUIKit(isPresented: isPresented, with: .custom, given: transDelegate, sheet: content()))
+
+    func present<Content: View>(isPresented: Binding<Bool>, given transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
+        modifier(_ModalPresentUIKit(isPresented: isPresented, with: .custom, given: transDelegate, onDismissAttempt: nil, allowDismiss: .constant(true), sheet: content()))
     }
-    
-    func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, given transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
-        modifier(_ModalPresentUIKit(isPresented: isPresented, with: style, given: transDelegate, sheet: content()))
+
+    func present<Content: View>(isPresented: Binding<Bool>, isDismissable: Binding<Bool>, onDismissAttempt: (() -> Void)? = nil, content: () -> Content) -> some View {
+        modifier(_ModalPresentUIKit(isPresented: isPresented, with: .pageSheet, given: nil, onDismissAttempt: onDismissAttempt, allowDismiss: isDismissable, sheet: content()))
     }
 }
