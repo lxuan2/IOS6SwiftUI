@@ -31,14 +31,15 @@ public struct IOS6NavigationView<Content: View>: View {
                             .contentShape(Rectangle())
                             .gesture(
                                 DragGesture()
-                                    .onChanged { self.stack.updateOffset(with: $0) }
-                                    .onEnded { self.stack.endOffset(with: $0, in: proxy) }
+                                    .onChanged {
+                                        self.stack.updateOffset(($0.translation.width / proxy.size.width))
+                                }
+                                .onEnded { self.stack.endOffset(with: $0, in: proxy) }
                         )
                     }
                 }.zIndex(0)
             }
         }
-        
         .background(_IOS6NavigationWallpaper())
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)

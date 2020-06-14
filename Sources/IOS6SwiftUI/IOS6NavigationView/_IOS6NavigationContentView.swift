@@ -17,22 +17,11 @@ struct _IOS6NavigationContentView: View {
             ForEach(stack) { page in
                 page
                     .transition(.move(edge: .trailing))
-                    .offset(x: self.amount(page), y: 0)
-                    .onPreferenceChange(_IOS6NavigationBarTitleKey.self) { title in
-                        self.stack.updateTitle(at: page.id, with: title)
-                }
+                    .offset(x: self.stack.offsetStack[page.id] * self.width, y: 0)
+                    .onPreferenceChange(_IOS6NavigationBarTitleKey.self) { self.stack.updateTitle(at: page.id, with: $0) }
+                    .onAppear { self.stack.transIn(page.id) }
             }
         }.clipped()
-    }
-    
-    private func amount(_ view: _IOS6NavigationStack.Element) -> CGFloat {
-        if view.id < self.stack.count - 2 {
-            return -width
-        } else if view.id == self.stack.count - 2 {
-            return -width + self.stack.dragAmount
-        } else {
-            return self.stack.dragAmount
-        }
     }
 }
 

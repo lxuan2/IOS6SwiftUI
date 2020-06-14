@@ -53,6 +53,6 @@ extension View {
     }
     
     func etched() -> some View {
-        shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: -1)
+        shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1)
     }
 }

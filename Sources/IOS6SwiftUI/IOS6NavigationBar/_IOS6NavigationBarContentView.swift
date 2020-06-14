@@ -9,38 +9,23 @@
 import SwiftUI
 
 struct _IOS6NavigationBarContentView: View {
-    @EnvironmentObject private var viewStack: _IOS6NavigationStack
+    @EnvironmentObject private var stack: _IOS6NavigationStack
     let width: CGFloat
+    private static let decay: CGFloat = 2
     
     var body: some View {
         ZStack {
-            ForEach(0 ..< self.viewStack.count, id: \.self) { index in
-                _IOS6NavigationBarPageView(title: self.viewStack.barStack[index],
-                                          backTitle: self.viewStack.before(index),
-                                          index: index,
-                                          dismiss: {self.viewStack.pop(to: index)})
-                    .transition(.moveInXAndFade(offset: self.width / 3))
-                    .opacityAndOffset(self.parameters(at: index))
+            ForEach(stack) { page in
+                _IOS6NavigationBarPageView(title: self.stack.barStack[page.id],
+                                          backTitle: self.stack.before(page.id),
+                                          index: page.id,
+                                          dismiss: {self.stack.pop(to: page.id)})
+                    .transition(.moveInXAndFade(offset: self.width / _IOS6NavigationBarContentView.decay))
+                    .offset(x: self.stack.offsetStack[page.id] * self.width / _IOS6NavigationBarContentView.decay, y: 0)
+                    .opacity(Double(1 - abs(self.stack.offsetStack[page.id])))
             }
-        }
+        }.clipped()
     }
-    
-    func parameters(at index: Int) -> (Double, CGFloat) {
-        var offset: CGFloat = 0
-        var opacity: Double = 0
-        if index < self.viewStack.count - 2 {
-            offset = -width
-            opacity = 0
-        } else if index == self.viewStack.count - 2 {
-            offset = -width + self.viewStack.dragAmount
-            opacity = Double(self.viewStack.dragAmount / width)
-        } else {
-            offset = self.viewStack.dragAmount / 3
-            opacity = Double(1 - self.viewStack.dragAmount / width)
-        }
-        return (opacity, offset)
-    }
-    
 }
 
 struct IOS6NavigationBarItems_Previews: PreviewProvider {
@@ -73,10 +58,10 @@ extension AnyTransition {
     }
 }
 
-extension View {
-    func opacityAndOffset(_ tuple: (Double, CGFloat)) -> some View {
-        return self.modifier(MoveInXAndFade(tuple))
-    }
-}
+//extension View {
+//    func opacityAndOffset(_ tuple: (Double, CGFloat)) -> some View {
+//        return self.modifier(MoveInXAndFade(tuple))
+//    }
+//}
 
 

@@ -2,7 +2,7 @@
 
 An implementation of IOS 6 UI using SwiftUI. This implementation takes advantages of SwiftUI autolayout and can automatic adapt to any screen size.
 
-## Features
+## Public API
 ### View
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink

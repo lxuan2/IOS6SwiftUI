@@ -28,7 +28,6 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
         content
             .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
             .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
-        
     }
     
     struct _BackgroundView<_Background: View>: View {
