@@ -49,8 +49,8 @@ public struct _IOS6ButtonLabel<Label: View>: View {
     private let IOS6ButtonDefaultBackground =
         LinearGradient(
             gradient: Gradient(colors:
-                [Color(red: 60.0/255.0, green: 140.0/255.0, blue: 237.0/255.0),
-                 Color(red: 34.0/255.0, green: 98.0/255.0, blue: 224.0/255.0)]),
+                [Color(red: 6.0/255.0, green: 137.0/255.0, blue: 243.0/255.0),
+                 Color(red: 0.0/255.0, green: 95.0/255.0, blue: 230.0/255.0)]),
             startPoint: .top, endPoint: .bottom)
     
     private var IOS6ButtonDefaultListBackground: some View {

@@ -13,6 +13,7 @@ import SwiftUI
 public struct IOS6NavigationView<Content: View>: View {
     private let interactiveSwipe: Bool
     private let stack: _IOS6NavigationStack
+    private let debounceDistance: CGFloat = 10
     
     public var body: some View {
         GeometryReader { proxy in
@@ -23,16 +24,16 @@ public struct IOS6NavigationView<Content: View>: View {
                 
                 ZStack(alignment: .leading) {
                     _IOS6NavigationContentView(width: proxy.size.width)
-                        .gesture(TapGesture(), including: self.stack.blocking ? .none: .subviews)
-                    
+                        .allowsHitTesting(!self.stack.blocking)
+                        
                     if self.interactiveSwipe {
                         Color.clear
-                            .frame(width: self.stack.blocking ? 0 : 20 + proxy.safeAreaInsets.leading)
+                            .frame(width: 20 + proxy.safeAreaInsets.leading)
                             .contentShape(Rectangle())
                             .gesture(
-                                DragGesture()
+                                DragGesture(minimumDistance: self.debounceDistance, coordinateSpace: .global)
                                     .onChanged {
-                                        self.stack.updateOffset(($0.translation.width / proxy.size.width))
+                                        self.stack.updateOffset((($0.translation.width - self.debounceDistance) / proxy.size.width))
                                 }
                                 .onEnded { self.stack.endOffset(with: $0, in: proxy) }
                         )
@@ -44,7 +45,7 @@ public struct IOS6NavigationView<Content: View>: View {
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)
         .edgesIgnoringSafeArea(.all)
-        .accentColor(Color(red: 68.0/255.0, green: 90.0/255.0, blue: 140.0/255.0))
+        .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
         .colorScheme(.light)
     }
     

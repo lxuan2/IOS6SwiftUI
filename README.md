@@ -2,6 +2,8 @@
 
 An implementation of IOS 6 UI using SwiftUI. This implementation takes advantages of SwiftUI autolayout and can automatic adapt to any screen size.
 
+---
+
 ## Public API
 ### View
 - \[x]  IOS6NavigationView
@@ -27,6 +29,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  IOS6ToggleStyle
 
 ## Upcoming Features
+- \[ ] fix toggle disable mode
+- \[ ] IOS6List
 - \[ ] Fix over extended toggle touch area
 - \[ ] Add more documents
 - \[ ] Add an example project to show everything

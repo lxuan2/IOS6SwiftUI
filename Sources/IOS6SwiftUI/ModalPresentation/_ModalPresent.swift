@@ -58,7 +58,7 @@ struct _ModalPresent<NewContent: View>: ViewModifier {
         
         var body: some View {
             ZStack {
-                Spacer()
+                Spacer().edgesIgnoringSafeArea(.all)
                 
                 if show {
                     Spacer()
@@ -78,7 +78,7 @@ struct _ModalPresent<NewContent: View>: ViewModifier {
                 }
                 
                 if localShow {
-                    Spacer()
+                    Color.clear
                         .onDisappear {
                             self.viewController?.dismiss(animated: false, completion: nil)
                     }

@@ -8,17 +8,13 @@
 
 import SwiftUI
 
-struct _IOS6NavigationStackHolder {
-    weak var value: _IOS6NavigationStack?
-}
-
 struct _IOS6NavigationStackKey: EnvironmentKey {
-    static var defaultValue: _IOS6NavigationStackHolder = _IOS6NavigationStackHolder(value: nil)
+    static var defaultValue: _IOS6NavigationStack? = nil
 }
 
 extension EnvironmentValues {
     var _ios6NavigationStack: _IOS6NavigationStack? {
-        get { return self[_IOS6NavigationStackKey.self].value }
-        set { self[_IOS6NavigationStackKey.self].value = newValue }
+        get { return self[_IOS6NavigationStackKey.self] }
+        set { self[_IOS6NavigationStackKey.self] = newValue }
     }
 }

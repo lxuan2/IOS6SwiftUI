@@ -19,9 +19,9 @@ struct _IOS6NavigationBar: View {
             LinearGradient(
                 gradient:
                 Gradient(colors:
-                    [Color(red: 89.0/255.0, green: 115.0/255.0, blue: 152.0/255.0),
-                     Color(red: 135.0/255.0, green: 156.0/255.0, blue: 183.0/255.0),
-                     Color(red: 195.0/255.0, green: 205.0/255.0, blue: 220.0/255.0)]),
+                    [Color(red: 90.0/255.0, green: 116.0/255.0, blue: 153.0/255.0),
+                     Color(red: 143.0/255.0, green: 163.0/255.0, blue: 188.0/255.0),
+                     Color(red: 190.0/255.0, green: 203.0/255.0, blue: 220.0/255.0)]),
                 startPoint: .bottom,
                 endPoint: .top
             )

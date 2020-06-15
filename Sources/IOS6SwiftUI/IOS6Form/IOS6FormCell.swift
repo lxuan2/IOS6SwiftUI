@@ -20,13 +20,14 @@ public struct IOS6FormCell<Comment: View>: View {
         HStack(spacing: 0) {
             if image != nil {
                 image!
-                    .renderingMode(.original)
                     .resizable()
                     .cornerRadius(5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.black.opacity(0.4), lineWidth: 0.5)
-                )
+                            .strokeBorder(Color.white.opacity(0.3), lineWidth: 1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .strokeBorder(Color.black.opacity(0.4), lineWidth: 0.5))
                     .scaledToFit()
                     .layoutPriority(2)
                     .padding(.trailing, 10)
@@ -35,6 +36,7 @@ public struct IOS6FormCell<Comment: View>: View {
             Text(title)
                 .fontWeight(.bold)
                 .ios6ForegroundColor(isEnable ? .black : Color(red: 0.4, green: 0.4, blue: 0.4))
+                .shadow(radius: 0, x: 0, y: 0.5)
                 .padding(.horizontal, 2)
                 .layoutPriority(1)
             

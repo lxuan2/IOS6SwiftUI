@@ -21,10 +21,14 @@ struct _IOS6NavigationBarContentView: View {
                                           index: page.id,
                                           dismiss: {self.stack.pop(to: page.id)})
                     .transition(.moveInXAndFade(offset: self.width / _IOS6NavigationBarContentView.decay))
-                    .offset(x: self.stack.offsetStack[page.id] * self.width / _IOS6NavigationBarContentView.decay, y: 0)
+                    .offset(x: self.stack.offsetStack[page.id] * self.width / self.decayRatio(self.stack.offsetStack[page.id]), y: 0)
                     .opacity(Double(1 - abs(self.stack.offsetStack[page.id])))
             }
         }.clipped()
+    }
+    
+    func decayRatio(_ value: CGFloat) -> CGFloat {
+        value < 0 ? 1 : _IOS6NavigationBarContentView.decay
     }
 }
 

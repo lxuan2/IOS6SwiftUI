@@ -27,6 +27,7 @@ public struct IOS6NavigationLink<Label: View, SubLabel: View, Destination : View
             .buttonStyle(_IOS6ButtonStyle() { isPressed in
                     self.label(isPressed || self.sheet)
             })
+            .disabled(stack == nil)
     }
 }
 

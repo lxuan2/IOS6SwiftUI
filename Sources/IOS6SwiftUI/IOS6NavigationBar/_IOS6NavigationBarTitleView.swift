@@ -48,11 +48,11 @@ extension View {
     ///   - size: Font size
     ///   - weight: Font weight
     /// - Returns: A text view that uses the system control font value and the font value you supply.
-    func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
+    public func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
         modifier(ScaledFont(size: size, weight: weight))
     }
     
-    func etched() -> some View {
+    public func etched() -> some View {
         shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1)
     }
 }
