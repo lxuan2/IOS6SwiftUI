@@ -2,8 +2,6 @@
 
 An implementation of IOS 6 UI using SwiftUI. This implementation takes advantages of SwiftUI autolayout and can automatic adapt to any screen size.
 
----
-
 ## Public API
 ### View
 - \[x]  IOS6NavigationView
@@ -27,7 +25,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 
 ### Style
 - \[x]  IOS6ToggleStyle
-
+---
 ## Upcoming Features
 - \[ ] fix toggle disable mode
 - \[ ] IOS6List
@@ -36,7 +34,7 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[ ] Add an example project to show everything
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
-
+---
 ## Finished Tasks
 - \[x] Undismissable sheet
 - \[x] present customized system model
@@ -55,13 +53,13 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x] ios6NavigationBarTitle modifer
 - \[x] anti refresh
 - \[x] without section, navigation links give correct the shape
-
+---
 ## Installation
 
 In Xcode 11 or greater, in you project, select: `File > Swift Packages > Add Pacakage Dependency`.
 
 Copy the address from github into search bar and hit the enter key. For more details, just google **Add Swift Package in Xcode**
-
+---
 ##  How to Use
 
 Everything listed in the Feature section are useable. Here is an recommended implementation:  

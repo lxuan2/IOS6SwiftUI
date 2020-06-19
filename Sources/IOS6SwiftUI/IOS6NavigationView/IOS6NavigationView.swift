@@ -12,7 +12,7 @@ import SwiftUI
 /// navigation hierarchy.
 public struct IOS6NavigationView<Content: View>: View {
     private let interactiveSwipe: Bool
-    private let stack: _IOS6NavigationStack
+    @ObservedObject private var stack: _IOS6NavigationStack
     private let debounceDistance: CGFloat = 10
     
     public var body: some View {
