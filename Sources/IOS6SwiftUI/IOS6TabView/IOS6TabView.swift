@@ -31,7 +31,10 @@ public struct IOS6TabView<Content: View>: View {
 
 extension Int {
     func threshold(_ minValue: Int, _ maxValue: Int) -> Int {
-        Swift.min(maxValue, Swift.max(minValue, self))
+        if maxValue < minValue {
+            return -1
+        }
+        return Swift.min(maxValue, Swift.max(minValue, self))
     }
 }
 

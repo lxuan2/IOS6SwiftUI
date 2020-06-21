@@ -20,7 +20,6 @@ struct _IOS6NavigationWallpaper: View {
                     .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
             }
             .compositingGroup()
-            .cornerRadius(4)
             .background(Color.black)
         }
     }

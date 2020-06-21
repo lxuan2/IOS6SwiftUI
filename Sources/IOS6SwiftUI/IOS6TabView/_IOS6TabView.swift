@@ -9,40 +9,32 @@
 import SwiftUI
 
 struct _IOS6TabView<Content: View>: View {
-    @State private var items: [_IOS6TabItemData] = [_IOS6TabItemData(content: EmptyView(), label: EmptyView())]
+    @State private var data: [_IOS6TabItemData] = []
+    @State private var staticID = UUID()
     @Binding private var selection: Int
     let content: () -> Content
-    let tabBarHeight: CGFloat = 50
     
     var body: some View {
-        GeometryReader { proxy in
-            ZStack(alignment: .bottom) {
-                Color.white
-                    .zIndex(0)
-                
-                self.items[self.index].content
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.bottom, proxy.safeAreaInsets.bottom + self.tabBarHeight)
-                    .zIndex(1)
-                
-                _IOS6TabBarView(selection: self.$selection, items: self.$items, safeBottomHeight: proxy.safeAreaInsets.bottom, height: self.tabBarHeight)
-                    .edgesIgnoringSafeArea(.all)
-                    .zIndex(2)
-            }
-    }
-        .background(
+        VStack {
             ZStack {
-                self.content()
-            }
-            .hidden()
-            .onPreferenceChange(_IOS6TabItemKey.self) { items in
-                self.items = [_IOS6TabItemData(content: EmptyView(), label: EmptyView())] + items
-            }
-        )
+                Color.white
+                    .edgesIgnoringSafeArea(.all)
+                content()
+            }.padding(.bottom, 50)
+        }
+        .overlay(_IOS6TabBarView(selection: $selection, items: $data), alignment: .bottom)
+        .environment(\._ios6Tab, id)
+        .onPreferenceChange(_IOS6TabItemKey.self) { items in
+            self.data = items
+        }
     }
     
-    private var index: Int {
-        return items.count == 1 ? 0 : (selection + 1).threshold(1, items.count - 1)
+    var id: UUID {
+        let index = selection.threshold(0, data.count - 1)
+        if index < 0 {
+            return staticID
+        }
+        return data[index].id
     }
     
     init(selection: Binding<Int>, @ViewBuilder content: @escaping () -> Content) {

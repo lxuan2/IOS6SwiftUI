@@ -180,6 +180,9 @@ extension _IOS6NavigationStack {
 
 extension CGFloat {
     func threshold(_ minValue: CGFloat, _ maxValue: CGFloat) -> CGFloat {
-        Swift.min(maxValue, Swift.max(minValue, self))
+        if maxValue <= minValue {
+            return -1
+        }
+        return Swift.min(maxValue, Swift.max(minValue, self))
     }
 }

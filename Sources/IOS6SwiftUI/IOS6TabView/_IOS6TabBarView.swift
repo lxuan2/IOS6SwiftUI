@@ -11,30 +11,44 @@ import SwiftUI
 struct _IOS6TabBarView: View {
     @Binding var selection: Int
     @Binding var items: [_IOS6TabItemData]
-    let safeBottomHeight: CGFloat
-    let height: CGFloat
+    let height: CGFloat = 50
     
     var body: some View {
         ZStack {
-            Color.gray.opacity(0.15)
+            Color.black
+                .overlay(topLayer, alignment: .top)
+                .overlay(Rectangle().fill(Color.white.opacity(0.18)).frame(height: 0.5).padding(.top, 1), alignment: .top)
+                .edgesIgnoringSafeArea(.all)
                 .zIndex(0)
             
-            Stepper(onIncrement: {
-                self.selection += 1
-            }, onDecrement: {
-                self.selection -= 1
-            }, label: {
-                Text("Selection Number: \(selection)")
-            })
-                .padding(.bottom, safeBottomHeight)
-        }
-        
-            .frame(height: safeBottomHeight + height)
+            HStack(spacing: 0) {
+                ForEach(items) { item in
+                    Button(action: {
+                        self.selection = self.items.firstIndex(of: item)!
+                    }) {
+                        item.label()
+                            .environment(\.ios6IsSelected, self.selection == self.items.firstIndex(of: item)!)
+                    }.buttonStyle(NoButtonStyle())
+                }
+            }
+        }.frame(height: height)
+    }
+    
+    var topLayer: some View {
+        LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.2), Color.white.opacity(0.1)]), startPoint: .top, endPoint: .bottom)
+            .frame(height: height / 2)
+            .padding(.top, 1)
     }
 }
 
 struct _IOS6TabBarView_Previews: PreviewProvider {
     static var previews: some View {
-        _IOS6TabBarView(selection: .constant(0), items: .constant(.init()), safeBottomHeight: 0, height: 50)
+        _IOS6TabBarView(selection: .constant(0), items: .constant(.init()))
+    }
+}
+
+struct NoButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
     }
 }

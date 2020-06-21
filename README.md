@@ -6,6 +6,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### View
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink
+- \[x]  IOS6TabView
+- \[x]  IOS6TabItemLabel
 - \[x]  IOS6Button
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
@@ -19,9 +21,11 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  scaledFont
 - \[x]  ios6ToggleColor
 - \[x]  etched
+- \[x]  ios6TabItem
 
 ### Environment Key
 - \[x]  ios6PresentationMode
+- \[x]  ios6IsSelected
 
 ### Style
 - \[x]  IOS6ToggleStyle

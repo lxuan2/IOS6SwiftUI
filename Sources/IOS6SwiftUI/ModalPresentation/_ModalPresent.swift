@@ -58,7 +58,7 @@ struct _ModalPresent<NewContent: View>: ViewModifier {
         
         var body: some View {
             ZStack {
-                Spacer().edgesIgnoringSafeArea(.all)
+                Spacer()
                 
                 if show {
                     Spacer()
