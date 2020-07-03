@@ -53,18 +53,19 @@ final class InteractiveModalPresentationController: UIPresentationController {
     }
     
     @objc func didPan(pan: UIPanGestureRecognizer) {
-        guard let view = pan.view, let superView = view.superview,
+        guard let superView = pan.view?.superview,
             let presented = presentedView else { return }
-        
-        let location = pan.translation(in: superView)
         
         switch pan.state {
         case .changed:
+            let location = pan.translation(in: superView)
             if location.y < 0 {
                 presented.frame.origin.y =  -3 * log(-location.y) + presentedYOffset
+                dimmingView.alpha = 1
                 break
             }
-                presented.frame.origin.y = location.y + presentedYOffset
+            presented.frame.origin.y = location.y + presentedYOffset
+            dimmingView.alpha = 1 - location.y / frameOfPresentedViewInContainerView.width
         case .ended:
             let maxPresentedY = presentedYOffset + presented.frame.height / 4
             if pan.velocity(in: superView).y > 1000 {

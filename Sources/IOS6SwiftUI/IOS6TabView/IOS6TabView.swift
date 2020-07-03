@@ -15,7 +15,7 @@ public struct IOS6TabView<Content: View>: View {
     
     public var body: some View {
         _IOS6TabView(selection: outerSelction == nil ? $selection : outerSelction!, content: content)
-            
+            .colorScheme(.light)
     }
     
     public init(@ViewBuilder content: @escaping () -> Content) {

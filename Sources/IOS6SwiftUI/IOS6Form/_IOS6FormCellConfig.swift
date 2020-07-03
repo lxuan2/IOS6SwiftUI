@@ -26,7 +26,7 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
+            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
             .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
     }
     
@@ -44,16 +44,14 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
                 background
                 
                 VStack(spacing: 0) {
-                    if pos == .medium || pos == .bottom {
-                        Color.white
-                            .blendMode(.destinationOver)
-                            .frame(minHeight: 1, maxHeight: 1)
-                    }
-                    
                     Spacer()
                     
-                    if pos == .medium || pos == .top {
+                    if pos == .medium || pos == .top || pos == .list {
                         Color.black.opacity(0.18)
+                        .frame(minHeight: 1, maxHeight: 1)
+                        
+                        Color.white
+                            .blendMode(.destinationOver)
                             .frame(minHeight: 1, maxHeight: 1)
                     }
                 }
@@ -202,6 +200,10 @@ struct _DownRectangle: Shape, InsettableShape {
 }
 
 extension View {
+    public func ios6SecPosition<Background: View>(_ postion: IOS6FormCellSectionPosition, background: Background) -> some View {
+        self.modifier(_IOS6FormCellConfig(at: postion, background: background))
+    }
+    
     public func ios6SecPosition(_ postion: IOS6FormCellSectionPosition) -> some View {
         self.modifier(_IOS6FormCellConfig(at: postion, background: EmptyView()))
     }

@@ -13,6 +13,7 @@ public enum IOS6FormCellSectionPosition: Equatable {
     case bottom
     case all
     case none
+    case list
     
     public static func == (lhs: IOS6FormCellSectionPosition, rhs: IOS6FormCellSectionPosition) -> Bool {
         switch (lhs, rhs) {
@@ -25,6 +26,8 @@ public enum IOS6FormCellSectionPosition: Equatable {
         case (.all,.all):
             return true
         case (.none,.none):
+            return true
+        case (.list,.list):
             return true
         default:
             return false

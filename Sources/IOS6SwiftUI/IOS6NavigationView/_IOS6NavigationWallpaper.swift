@@ -11,17 +11,9 @@ import SwiftUI
 struct _IOS6NavigationWallpaper: View {
     
     var body: some View {
-        GeometryReader { proxy in
-            VStack(spacing: 0) {
-                Color(red: 70/255, green: 100/255, blue: 133/255)
-                    .frame(height: proxy.safeAreaInsets.top)
-                
-                Color(red: 211/255, green: 215/255, blue: 224/255)
-                    .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
-            }
+        Color(red: 211/255, green: 215/255, blue: 224/255)
+            .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
             .compositingGroup()
-            .background(Color.black)
-        }
     }
     
     struct Strips: Shape {

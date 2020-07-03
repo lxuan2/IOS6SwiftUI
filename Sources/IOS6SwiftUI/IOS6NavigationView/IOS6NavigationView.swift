@@ -18,14 +18,17 @@ public struct IOS6NavigationView<Content: View>: View {
     public var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
+                Color(red: 70/255, green: 100/255, blue: 133/255)
+                    .frame(height: proxy.safeAreaInsets.top)
+                    .zIndex(0)
+                
                 _IOS6NavigationBar()
-                    .padding(.top, proxy.safeAreaInsets.top)
                     .zIndex(1)
                 
                 ZStack(alignment: .leading) {
                     _IOS6NavigationContentView(width: proxy.size.width)
                         .allowsHitTesting(!self.stack.blocking)
-                        
+                    
                     if self.interactiveSwipe {
                         Color.clear
                             .frame(width: 20 + proxy.safeAreaInsets.leading)
@@ -38,10 +41,11 @@ public struct IOS6NavigationView<Content: View>: View {
                                 .onEnded { self.stack.endOffset(with: $0, in: proxy) }
                         )
                     }
-                }.zIndex(0)
+                }
+                .background(_IOS6NavigationWallpaper())
+                .zIndex(0)
             }
         }
-        .background(_IOS6NavigationWallpaper())
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)
         .edgesIgnoringSafeArea(.all)

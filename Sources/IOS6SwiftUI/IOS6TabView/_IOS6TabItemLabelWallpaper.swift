@@ -11,13 +11,13 @@ import SwiftUI
 struct _IOS6TabItemLabelWallpaper: View {
     var body: some View {
         LinearGradient(gradient: Gradient(colors: [Color(red: 25/255.0, green: 108/255.0, blue: 238/255.0),
-                                                   Color(red: 25/255.0, green: 108/255.0, blue: 238/255.0),
-                                                   Color(red: 25/255.0, green: 108/255.0, blue: 238/255.0),
-                                                   Color(red: 53/255.0, green: 178/255.0, blue: 247/255.0),
-                                                   Color(red: 68/255.0, green: 214/255.0, blue: 252/255.0)]),
+                                                   Color(red: 35/255.0, green: 135/255.0, blue: 211/255.0),
+                                                   Color(red: 36/255.0, green: 139/255.0, blue: 220/255.0),
+                                                   Color(red: 48/255.0, green: 180/255.0, blue: 231/255.0),
+                                                   Color(red: 66/255.0, green: 207/255.0, blue: 247/255.0)]),
                        startPoint: .top, endPoint: .bottom)
         .overlay(
-            LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.9),
+            LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.8),
                                         Color.white.opacity(0.6),
                                         Color.white.opacity(0.3),
                                         Color.white.opacity(0.0)]),
