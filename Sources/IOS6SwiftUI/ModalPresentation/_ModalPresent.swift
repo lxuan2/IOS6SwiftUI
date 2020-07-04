@@ -34,7 +34,7 @@ struct _ModalPresent<NewContent: View>: ViewModifier {
                         }
                         controller = ctl
                     } else { return }
-                    controller.present {
+                    controller.present(isHomeIndicatorHidden: true) {
                         _PresentationView(show: self.$isPresented, content: self.sheet, animation: self.animation)
                     }
                     self.vc = true
@@ -107,20 +107,5 @@ struct PresentViewModifer_Previews: PreviewProvider {
 public extension View {
     func present<Content: View>(isPresented: Binding<Bool>, with animation: Animation? = .default, @ViewBuilder content: @escaping () -> Content) -> some View {
         modifier(_ModalPresent(isPresented: isPresented, with: animation, sheet: content()))
-    }
-}
-
-extension Binding where Value: Equatable {
-    // Updates the binding then calls a closure woith the new value
-    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
-        Binding (
-            get: { self.wrappedValue },
-            set: { selection in
-                if self.wrappedValue != selection {
-                    self.wrappedValue = selection
-                    handler(selection)
-                }
-            }
-        )
     }
 }

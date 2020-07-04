@@ -9,12 +9,28 @@
 import SwiftUI
 
 public struct IOS6ToggleStyle: ToggleStyle {
-
-    public func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            configuration.label
-            Spacer()
-            _IOS6ToggleView(isOn: configuration.$isOn)
+    
+    public func makeBody(configuration: IOS6ToggleStyle.Configuration) -> some View {
+        IOS6ToggleStyleView(configuration)
+    }
+    
+    struct IOS6ToggleStyleView: View {
+        let configuration: IOS6ToggleStyle.Configuration
+        @State private var percent: CGFloat
+        
+        var body: some View {
+            HStack {
+                configuration.label
+                Spacer()
+                _IOS6ToggleView(isOn: configuration.$isOn.onChange{ value in
+                    self.percent = value ? 1 : 0
+                })
+            }
+        }
+        
+        init(_ configuration: IOS6ToggleStyle.Configuration) {
+            self.configuration = configuration
+            self._percent = State(initialValue: configuration.isOn ? 1 : 0)
         }
     }
 }
@@ -25,5 +41,20 @@ struct IOS6ToggleStyle_Previews: PreviewProvider {
             Text("Toggle")
         }
         .toggleStyle(IOS6ToggleStyle())
+    }
+}
+
+extension Binding where Value: Equatable {
+    // Updates the binding then calls a closure woith the new value
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        Binding (
+            get: { self.wrappedValue },
+            set: { selection in
+                if self.wrappedValue != selection {
+                    self.wrappedValue = selection
+                    handler(selection)
+                }
+            }
+        )
     }
 }

@@ -38,7 +38,7 @@ struct _ModalPresentUIKit<NewContent: View>: ViewModifier {
                         }
                         controller = ctl
                     } else { return }
-                    controller.present(style: self.style, transDelegate: self.transDelegate, adaptDelegate: self.adaptDelegate) {
+                    controller.present(isHomeIndicatorHidden: true, style: self.style, transDelegate: self.transDelegate, adaptDelegate: self.adaptDelegate) {
                         self.sheet
                             .environment(\.ios6PresentationMode, IOS6PresentationMode {
                                 if let ctler = self._vc.wrappedValue.value {

@@ -32,50 +32,51 @@ struct _IOS6ToggleView: View {
     }
     
     var body: some View {
-        ZStack {
-            Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
-                .opacity(isEnabled ? 1 : 0.7)
-            
-            RoundedRectangle(cornerRadius: 9)
-                .fill(
-                    LinearGradient(
-                        gradient:
-                        Gradient(colors:
-                            [Color.white.opacity(0.15),
-                             Color.white.opacity(0.45),
-                             Color.white]),
-                        startPoint: .top,
-                        endPoint: .bottom))
-                .frame(width: width - height / 3)
-                .offset(x: 0, y: height/2)
-
-            IOS6ToggleBoundary()
-            //Boundary()
-            IOS6ToggleCircleButton(isPressed: isPressed, offset:  isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
-        }
-        .clipShape(Capsule())
-        .frame(width: self.width, height: self.height)
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity)
-                .updating($isPressed) { currentState, gestureState, transaction in
-                    gestureState = currentState
-            }
-        )
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 10)
-                    .onChanged { value in
-                        let newPercent = self.oldPercent + value.translation.width
-                        self.percent = newPercent < self.height / 2 ? self.height / 2 :
-                            newPercent > self.width - self.height / 2 ? self.width - self.height / 2 :
-                        newPercent
-                }
-                .onEnded { value in
-                    self.isOn = self.oldPercent + value.translation.width >= self.width / 2
-                }
-                .exclusively(before: TapGesture().onEnded {
-                    self.isOn = self.isOn ? false: true
-                })
-        )
+        Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
+            .overlay(
+                RoundedRectangle(cornerRadius: 9)
+                    .fill(
+                        LinearGradient(
+                            gradient:
+                                Gradient(colors:
+                                            [Color.white.opacity(0.15),
+                                             Color.white.opacity(0.45),
+                                             Color.white]),
+                            startPoint: .top,
+                            endPoint: .bottom))
+                    .frame(width: width - height / 3)
+                    .offset(x: 0, y: height/2)
+            )
+            .overlay(
+                IOS6ToggleBoundary()
+                    .contentShape(Rectangle())
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity)
+                            .updating($isPressed) { currentState, gestureState, transaction in
+                                gestureState = currentState
+                            })
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                            .onChanged { value in
+                                let newPercent = self.oldPercent + value.translation.width
+                                self.percent = newPercent < self.height / 2 ? self.height / 2 :
+                                    newPercent > self.width - self.height / 2 ? self.width - self.height / 2 :
+                                    newPercent
+                            }
+                            .onEnded { value in
+                                self.isOn = self.oldPercent + value.translation.width >= self.width / 2
+                            }
+                            .exclusively(before: TapGesture().onEnded {
+                                self.isOn = self.isOn ? false: true
+                            })
+                    )
+            )
+            .overlay(
+                IOS6ToggleCircleButton(isPressed: isPressed, offset:  isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
+            )
+            .clipShape(Capsule())
+            .frame(width: self.width, height: self.height)
+            .overlay(Capsule().fill(Color.white.opacity(isEnabled ? 0 : 0.3)))
     }
     
     struct IOS6ToggleButton: View {
@@ -111,10 +112,10 @@ struct _IOS6ToggleView: View {
                             .fill(
                                 LinearGradient(
                                     gradient:
-                                    Gradient(colors:
-                                        [Color.black.opacity(self.configuration.isPressed ? 0.10 : 0.08),
-                                         //Color.black.opacity(self.configuration.isPressed ? 0.11 : 0.05),
-                                            Color.black.opacity(self.configuration.isPressed ? 0.09 : 0.0)]),
+                                        Gradient(colors:
+                                                    [Color.black.opacity(self.configuration.isPressed ? 0.10 : 0.08),
+                                                     //Color.black.opacity(self.configuration.isPressed ? 0.11 : 0.05),
+                                                     Color.black.opacity(self.configuration.isPressed ? 0.09 : 0.0)]),
                                     startPoint: .top,
                                     endPoint: .bottom))
                         
@@ -174,9 +175,9 @@ struct _IOS6ToggleView: View {
                         .fill(
                             LinearGradient(
                                 gradient:
-                                Gradient(colors:
-                                    [Color.black.opacity(self.isPressed ? 0.20 : 0.20),
-                                     Color.black.opacity(self.isPressed ? 0.1 : 0.0)]),
+                                    Gradient(colors:
+                                                [Color.black.opacity(self.isPressed ? 0.20 : 0.20),
+                                                 Color.black.opacity(self.isPressed ? 0.1 : 0.0)]),
                                 startPoint: .top,
                                 endPoint: .bottom))
                     
@@ -204,10 +205,10 @@ struct _IOS6ToggleView: View {
                     .fill(
                         LinearGradient(
                             gradient:
-                            Gradient(colors:
-                                [Color.white.opacity(0.15),
-                                 Color.white.opacity(0.45),
-                                 Color.white]),
+                                Gradient(colors:
+                                            [Color.white.opacity(0.15),
+                                             Color.white.opacity(0.45),
+                                             Color.white]),
                             startPoint: .top,
                             endPoint: .bottom))
                     .frame(width: geo.size.width - geo.size.height / 3)
