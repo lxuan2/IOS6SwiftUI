@@ -1,9 +1,10 @@
 # IOS6SwiftUI
 
-An implementation of IOS 6 UI using SwiftUI. This implementation takes advantages of SwiftUI autolayout and can automatic adapt to any screen size.
+A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI.
 
 ## Public API
 ### View
+- \[x]  IOS6RootView
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink
 - \[x]  IOS6TabView
@@ -23,6 +24,8 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 - \[x]  ios6ToggleColor
 - \[x]  etched
 - \[x]  ios6TabItem
+- \[x]  ios6RootBackground
+- \[x]  ios6StatusBar
 
 ### Environment Key
 - \[x]  ios6PresentationMode
@@ -31,39 +34,15 @@ An implementation of IOS 6 UI using SwiftUI. This implementation takes advantage
 ### Style
 - \[x]  IOS6ToggleStyle
 ---
-## Upcoming Features
-- \[ ] Add more documents
-- \[ ] Add an example project to show everything
-- \[ ] iPad Double Column NavigationView Style
-- \[ ] More Navigation Styles (eg. Map)
----
-## Finished Tasks
-- \[x] fix toggle disable mode
-- \[x] Fix over extended toggle touch area
-- \[x] Add IOS6List
-- \[x] Undismissable sheet
-- \[x] present customized system model
-- \[x] allow multi-modal in same level
-- \[x] set private framework
-- \[x] bring presentMode to IOS6NavigationView
-- \[x] add disabled navigation control
-- \[x] rename IOS6FormRow to IOS6TableCell
-- \[x] ios6ForegroundColor, IOS6FormRowAdv
-- \[x] Test modal is enabled at start
-- \[x] present Model
-- \[x] generalize all items not to list
-- \[x] IOS6Button
-- \[x] Combine IOS6NavigationLinkItem and IOS6ToggleItem into IOS6FormRow
-- \[x] update IOS6Toggle API
-- \[x] ios6NavigationBarTitle modifer
-- \[x] anti refresh
-- \[x] without section, navigation links give correct the shape
+## Availability
+IOS13.0 ~ IOS13.5.1
+IOS14 has not been tested currently.
+
 ---
 ## Installation
-
-In Xcode 11 or greater, in you project, select: `File > Swift Packages > Add Pacakage Dependency`.
-
+In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
 Copy the address from github into search bar and hit the enter key. For more details, just google **Add Swift Package in Xcode**
+
 ---
 ##  How to Use
 
@@ -114,3 +93,34 @@ struct ContentView: View {
     }
 }
 ```
+---
+## Upcoming Features
+- \[ ] Add more documents
+- \[ ] Add an example project
+- \[ ] IOS6Alert
+- \[ ] IOS6ActionSheet
+- \[ ] Archive final version for IOS13 and start IOS14 development
+- \[ ] iPad Double Column NavigationView Style
+- \[ ] More Navigation Styles (eg. Map)
+---
+## Finished Tasks
+- \[x] fix toggle disable mode
+- \[x] Fix over extended toggle touch area
+- \[x] Add IOS6List
+- \[x] Undismissable sheet
+- \[x] present customized system model
+- \[x] allow multi-modal in same level
+- \[x] set private framework
+- \[x] bring presentMode to IOS6NavigationView
+- \[x] add disabled navigation control
+- \[x] rename IOS6FormRow to IOS6TableCell
+- \[x] ios6ForegroundColor, IOS6FormRowAdv
+- \[x] Test modal is enabled at start
+- \[x] present Model
+- \[x] generalize all items not to list
+- \[x] IOS6Button
+- \[x] Combine IOS6NavigationLinkItem and IOS6ToggleItem into IOS6FormRow
+- \[x] update IOS6Toggle API
+- \[x] ios6NavigationBarTitle modifer
+- \[x] anti refresh
+- \[x] without section, navigation links give correct the shape

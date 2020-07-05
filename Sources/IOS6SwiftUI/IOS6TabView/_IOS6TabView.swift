@@ -18,7 +18,7 @@ struct _IOS6TabView<Content: View>: View {
         VStack {
             ZStack {
                 Color.white
-                    .edgesIgnoringSafeArea(.all)
+                    .edgesIgnoringSafeArea([.horizontal, .bottom])
                 content()
             }.padding(.bottom, 50)
         }

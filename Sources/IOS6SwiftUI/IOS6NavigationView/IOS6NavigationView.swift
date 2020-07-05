@@ -18,10 +18,6 @@ public struct IOS6NavigationView<Content: View>: View {
     public var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
-                Color(red: 70/255, green: 100/255, blue: 133/255)
-                    .frame(height: proxy.safeAreaInsets.top)
-                    .zIndex(0)
-                
                 _IOS6NavigationBar()
                     .zIndex(1)
                 
@@ -48,9 +44,10 @@ public struct IOS6NavigationView<Content: View>: View {
         }
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)
-        .edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea([.horizontal, .bottom])
         .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
         .colorScheme(.light)
+        .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
     }
     
     public init(interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {

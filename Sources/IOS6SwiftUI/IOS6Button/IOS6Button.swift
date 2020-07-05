@@ -8,6 +8,12 @@
 
 import SwiftUI
 
+/// A control that performs an action when triggered.
+///
+/// Default debounced behavior is given with 0.1s delay. This prevents
+/// too sensitive pressing trigger compared with original button. Prefer
+/// to use this in scroll area i.e. IOS6Form. Also allow customized button
+/// style.
 public struct IOS6Button<Label: View, SubLabel: View>: View {
     @State private var pressing: Bool = false
     private let action: () -> Void
@@ -32,6 +38,14 @@ public struct IOS6Button<Label: View, SubLabel: View>: View {
 }
 
 extension IOS6Button where SubLabel == Never {
+    /// A initializer that provides action behavior and customized label view
+    ///
+    /// This initializer is designed to allow customized button style.
+    /// The `Bool` Value indicates whether the button is pressed.
+    ///
+    /// - Parameters:
+    ///   - action: the action behavior when the control is triggered
+    ///   - label: a content view given whether the button is pressed.
     public init(action: @escaping () -> Void, label: @escaping (Bool) -> Label) {
         self.action = action
         self.label = label
@@ -39,6 +53,14 @@ extension IOS6Button where SubLabel == Never {
 }
 
 extension IOS6Button where Label == _IOS6ButtonLabel<SubLabel> {
+    /// A initializer that provides action behavior and label view
+    ///
+    /// Default button style is given with highlight color: blue.
+    ///
+    /// - Parameters:
+    ///   - action: the action behavior when the control is triggered
+    ///   - label: a content view.
+    ///   - position: the position in IOS6Form / IOS6List section.
     public init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6FormCellSectionPosition = .none) {
         self.init(action: action, label: { isPressed in _IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: false)})
     }
