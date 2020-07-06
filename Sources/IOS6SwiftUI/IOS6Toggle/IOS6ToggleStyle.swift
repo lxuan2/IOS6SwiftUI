@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// IOS6 Toggle Style
 public struct IOS6ToggleStyle: ToggleStyle {
     
     public func makeBody(configuration: IOS6ToggleStyle.Configuration) -> some View {

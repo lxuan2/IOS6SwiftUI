@@ -105,6 +105,16 @@ struct PresentViewModifer_Previews: PreviewProvider {
 }
 
 public extension View {
+    /// Present a modal with customized SwiftUI transition.
+    ///
+    /// Build the views in `content` parameter and apply transition(_:) modifer.
+    /// Set the animation to indicate how the transition should be performed.
+    ///
+    /// - Parameters:
+    ///   - isPresented: A `Bool` indicate whether to present the view.
+    ///   - animation: animation to perform the transion.
+    ///   - content: content view builder.
+    /// - Returns: some View
     func present<Content: View>(isPresented: Binding<Bool>, with animation: Animation? = .default, @ViewBuilder content: @escaping () -> Content) -> some View {
         modifier(_ModalPresent(isPresented: isPresented, with: animation, sheet: content()))
     }

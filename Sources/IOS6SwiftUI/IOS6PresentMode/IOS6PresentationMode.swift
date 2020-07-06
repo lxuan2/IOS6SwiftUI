@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// IOS6 Presentation Mode that controls presentation state.
 public struct IOS6PresentationMode {
     private let show: Binding<Bool>?
     private let dismissFunc: (() -> Void)?
@@ -17,10 +18,12 @@ public struct IOS6PresentationMode {
         self.dismissFunc = dismiss
     }
     
+    /// Indicate wether the current view is presented by another view.
     public var isPresented: Bool {
         show != nil || dismissFunc != nil
     }
     
+    /// Dismiss current view and return to parent view.
     public func dismiss() {
         if dismissFunc != nil {
             return self.dismissFunc!()

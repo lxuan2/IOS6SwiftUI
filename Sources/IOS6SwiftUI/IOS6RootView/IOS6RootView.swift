@@ -8,8 +8,13 @@
 
 import SwiftUI
 
+/// A root View for injecting systems and screen behaviors.
+///
+/// Root view enables lots of  system and screen behaviors in `IOS6SwfitUI`,
+/// such as `ios6StatusBar`and `ios6RootBackground`. Therefore
+/// this view is recommanded to be used at the top of view hierarchy.
 public struct IOS6RootView<Content: View>: View {
-    let rootView: () -> Content
+    private let rootView: () -> Content
     @State private var rootBackground: _IOS6RootBackgroundData? = nil
     @State private var statusBar: _IOS6StatusBarData? = nil
     
@@ -27,22 +32,24 @@ public struct IOS6RootView<Content: View>: View {
             
             GeometryReader { proxy in
                 self.StatusBar
-                    .clipShape(PaddingRectangle(bottom: proxy.safeAreaInsets.bottom + proxy.size.height))
+                    .clipShape(_PaddingRectangle(bottom: proxy.safeAreaInsets.bottom + proxy.size.height))
                     .allowsHitTesting(false)
                     .edgesIgnoringSafeArea(.all)
             }
         }
     }
     
+    /// An initializer with root view
+    /// - Parameter rootView: root View
     public init(@ViewBuilder rootView: @escaping () -> Content) {
         self.rootView = rootView
     }
     
-    var StatusBar: AnyView {
+    private var StatusBar: AnyView {
         statusBar == nil ? AnyView(EmptyView()) : statusBar!.label()
     }
     
-    var Background: AnyView {
+    private var Background: AnyView {
         rootBackground == nil ? AnyView(Color.black.edgesIgnoringSafeArea(.all)) : rootBackground!.label()
     }
 }
@@ -55,7 +62,9 @@ struct IOS6RootView_Previews: PreviewProvider {
     }
 }
 
-struct PaddingRectangle: Shape, InsettableShape {
+/// `Private API`:
+/// A rectangle shape with padding
+struct _PaddingRectangle: Shape, InsettableShape {
     
     private var insetAmount: CGFloat = 0
     let top: CGFloat

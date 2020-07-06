@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationContentView: View {
     @EnvironmentObject private var stack: _IOS6NavigationStack
     let width: CGFloat

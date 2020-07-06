@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// `Private API`: 
+/// A button style that delegates pressing state to button Label.
 struct _IOS6ButtonStyle<Label: View>: ButtonStyle {
     private let label: (Bool) -> Label
     

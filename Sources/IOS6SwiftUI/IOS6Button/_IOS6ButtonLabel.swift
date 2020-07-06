@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// `Private API`:
+/// A button label providing default layout for IOS6Button and IOS6NavigationLink.
 public struct _IOS6ButtonLabel<Label: View>: View {
     @Environment(\.isEnabled) private var isEnabled
     private let isPressed: Bool

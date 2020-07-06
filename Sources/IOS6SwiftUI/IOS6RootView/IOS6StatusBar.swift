@@ -18,6 +18,12 @@ struct _IOS6StatusBar: ViewModifier {
 }
 
 extension View {
+    /// Set Status Bar Background View.
+    ///
+    ///  Powered by IOS6RootView
+    ///
+    /// - Parameter background: background view
+    /// - Returns: some View
     public func ios6StatusBar<Background: View>(_ background: Background) -> some View {
         modifier(_IOS6StatusBar(label: {
             AnyView(background)

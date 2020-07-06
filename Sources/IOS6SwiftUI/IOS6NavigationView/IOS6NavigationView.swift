@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// A view for presenting a stack of views representing a visible path in a
-/// navigation hierarchy.
+/// navigation hierarchy in IOS6 style.
 public struct IOS6NavigationView<Content: View>: View {
     private let interactiveSwipe: Bool
     @ObservedObject private var stack: _IOS6NavigationStack
@@ -50,6 +50,10 @@ public struct IOS6NavigationView<Content: View>: View {
         .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
     }
     
+    /// An initializer
+    /// - Parameters:
+    ///   - interactiveSwipe: a `Bool` value indicate whether interactive swipe is allowed
+    ///   - content: navigation root view
     public init(interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.interactiveSwipe = interactiveSwipe
         stack = _IOS6NavigationStack(rootView: content())

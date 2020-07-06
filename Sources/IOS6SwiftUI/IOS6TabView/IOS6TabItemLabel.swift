@@ -8,8 +8,9 @@
 
 import SwiftUI
 
+/// A template layout for IOS6TabItem.
 public struct IOS6TabItemLabel: View {
-    @Environment(\.ios6IsSelected) var isSelected
+    @Environment(\._ios6IsSelected) var isSelected
     let image: Image
     let text: String
     let padding: CGFloat
@@ -40,15 +41,20 @@ public struct IOS6TabItemLabel: View {
         .padding(2)
     }
     
-    public init(image: Image, text: String, padding: CGFloat = 0) {
+    /// An initializer with image, text and image padding
+    /// - Parameters:
+    ///   - image: image
+    ///   - title: title
+    ///   - padding: padding for adjusting image boundary. This is a little adjustment for unregular shape image.
+    public init(image: Image, title: String, padding: CGFloat = 0) {
         self.image = image
-        self.text = text
+        self.text = title
         self.padding = padding
     }
 }
 
 struct IOS6TabItemLabel_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6TabItemLabel(image: Image(systemName: "mic"), text: "Mic")
+        IOS6TabItemLabel(image: Image(systemName: "mic"), title: "Mic")
     }
 }

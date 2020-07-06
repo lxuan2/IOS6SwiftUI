@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+/// A view that switches between multiple child views using interactive user interface elements.
+///
+/// To create a user interface with tabs, place views in a TabView and apply the ios6TabItem(_:)
+/// modifier to the contents of each tab.
 public struct IOS6TabView<Content: View>: View {
     @State private var selection: Int = 0
     private let outerSelction: Binding<Int>?

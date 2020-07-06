@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
     private let content: UIViewController
     let lock: Binding<Bool>?

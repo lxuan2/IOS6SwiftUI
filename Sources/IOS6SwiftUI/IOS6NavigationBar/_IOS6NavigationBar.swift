@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationBar: View {
     @Environment(\.isEnabled) private var isEnabled
     

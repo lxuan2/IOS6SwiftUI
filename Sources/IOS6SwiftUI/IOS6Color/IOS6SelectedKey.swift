@@ -8,13 +8,17 @@
 
 import SwiftUI
 
-struct IOS6IsSelectedKey: EnvironmentKey {
+/// `Private API`:
+/// A Environment Key indicates selecting state.
+struct _IOS6IsSelectedKey: EnvironmentKey {
     static var defaultValue: Bool = false
 }
 
 extension EnvironmentValues {
-    public var ios6IsSelected: Bool {
-        get { return self[IOS6IsSelectedKey.self] }
-        set { self[IOS6IsSelectedKey.self] = newValue }
+    /// `Private API`:
+    /// A Environment Value indicates selecting state.
+    var _ios6IsSelected: Bool {
+        get { self[_IOS6IsSelectedKey.self] }
+        set { self[_IOS6IsSelectedKey.self] = newValue }
     }
 }

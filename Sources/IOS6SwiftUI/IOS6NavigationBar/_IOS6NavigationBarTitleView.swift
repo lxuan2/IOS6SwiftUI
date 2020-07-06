@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationBarTitleView: View {
     var title: String
     
@@ -29,7 +30,9 @@ struct IOS6NavigationBarTitle_Previews: PreviewProvider {
     }
 }
 
-struct ScaledFont: ViewModifier {
+/// `Private API`:
+/// Scale given font base on system setting.
+struct _ScaledFont: ViewModifier {
     @Environment(\.sizeCategory) var sizeCategory
     var size: CGFloat
     var weight: Font.Weight
@@ -40,7 +43,6 @@ struct ScaledFont: ViewModifier {
     }
 }
 
-@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
     /// Set the font with size and weight and automatically scale font
     /// based on system control
@@ -49,9 +51,10 @@ extension View {
     ///   - weight: Font weight
     /// - Returns: A text view that uses the system control font value and the font value you supply.
     public func scaledFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
-        modifier(ScaledFont(size: size, weight: weight))
+        modifier(_ScaledFont(size: size, weight: weight))
     }
     
+    /// IOS6 etched Style
     public func etched() -> some View {
         shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1)
     }

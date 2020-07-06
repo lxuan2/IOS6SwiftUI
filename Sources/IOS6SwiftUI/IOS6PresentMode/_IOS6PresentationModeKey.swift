@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6PresentationModeKey: EnvironmentKey {
     static var defaultValue: IOS6PresentationMode {
         IOS6PresentationMode()
@@ -15,6 +16,8 @@ struct _IOS6PresentationModeKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
+    /// An environment value behave like PresentationMode but capable
+    /// with `IOS6Navigation` and `present`
     public var ios6PresentationMode: IOS6PresentationMode {
         get { return self[_IOS6PresentationModeKey.self] }
         set { self[_IOS6PresentationModeKey.self] = newValue }

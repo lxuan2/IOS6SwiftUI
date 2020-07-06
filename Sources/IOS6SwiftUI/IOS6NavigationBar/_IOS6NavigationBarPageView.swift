@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationBarPageView: View {
     var title: String?
     var backTitle: String?

@@ -33,6 +33,8 @@ public struct IOS6Form<Content: View>: View {
         }
     }
     
+    /// An initializer with view builder.
+    /// - Parameter content: view builder content
     public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }

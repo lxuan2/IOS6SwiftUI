@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationStackKey: EnvironmentKey {
     static var defaultValue: _IOS6NavigationStack? = nil
 }

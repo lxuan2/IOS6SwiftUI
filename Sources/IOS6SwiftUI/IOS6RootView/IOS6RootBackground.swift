@@ -18,6 +18,12 @@ struct _IOS6RootBackground: ViewModifier {
 }
 
 extension View {
+    /// Set IOS6 root view background.
+    ///
+    /// Powered by IOS6RootView
+    /// 
+    /// - Parameter background: background view
+    /// - Returns: some view
     public func ios6RootBackground<Background: View>(_ background: Background) -> some View {
         modifier(_IOS6RootBackground(label: {
             AnyView(background)

@@ -29,6 +29,11 @@ struct _IOS6TabItem: ViewModifier {
 }
 
 extension View {
+    /// Sets the IOS6 tab bar item associated with this view.
+    /// - Parameters:
+    ///   - tag: a tag to indicate order. ( Currently not implemented. )
+    ///   - label: a label that represent the current view
+    /// - Returns: some View
     public func ios6TabItem<V>(tag: Int = 0, @ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
         modifier(_IOS6TabItem(label: { AnyView(label()) }))
     }

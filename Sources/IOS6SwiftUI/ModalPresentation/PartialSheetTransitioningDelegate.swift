@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A partial sheet transition delegate
 public final class PartialSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
     var interactiveDismiss = true

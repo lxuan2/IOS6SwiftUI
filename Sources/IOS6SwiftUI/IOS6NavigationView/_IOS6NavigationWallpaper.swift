@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// `Private API`:
+/// IOS6 Navigation Wallpaper
 struct _IOS6NavigationWallpaper: View {
     
     var body: some View {

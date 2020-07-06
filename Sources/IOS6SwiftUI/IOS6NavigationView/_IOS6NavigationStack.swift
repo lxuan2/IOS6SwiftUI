@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 class _IOS6NavigationStack: ObservableObject {
     
     @Published private(set) var blocking = false

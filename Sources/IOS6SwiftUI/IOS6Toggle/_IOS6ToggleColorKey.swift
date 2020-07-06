@@ -22,6 +22,9 @@ extension EnvironmentValues {
 }
 
 extension View {
+    /// Set color for IOS6 Toggle.
+    /// - Parameter color: color
+    /// - Returns: some View
     public func ios6ToggleColor(_ color: Color?) -> some View {
         environment(\._ios6ToggleColor, color ?? Color(red: 0/255.0, green: 127/255.0, blue: 234/255.0))
     }

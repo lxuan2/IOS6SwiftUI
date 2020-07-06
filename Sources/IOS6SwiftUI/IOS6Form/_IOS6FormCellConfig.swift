@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// `Private API`:
+/// A ViewModifer configuring Form / List cell to match etched style in IOS6.
 struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
     private let pos: IOS6FormCellSectionPosition
     private let background: Wallpaper
@@ -75,7 +77,7 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
                     }
                 }
                 
-                if pos == .all {
+                if pos == .single {
                     RoundedRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                 }
             }
@@ -83,6 +85,7 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
     }
 }
 
+/// The shape of RoundRectangle but only top cap
 struct _UpCap: Shape, InsettableShape {
     
     private let cornerRadius: CGFloat
@@ -120,7 +123,7 @@ struct _UpCap: Shape, InsettableShape {
     }
 }
 
-
+/// The shape of RoundRectangle but only top part
 struct _UpRectangle: Shape, InsettableShape {
     
     private let cornerRadius: CGFloat
@@ -160,6 +163,7 @@ struct _UpRectangle: Shape, InsettableShape {
     }
 }
 
+/// The shape of RoundRectangle but only bottom part
 struct _DownRectangle: Shape, InsettableShape {
     
     private let cornerRadius: CGFloat
@@ -198,15 +202,5 @@ struct _DownRectangle: Shape, InsettableShape {
         var arc = self
         arc.insetAmount += amount
         return arc
-    }
-}
-
-extension View {
-    public func ios6SecPosition<Background: View>(_ postion: IOS6FormCellSectionPosition, background: Background) -> some View {
-        self.modifier(_IOS6FormCellConfig(at: postion, background: background))
-    }
-    
-    public func ios6SecPosition(_ postion: IOS6FormCellSectionPosition) -> some View {
-        self.modifier(_IOS6FormCellConfig(at: postion, background: EmptyView()))
     }
 }

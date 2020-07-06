@@ -27,7 +27,7 @@ struct _IOS6TabBarView: View {
                         self.selection = self.items.firstIndex(of: item)!
                     }) {
                         item.label()
-                            .environment(\.ios6IsSelected, self.selection == self.items.firstIndex(of: item)!)
+                            .environment(\._ios6IsSelected, self.selection == self.items.firstIndex(of: item)!)
                     }.buttonStyle(NoButtonStyle())
                 }
             }

@@ -1,6 +1,6 @@
 # IOS6SwiftUI
 
-A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI.
+A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. Similar behaviors to SwiftUI.
 
 ## Public API
 ### View
@@ -16,34 +16,32 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI.
 - \[x]  IOS6FormCell
 
 ### Modifer
-- \[x]  ios6SecPosition
-- \[x]  ios6NavigationBarTitle
-- \[x]  present
-- \[x]  ios6ForegroundColor
-- \[x]  scaledFont
-- \[x]  ios6ToggleColor
-- \[x]  etched
-- \[x]  ios6TabItem
 - \[x]  ios6RootBackground
 - \[x]  ios6StatusBar
+- \[x]  ios6SecPosition
+- \[x]  ios6TabItem
+- \[x]  ios6NavigationBarTitle
+- \[x]  ios6ForegroundColor
+- \[x]  ios6ToggleColor
+- \[x]  present
+- \[x]  scaledFont
+- \[x]  etched
 
 ### Environment Key
 - \[x]  ios6PresentationMode
-- \[x]  ios6IsSelected
 
 ### Style
 - \[x]  IOS6ToggleStyle
----
-## Availability
-IOS13.0 ~ IOS13.5.1
-IOS14 has not been tested currently.
 
 ---
+## Availability
+Device: iPhone and iPad
+System: IOS13.0 ~ IOS13.5.1. ( IOS14 has not been tested currently. )
+
 ## Installation
 In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
 Copy the address from github into search bar and hit the enter key. For more details, just google **Add Swift Package in Xcode**
 
----
 ##  How to Use
 
 Everything listed in the Feature section are useable. Here is an recommended implementation:  
@@ -95,15 +93,16 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
-- \[ ] Add more documents
+- \[ ] Enable ios6TabItem tag parameter
 - \[ ] Add an example project
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
 - \[ ] Archive final version for IOS13 and start IOS14 development
 - \[ ] iPad Double Column NavigationView Style
 - \[ ] More Navigation Styles (eg. Map)
----
+
 ## Finished Tasks
+- \[x] Add more documents
 - \[x] fix toggle disable mode
 - \[x] Fix over extended toggle touch area
 - \[x] Add IOS6List

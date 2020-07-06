@@ -7,6 +7,9 @@
 //
 
 import SwiftUI
+
+/// `Private API`:
+/// IOS6 Navigation Back button style.
 struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
     func makeBody(configuration: _IOS6NavigationBackButtonStyle.Configuration) -> some View {
         _IOS6NavigationBackButton(configuration: configuration)
@@ -87,6 +90,8 @@ struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
     }
 }
 
+/// `Private API`:
+/// IOS6 Navigation Back button Shape.
 struct _IOS6NavigationBackButtonShape: Shape {
     
     func path(in rect: CGRect) -> Path {

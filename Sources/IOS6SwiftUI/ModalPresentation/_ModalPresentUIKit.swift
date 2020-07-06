@@ -107,14 +107,38 @@ struct PresentViewModiferCustom_Previews: PreviewProvider {
 }
 
 public extension View {
+    /// Present a modal with UIModalPresentationStyle.
+    ///
+    /// - Parameters:
+    ///   - isPresented: A `Bool` indicate whether to present the view.
+    ///   - style: UIModalPresentationStyle
+    ///   - content: a SwiftUI View
+    /// - Returns: some View
     func present<Content: View>(isPresented: Binding<Bool>, with style: UIModalPresentationStyle, content: () -> Content) -> some View {
         modifier(_ModalPresentUIKit(isPresented: isPresented, with: style, given: nil, onDismissAttempt: nil, allowDismiss: .constant(true), sheet: content()))
     }
-
+    
+    /// Present a modal with UIViewControllerTransitioningDelegate given .custom in UIModalPresentationStyle.
+    ///
+    /// - Parameters:
+    ///   - isPresented: A `Bool` indicate whether to present the view.
+    ///   - transDelegate: UIViewControllerTransitioningDelegate
+    ///   - content: a SwiftUI View
+    /// - Returns: some View
     func present<Content: View>(isPresented: Binding<Bool>, given transDelegate: UIViewControllerTransitioningDelegate, content: @escaping () -> Content) -> some View {
         modifier(_ModalPresentUIKit(isPresented: isPresented, with: .custom, given: transDelegate, onDismissAttempt: nil, allowDismiss: .constant(true), sheet: content()))
     }
-
+    
+    /// Present a modal with .pageSheet in UIModalPresentationStyle.
+    ///
+    /// Compared with .sheet(), this function allows undismissable sheet,
+    ///
+    /// - Parameters:
+    ///   - isPresented: A `Bool` indicate whether to present the view.
+    ///   - isDismissable: A `Bool` indicate whether to allow dismiss the presented view.
+    ///   - onDismissAttempt: action to be performed when the presented view did attempt to dismiss.
+    ///   - content: content view builder
+    /// - Returns: some View
     func present<Content: View>(isPresented: Binding<Bool>, isDismissable: Binding<Bool>, onDismissAttempt: (() -> Void)? = nil, content: () -> Content) -> some View {
         modifier(_ModalPresentUIKit(isPresented: isPresented, with: .pageSheet, given: nil, onDismissAttempt: onDismissAttempt, allowDismiss: isDismissable, sheet: content()))
     }

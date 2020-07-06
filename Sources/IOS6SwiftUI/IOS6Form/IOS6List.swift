@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// A container that presents rows of data arranged in a single column
+/// with etched lines.
 public struct IOS6List<Content: View>: View {
     let content: () -> Content
     let cellBgC: UIColor?
@@ -26,6 +28,11 @@ public struct IOS6List<Content: View>: View {
         }
     }
     
+    /// An initializer with background color and cell background color.
+    /// - Parameters:
+    ///   - bgC: list background color
+    ///   - cellBgC: cell background color
+    ///   - content: content view builder
     public init(bgC: UIColor? = nil, cellBgC: UIColor? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.cellBgC = cellBgC

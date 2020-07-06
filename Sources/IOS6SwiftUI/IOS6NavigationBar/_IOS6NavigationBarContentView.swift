@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `Private API`:
 struct _IOS6NavigationBarContentView: View {
     @EnvironmentObject private var stack: _IOS6NavigationStack
     let width: CGFloat
@@ -38,6 +39,8 @@ struct IOS6NavigationBarItems_Previews: PreviewProvider {
     }
 }
 
+/// `Private API`:
+/// A ViewModifer combining opacity and offset.
 struct MoveInXAndFade: ViewModifier {
     var opacity: Double
     var offset: CGFloat
@@ -55,17 +58,14 @@ struct MoveInXAndFade: ViewModifier {
 }
 
 extension AnyTransition {
+    /// Transition with moving in and opacity.
+    /// - Parameter offset: offset amount
+    /// - Returns: any transition
     static func moveInXAndFade(offset: CGFloat) -> AnyTransition {
         AnyTransition.modifier(
             active: MoveInXAndFade((0, offset)),
             identity: MoveInXAndFade((1, 0)))
     }
 }
-
-//extension View {
-//    func opacityAndOffset(_ tuple: (Double, CGFloat)) -> some View {
-//        return self.modifier(MoveInXAndFade(tuple))
-//    }
-//}
 
 

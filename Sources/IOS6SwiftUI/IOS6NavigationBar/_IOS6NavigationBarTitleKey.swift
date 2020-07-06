@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// `Private API`:
+/// A preference key for navigation bar title
 struct _IOS6NavigationBarTitleKey: PreferenceKey {
     typealias Value = String?
     
@@ -19,6 +21,12 @@ struct _IOS6NavigationBarTitleKey: PreferenceKey {
 }
 
 extension View {
+    /// Set IOS6 navigation bar title for current view
+    ///
+    /// Capable with IOS6NavigationView
+    ///
+    /// - Parameter title: title string
+    /// - Returns: some View
     public func ios6NavigationBarTitle(_ title: String) -> some View {
         self.preference(key: _IOS6NavigationBarTitleKey.self, value: title)
     }

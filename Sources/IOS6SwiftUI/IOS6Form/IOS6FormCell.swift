@@ -9,6 +9,8 @@
 import SwiftUI
 
 /// A view for row apperance in the form with IOS 6 style.
+///
+/// This is a recommanded layout template for cells in IOS6Form.
 public struct IOS6FormCell<Comment: View>: View {
     private let image: Image?
     private let title: String
@@ -52,6 +54,11 @@ public struct IOS6FormCell<Comment: View>: View {
         .opacity(isEnable ? 1 : 0.7)
     }
     
+    /// An initializer with image, title and comment.
+    /// - Parameters:
+    ///   - image: image view to be presented in the front
+    ///   - title: title behind the image
+    ///   - comment: comment after title using ios6ForegroundColors
     public init(image: Image? = nil, title: String, comment: Comment?) {
         self.image = image
         self.title = title
@@ -65,6 +72,11 @@ public struct IOS6FormCell<Comment: View>: View {
 }
 
 extension IOS6FormCell where Comment == Text {
+    /// An initializer with image view, title and comment string.
+    /// - Parameters:
+    ///   - image: image view to be presented in the front
+    ///   - title: title behind the image
+    ///   - comment: comment text after title using ios6ForegroundColors
     public init<S>(image: Image? = nil, title: String, comment: S) where S : StringProtocol {
         self.image = image
         self.title = title
@@ -72,6 +84,10 @@ extension IOS6FormCell where Comment == Text {
         commentIsText = true
     }
     
+    /// An initializer with image view, title.
+    /// - Parameters:
+    ///   - image: image view to be presented in the front
+    ///   - title: title behind the images
     public init(image: Image? = nil, title: String) {
         self.image = image
         self.title = title
