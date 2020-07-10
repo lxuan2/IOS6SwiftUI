@@ -1,5 +1,5 @@
 //
-//  IOS6FormCell.swift
+//  IOS6PresetListCell.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/9/20.
@@ -10,8 +10,8 @@ import SwiftUI
 
 /// A view for row apperance in the form with IOS 6 style.
 ///
-/// This is a recommanded layout template for cells in IOS6Form.
-public struct IOS6FormCell<Comment: View>: View {
+/// This is a recommanded layout template for cells in IOS6Form / IOS6List.
+public struct IOS6PresetListCell<Comment: View>: View {
     private let image: Image?
     private let title: String
     private let commentView: Comment?
@@ -71,7 +71,7 @@ public struct IOS6FormCell<Comment: View>: View {
     }
 }
 
-extension IOS6FormCell where Comment == Text {
+extension IOS6PresetListCell where Comment == Text {
     /// An initializer with image view, title and comment string.
     /// - Parameters:
     ///   - image: image view to be presented in the front
@@ -98,6 +98,6 @@ extension IOS6FormCell where Comment == Text {
 
 struct IOS6TableCell_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6FormCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
+        IOS6PresetListCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
     }
 }

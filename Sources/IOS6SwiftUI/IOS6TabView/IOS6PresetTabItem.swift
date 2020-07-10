@@ -1,5 +1,5 @@
 //
-//  IOS6TabItemLabel.swift
+//  IOS6PresetTabItem.swift
 //  IOS6
 //
 //  Created by Xuan Li on 6/21/20.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// A template layout for IOS6TabItem.
-public struct IOS6TabItemLabel: View {
+public struct IOS6PresetTabItem: View {
     @Environment(\._ios6IsSelected) var isSelected
     let image: Image
     let text: String
@@ -55,6 +55,6 @@ public struct IOS6TabItemLabel: View {
 
 struct IOS6TabItemLabel_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6TabItemLabel(image: Image(systemName: "mic"), title: "Mic")
+        IOS6PresetTabItem(image: Image(systemName: "mic"), title: "Mic")
     }
 }

@@ -54,7 +54,7 @@ public struct IOS6NavigationView<Content: View>: View {
     /// - Parameters:
     ///   - interactiveSwipe: a `Bool` value indicate whether interactive swipe is allowed
     ///   - content: navigation root view
-    public init(interactiveSwipe: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+    public init(interactiveSwipe: Bool = true, @ViewBuilder content: @escaping () -> Content) {
         self.interactiveSwipe = interactiveSwipe
         stack = _IOS6NavigationStack(rootView: content())
     }

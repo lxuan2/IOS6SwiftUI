@@ -38,26 +38,17 @@ struct _IOS6FormCellConfig<Wallpaper: View>: ViewModifier {
         
         var body: some View {
             ZStack {
-                if pos == .bottom {
-                    _DownRectangle(cornerRadius: 10, padding: 0.8)
-                        .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
-                }
+                ZStack {
+                    Color(red: 202/255.0, green: 202/255.0, blue: 202/255.0, opacity: 1)
+                        .frame(minHeight: 1, maxHeight: 1)
+                        .shadow(color: Color.white.opacity(0.7), radius: 0, x: 0, y: 1)
+                }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: pos == .list ? .bottom: .top)
                 
                 background
                 
-                VStack(spacing: 0) {
-                    if pos == .medium || pos == .bottom || pos == .list {
-                        Color.white
-                            .blendMode(.destinationOver)
-                            .frame(minHeight: 1, maxHeight: 1)
-                    }
-                    
-                    Spacer()
-                    
-                    if pos == .medium || pos == .top || pos == .list {
-                        Color.black.opacity(0.18)
-                            .frame(minHeight: 1, maxHeight: 1)
-                    }
+                if pos == .bottom {
+                    _DownRectangle(cornerRadius: 10, padding: 0.8)
+                        .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                 }
                 
                 if pos == .top {

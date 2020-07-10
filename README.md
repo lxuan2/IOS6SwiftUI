@@ -4,16 +4,20 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. 
 
 ## Public API
 ### View
-- \[x]  IOS6RootView
 - \[x]  IOS6NavigationView
 - \[x]  IOS6NavigationLink
+- \[x]  IOS6RootView
 - \[x]  IOS6TabView
-- \[x]  IOS6TabItemLabel
 - \[x]  IOS6Button
 - \[x]  IOS6Toggle
-- \[x]  IOS6List
 - \[x]  IOS6Form
-- \[x]  IOS6FormCell
+- \[x]  IOS6List
+- \[x]  IOS6SignLabel
+
+- Preset view (Recommanded)
+- \[x]  IOS6PresetListCell
+- \[x]  IOS6PresetTabItem
+- \[x]  IOS6PresetSignLabel
 
 ### Modifer
 - \[x]  ios6RootBackground
@@ -36,7 +40,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. 
 ---
 ## Availability
 Device: iPhone and iPad
-System: IOS13.0 ~ IOS13.5.1. ( IOS14 has not been tested currently. )
+System: IOS 13.0.0 ~ IOS 13.5.1. ( IOS14 has not been tested yet. )
 
 ## Installation
 In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
@@ -58,17 +62,17 @@ struct ContentView: View {
             IOS6Form {
                 Section {
                     IOS6Toggle(isOn: self.$isOn) {
-                        IOS6FormCell(image: Image("AppleIDiCloud"), title: "iCloud")
+                        IOS6PresetListCell(image: Image("AppleIDiCloud"), title: "iCloud")
                     }
                     .ios6SecPosition(.top)
                     .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                     
                     IOS6NavigationLink(destination: Text("Messages").ios6NavigationBarTitle("Messages"), sectionPostion: .medium) {
-                        IOS6FormCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
+                        IOS6PresetListCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
                     }
                     
                     IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime"), sectionPostion: .bottom) {
-                        IOS6FormCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: self.commentIcon)
+                        IOS6PresetListCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: self.commentIcon)
                     }
                 }
             }
