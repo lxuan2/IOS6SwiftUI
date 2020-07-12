@@ -14,7 +14,7 @@ public struct _IOS6ButtonLabel<Label: View>: View {
     @Environment(\.isEnabled) private var isEnabled
     private let isPressed: Bool
     private let label: Label
-    private let position: IOS6FormCellSectionPosition
+    private let position: IOS6SectionPosition
     private let isLink: Bool
     
     public var body: some View {
@@ -28,12 +28,12 @@ public struct _IOS6ButtonLabel<Label: View>: View {
                         IOS6ButtonDefaultBackground
                     }
             })
-            .modifier(_IOS6FormCellConfig(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
+            .modifier(_IOS6SectionItem(at: self.position, background: IOS6ButtonDefaultListBackground, isLink: isLink))
             ._ios6ActiveColor(isPressed ? .white : nil)
             .opacity(self.isEnabled ? 1 : 0.9)
     }
     
-    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6FormCellSectionPosition, isLink: Bool) {
+    init(_ isPressed: Bool, label: Label, sectionPostion: IOS6SectionPosition, isLink: Bool) {
         self.isPressed = isPressed
         self.label = label
         self.position = sectionPostion

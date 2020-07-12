@@ -23,7 +23,9 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6RootBackground
 - \[x]  ios6StatusBar
 - \[x]  ios6SectionItem
-- \[x]  ios6SectionHeader
+- \[x]  ios6SectionListHeader
+- \[x]  ios6SectionFormHeader
+- \[x]  ios6SectionFormFooter
 - \[x]  ios6TabItem
 - \[x]  ios6NavigationBarTitle
 - \[x]  ios6ForegroundColor

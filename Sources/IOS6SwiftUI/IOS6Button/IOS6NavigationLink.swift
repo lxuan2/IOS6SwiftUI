@@ -58,7 +58,7 @@ extension IOS6NavigationLink where Label == _IOS6ButtonLabel<SubLabel> {
     ///   - destination: a view that will be presented.
     ///   - label: a content view.
     ///   - position: the position in IOS6Form / IOS6List section.
-    public init(destination: Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6FormCellSectionPosition = .none) {
+    public init(destination: Destination, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionPosition = .none) {
         self.init(label: { isPressed in
             _IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: true)
         }, destination: destination)

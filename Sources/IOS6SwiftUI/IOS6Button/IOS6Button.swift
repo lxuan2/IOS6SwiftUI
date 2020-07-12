@@ -61,7 +61,7 @@ extension IOS6Button where Label == _IOS6ButtonLabel<SubLabel> {
     ///   - action: the action behavior when the control is triggered
     ///   - label: a content view.
     ///   - position: the position in IOS6Form / IOS6List section.
-    public init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6FormCellSectionPosition = .none) {
+    public init(action: @escaping () -> Void, label: @escaping () -> SubLabel, sectionPostion position: IOS6SectionPosition = .none) {
         self.init(action: action, label: { isPressed in _IOS6ButtonLabel(isPressed, label: label(), sectionPostion: position, isLink: false)})
     }
 }
