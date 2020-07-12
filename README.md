@@ -1,6 +1,6 @@
 # IOS6SwiftUI
 
-A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. Similar behaviors to SwiftUI.
+A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI and similar behaviors as SwiftUI.
 
 ## Public API
 ### View
@@ -14,7 +14,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. 
 - \[x]  IOS6List
 - \[x]  IOS6SignLabel
 
-- Preset view (Recommanded)
+### Preset view (Recommanded)
 - \[x]  IOS6PresetListCell
 - \[x]  IOS6PresetTabItem
 - \[x]  IOS6PresetSignLabel
@@ -22,7 +22,8 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI. 
 ### Modifer
 - \[x]  ios6RootBackground
 - \[x]  ios6StatusBar
-- \[x]  ios6SecPosition
+- \[x]  ios6SectionItem
+- \[x]  ios6SectionHeader
 - \[x]  ios6TabItem
 - \[x]  ios6NavigationBarTitle
 - \[x]  ios6ForegroundColor
@@ -47,6 +48,7 @@ In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add
 Copy the address from github into search bar and hit the enter key. For more details, just google **Add Swift Package in Xcode**
 
 ##  How to Use
+(Suggestions: Preset views are recommanded pre-implemented elements. Designed for saving time.)
 
 Everything listed in the Feature section are useable. Here is an recommended implementation:  
 

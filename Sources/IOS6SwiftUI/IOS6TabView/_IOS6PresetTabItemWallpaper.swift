@@ -1,5 +1,5 @@
 //
-//  _IOS6TabItemLabelWallpaper.swift
+//  _IOS6PresetTabItemWallpaper.swift
 //  IOS6
 //
 //  Created by Xuan Li on 6/21/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct _IOS6TabItemLabelWallpaper: View {
+struct _IOS6PresetTabItemWallpaper: View {
     var body: some View {
         LinearGradient(gradient: Gradient(colors: [Color(red: 25/255.0, green: 108/255.0, blue: 238/255.0),
                                                    Color(red: 35/255.0, green: 135/255.0, blue: 211/255.0),
@@ -45,6 +45,6 @@ struct _IOS6TabItemLabelWallpaper: View {
 
 struct IOS6TabItemLabelWallpaper_Previews: PreviewProvider {
     static var previews: some View {
-        _IOS6TabItemLabelWallpaper()
+        _IOS6PresetTabItemWallpaper()
     }
 }

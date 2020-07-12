@@ -51,7 +51,7 @@ extension View {
     ///   - postion: position in IOS6Form(.top, .bottom, .medium, .single) / IOS6List(.list)
     ///   - background: customized background for the cell in IOS6Form / IOS6List
     /// - Returns: some View
-    public func ios6SecPosition<Background: View>(_ postion: IOS6FormCellSectionPosition, background: Background) -> some View {
+    public func ios6SectionItem<Background: View>(_ postion: IOS6FormCellSectionPosition, background: Background) -> some View {
         self.modifier(_IOS6FormCellConfig(at: postion, background: background))
     }
     
@@ -63,7 +63,7 @@ extension View {
     ///
     /// - Parameter postion: position in IOS6Form(.top, .bottom, .medium, .single) / IOS6List(.list)
     /// - Returns: some View
-    public func ios6SecPosition(_ postion: IOS6FormCellSectionPosition) -> some View {
+    public func ios6SectionItem(_ postion: IOS6FormCellSectionPosition) -> some View {
         self.modifier(_IOS6FormCellConfig(at: postion, background: EmptyView()))
     }
 }

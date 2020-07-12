@@ -22,7 +22,7 @@ public struct IOS6PresetTabItem: View {
             VStack(spacing: 0) {
                 Group {
                     if isSelected {
-                        _IOS6TabItemLabelWallpaper()
+                        _IOS6PresetTabItemWallpaper()
                     } else {
                         LinearGradient(gradient: Gradient(colors: [Color(red: 160/255.0, green: 160/255.0, blue: 160/255.0), Color(red: 90/255.0, green: 90/255.0, blue: 90/255.0)]), startPoint: .top, endPoint: .bottom)
                     }

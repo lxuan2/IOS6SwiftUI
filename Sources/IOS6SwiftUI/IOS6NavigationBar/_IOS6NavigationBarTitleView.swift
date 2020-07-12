@@ -55,7 +55,9 @@ extension View {
     }
     
     /// IOS6 etched Style
-    public func etched() -> some View {
-        shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: -1)
+    /// - Parameter isDown: A Boolean indicates z axis direction.
+    /// - Returns: some View
+    public func etched(isDown: Bool = true) -> some View {
+        shadow(color: Color.black.opacity(0.5), radius: 0, x: 0, y: isDown ? -1 : 1)
     }
 }
