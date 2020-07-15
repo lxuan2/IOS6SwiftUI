@@ -17,27 +17,27 @@ struct _IOS6NavigationBarPageView: View {
     let space: CGFloat = 5.5
     
     var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                if self.isBackButtonShown {
-                    HStack(spacing: 0) {
-                        Button(self.backTitle ?? "Back") {
-                            self.dismiss()
-                        }
-                        .buttonStyle(_IOS6NavigationBackButtonStyle())
-                        .padding(.horizontal, self.space)
-                        Spacer(minLength: proxy.size.width / 4 * 3)
-                    }
-                    .zIndex(0)
+        HStack(spacing: self.space) {
+            if self.isBackButtonShown {
+                Button(self.backTitle ?? "Back") {
+                    self.dismiss()
                 }
-                
-                _IOS6NavigationBarTitleView(title: self.title)
-                    .padding(.horizontal, proxy.size.width / 4.5)
-                    .truncationMode(.middle)
-                    .zIndex(1)
+                .buttonStyle(_IOS6NavigationBackButtonStyle())
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            } else {
+                Spacer()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .lineLimit(1)
+            
+            _IOS6NavigationBarTitleView(title: self.title)
+                .fixedSize()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .lineLimit(1)
+        .padding(.horizontal, self.space)
     }
     
     var isBackButtonShown: Bool {

@@ -22,8 +22,6 @@ public struct IOS6List<Content: View>: View {
             UITableView.appearance().backgroundColor = self.bgC
             UITableViewCell.appearance().backgroundColor = self.cellBgC
             UITableView.appearance().separatorStyle = .none
-            UITableView.appearance().tableHeaderView = nil
-            UITableView.appearance().tableFooterView = nil
             UIView.appearance().isExclusiveTouch = true
         }
     }

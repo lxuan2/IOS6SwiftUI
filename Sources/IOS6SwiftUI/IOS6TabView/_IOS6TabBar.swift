@@ -1,5 +1,5 @@
 //
-//  _IOS6TabBarView.swift
+//  _IOS6TabBar.swift
 //  IOS6
 //
 //  Created by Xuan Li on 6/16/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct _IOS6TabBarView: View {
+struct _IOS6TabBar: View {
     @Binding var selection: Int
     @Binding var items: [_IOS6TabItemData]
     let height: CGFloat = 50
@@ -43,7 +43,7 @@ struct _IOS6TabBarView: View {
 
 struct _IOS6TabBarView_Previews: PreviewProvider {
     static var previews: some View {
-        _IOS6TabBarView(selection: .constant(0), items: .constant(.init()))
+        _IOS6TabBar(selection: .constant(0), items: .constant(.init()))
     }
 }
 

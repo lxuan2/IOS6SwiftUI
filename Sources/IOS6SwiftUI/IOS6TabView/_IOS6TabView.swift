@@ -22,7 +22,7 @@ struct _IOS6TabView<Content: View>: View {
                 content()
             }.padding(.bottom, 50)
         }
-        .overlay(_IOS6TabBarView(selection: $selection, items: $data), alignment: .bottom)
+        .overlay(_IOS6TabBar(selection: $selection, items: $data), alignment: .bottom)
         .environment(\._ios6Tab, id)
         .onPreferenceChange(_IOS6TabItemKey.self) { items in
             self.data = items

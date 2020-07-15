@@ -13,6 +13,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6Form
 - \[x]  IOS6List
 - \[x]  IOS6SignLabel
+- \[x]  IOS6Slider
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetListCell

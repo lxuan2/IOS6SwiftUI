@@ -14,24 +14,27 @@ struct _IOS6NavigationBar: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                Color(red: 233/255, green: 244/255, blue: 255/255)
-                    .frame(height: 0.55)
-                
-                LinearGradient(
-                    gradient:
-                        Gradient(colors:
-                                    [Color(red: 90.0/255.0, green: 116.0/255.0, blue: 153.0/255.0),
-                                     Color(red: 143.0/255.0, green: 163.0/255.0, blue: 188.0/255.0),
-                                     Color(red: 190.0/255.0, green: 203.0/255.0, blue: 220.0/255.0)]),
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
-                
-                Color(red: 69/255, green: 91/255, blue: 125/255)
-                    .frame(height: 1.1)
-            }
+            LinearGradient(
+                gradient:
+                    Gradient(colors:
+                                [Color(red: 90.0/255.0, green: 116.0/255.0, blue: 153.0/255.0),
+                                 Color(red: 143.0/255.0, green: 163.0/255.0, blue: 188.0/255.0),
+                                 Color(red: 190.0/255.0, green: 203.0/255.0, blue: 220.0/255.0)]),
+                startPoint: .bottom,
+                endPoint: .top
+            )
             .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
+            .overlay(
+                VStack(spacing: 0) {
+                    Color(red: 233/255, green: 244/255, blue: 255/255)
+                        .frame(height: 0.5)
+                    
+                    Spacer()
+                    
+                    Color(red: 69/255, green: 91/255, blue: 125/255)
+                        .frame(height: 1)
+                }
+            )
             
             GeometryReader { proxy in
                 _IOS6NavigationBarContentView(width: proxy.size.width)
