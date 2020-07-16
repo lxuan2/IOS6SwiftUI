@@ -15,12 +15,12 @@ struct _IOS6TabItem: ViewModifier {
     
     func body(content: Content) -> some View {
         Group {
-            if globalId != nil && globalId! != id {
+            if globalId != id as AnyHashable {
                 Spacer()
             } else {
                 content
             }
-        }.preference(key: _IOS6TabItemKey.self, value: [_IOS6TabItemData(label: self.label, id: self.id)])
+        }.preference(key: _IOS6TabItemKey.self, value: [IOS6TabBarStyleConfiguration.Label(label, id: id)])
     }
     
     init(label: @escaping () -> AnyView) {
@@ -39,34 +39,20 @@ extension View {
     }
 }
 
-struct _IOS6TabItemData: Equatable, Identifiable {
-    let label: () -> AnyView
-    let id: UUID
-    
-    init(label: @escaping () -> AnyView, id: UUID) {
-        self.id = id
-        self.label = label
-    }
-    
-    static func == (lhs: _IOS6TabItemData, rhs: _IOS6TabItemData) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 struct _IOS6TabItemKey: PreferenceKey {
-    static var defaultValue: [_IOS6TabItemData] = []
+    static var defaultValue: [IOS6TabBarStyleConfiguration.Label] = []
     
-    static func reduce(value: inout [_IOS6TabItemData], nextValue: () -> [_IOS6TabItemData]) {
+    static func reduce(value: inout [IOS6TabBarStyleConfiguration.Label], nextValue: () -> [IOS6TabBarStyleConfiguration.Label]) {
         value.append(contentsOf: nextValue())
     }
 }
 
 struct _IOS6TabKey: EnvironmentKey {
-    static var defaultValue: UUID? = nil
+    static var defaultValue: AnyHashable? = nil
 }
 
 extension EnvironmentValues {
-    var _ios6Tab: UUID? {
+    var _ios6Tab: AnyHashable? {
         get { return self[_IOS6TabKey.self] }
         set { self[_IOS6TabKey.self] = newValue }
     }

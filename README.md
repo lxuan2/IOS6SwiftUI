@@ -102,6 +102,7 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
+- \[ ] For now, only UUID as tag in tabview
 - \[ ] Enable ios6TabItem tag parameter
 - \[ ] Add an example project
 - \[ ] IOS6Alert
@@ -111,6 +112,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Add IOS6TabBarStyle
 - \[x] Add more documents
 - \[x] fix toggle disable mode
 - \[x] Fix over extended toggle touch area

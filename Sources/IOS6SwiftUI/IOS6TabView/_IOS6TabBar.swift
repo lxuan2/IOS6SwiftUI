@@ -9,46 +9,17 @@
 import SwiftUI
 
 struct _IOS6TabBar: View {
-    @Binding var selection: Int
-    @Binding var items: [_IOS6TabItemData]
-    let height: CGFloat = 50
+    @Environment(\.ios6TabBarStyle) private var style
+    
+    private var configuration: IOS6TabBarStyleConfiguration
     
     var body: some View {
-        ZStack {
-            Color.black
-                .overlay(topLayer, alignment: .top)
-                .overlay(Rectangle().fill(Color.white.opacity(0.18)).frame(height: 0.5).padding(.top, 1), alignment: .top)
-                .edgesIgnoringSafeArea(.all)
-                .zIndex(0)
-            
-            HStack(spacing: 0) {
-                ForEach(items) { item in
-                    Button(action: {
-                        self.selection = self.items.firstIndex(of: item)!
-                    }) {
-                        item.label()
-                            .environment(\._ios6IsSelected, self.selection == self.items.firstIndex(of: item)!)
-                    }.buttonStyle(NoButtonStyle())
-                }
-            }
-        }.frame(height: height)
+        self.style.makeBody(configuration:
+            self.configuration
+        )
     }
     
-    var topLayer: some View {
-        LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.2), Color.white.opacity(0.1)]), startPoint: .top, endPoint: .bottom)
-            .frame(height: height / 2)
-            .padding(.top, 1)
-    }
-}
-
-struct _IOS6TabBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        _IOS6TabBar(selection: .constant(0), items: .constant(.init()))
-    }
-}
-
-struct NoButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
+    init(selection: Binding<AnyHashable?>, items: [IOS6TabBarStyleConfiguration.Label]) {
+        self.configuration = IOS6TabBarStyleConfiguration(selection: selection, labels: items)
     }
 }
