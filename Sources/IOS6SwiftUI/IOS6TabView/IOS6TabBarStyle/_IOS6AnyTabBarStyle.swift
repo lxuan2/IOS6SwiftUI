@@ -1,5 +1,5 @@
 //
-//  IOS6AnyTabBarStyle.swift
+//  _IOS6AnyTabBarStyle.swift
 //  IOS6
 //
 //  Created by Xuan Li on 7/15/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct IOS6AnyTabBarStyle: IOS6TabBarStyle {
+struct _IOS6AnyTabBarStyle: IOS6TabBarStyle {
     private let styleMakeBody: (IOS6TabBarStyle.Configuration) -> AnyView
     
     init<S: IOS6TabBarStyle>(_ style: S) {

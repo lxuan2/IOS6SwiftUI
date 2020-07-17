@@ -28,6 +28,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6SectionFormHeader
 - \[x]  ios6SectionFormFooter
 - \[x]  ios6TabItem
+- \[x]  ios6Tag
 - \[x]  ios6NavigationBarTitle
 - \[x]  ios6ForegroundColor
 - \[x]  ios6ToggleColor
@@ -44,7 +45,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 ---
 ## Availability
 Device: iPhone and iPad
-System: IOS 13.0.0 ~ IOS 13.5.1. ( IOS14 has not been tested yet. )
+System: IOS 13.0.0 ~ IOS 13.6.0. ( IOS14 has not been tested yet. )
 
 ## Installation
 In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
@@ -102,8 +103,6 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
-- \[ ] For now, only UUID as tag in tabview
-- \[ ] Enable ios6TabItem tag parameter
 - \[ ] Add an example project
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
@@ -112,6 +111,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Add tag, ios6tabview now memorize loaded view
 - \[x] Add IOS6TabBarStyle
 - \[x] Add more documents
 - \[x] fix toggle disable mode

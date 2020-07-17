@@ -33,8 +33,8 @@ public struct IOS6List<Content: View>: View {
     ///   - content: content view builder
     public init(bgC: UIColor? = nil, cellBgC: UIColor? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        self.cellBgC = cellBgC
-        self.bgC = bgC
+        self.cellBgC = cellBgC ?? UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
+        self.bgC = bgC ?? UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
     }
 }
 

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct _IOS6TabBar: View {
-    @Environment(\.ios6TabBarStyle) private var style
+    @Environment(\._ios6TabBarStyle) private var style
     
     private var configuration: IOS6TabBarStyleConfiguration
     

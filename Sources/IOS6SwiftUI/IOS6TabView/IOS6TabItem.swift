@@ -10,17 +10,25 @@ import SwiftUI
 
 struct _IOS6TabItem: ViewModifier {
     @State private var id: UUID = UUID()
+    @State private var loaded: Bool = false
     @Environment(\._ios6Tab) var globalId
+    @Environment(\._ios6Tag) var tag
     let label: () -> AnyView
     
     func body(content: Content) -> some View {
-        Group {
-            if globalId != id as AnyHashable {
-                Spacer()
-            } else {
+        let enabled = globalId == (tag ?? id as AnyHashable)
+        return Group {
+            if self.loaded || enabled {
                 content
+                    .disabled(!enabled)
+                    .opacity(enabled ? 1 : 0)
+                    .onAppear {
+                        self.loaded = true
+                }
+            } else {
+                Spacer()
             }
-        }.preference(key: _IOS6TabItemKey.self, value: [IOS6TabBarStyleConfiguration.Label(label, id: id)])
+        }.preference(key: _IOS6TabItemKey.self, value: [IOS6TabBarStyleConfiguration.Label(label, id: (tag ?? id as AnyHashable))])
     }
     
     init(label: @escaping () -> AnyView) {
@@ -31,10 +39,9 @@ struct _IOS6TabItem: ViewModifier {
 extension View {
     /// Sets the IOS6 tab bar item associated with this view.
     /// - Parameters:
-    ///   - tag: a tag to indicate order. ( Currently not implemented. )
     ///   - label: a label that represent the current view
     /// - Returns: some View
-    public func ios6TabItem<V>(tag: Int = 0, @ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
+    public func ios6TabItem<V>(@ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
         modifier(_IOS6TabItem(label: { AnyView(label()) }))
     }
 }

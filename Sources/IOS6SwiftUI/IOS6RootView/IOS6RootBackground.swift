@@ -10,10 +10,11 @@ import SwiftUI
 
 struct _IOS6RootBackground: ViewModifier {
     @State private var id: UUID = UUID()
+    @Environment(\.isEnabled) var isEnabled
     let label: () -> AnyView
     
     func body(content: Content) -> some View {
-        content.preference(key: _IOS6RootBackgroundKey.self, value: _IOS6RootBackgroundData(label: label, id: id))
+        content.preference(key: _IOS6RootBackgroundKey.self, value: isEnabled ? _IOS6RootBackgroundData(label: label, id: id) : nil)
     }
 }
 
