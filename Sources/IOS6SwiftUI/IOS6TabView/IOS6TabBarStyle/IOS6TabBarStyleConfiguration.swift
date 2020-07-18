@@ -13,21 +13,22 @@ public struct IOS6TabBarStyleConfiguration {
     
     public let labels: [IOS6TabBarStyleConfiguration.Label]
     
-    public struct Label: View, Equatable, Identifiable {
-        private let styleMakeBody: () -> AnyView
+    public struct Label: Equatable, Identifiable {
+        private let _icon: () -> AnyView
+        private let _title: () -> AnyView
         public let id: AnyHashable
         
-        public var body: some View {
-            self.styleMakeBody()
+        public var icon: some View {
+            self._icon()
         }
         
-        init(_ label: @escaping () -> AnyView, id: AnyHashable) {
-            self.styleMakeBody = label
-            self.id = id
+        public var title: some View {
+            self._title()
         }
         
-        init<LL: View>(_ label: LL, id: AnyHashable) {
-            self.styleMakeBody = label.makeTypeErasedBody
+        init<Title: View, Icon: View>(_ title: Title, _ icon: Icon, id: AnyHashable) {
+            self._title = title.makeTypeErasedBody
+            self._icon = icon.makeTypeErasedBody
             self.id = id
         }
         

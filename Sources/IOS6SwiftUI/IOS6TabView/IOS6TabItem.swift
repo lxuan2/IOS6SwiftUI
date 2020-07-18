@@ -8,41 +8,73 @@
 
 import SwiftUI
 
-struct _IOS6TabItem: ViewModifier {
+struct _IOS6TabItem<Title: View, Icon: View>: ViewModifier {
     @State private var id: UUID = UUID()
     @State private var loaded: Bool = false
-    @Environment(\._ios6Tab) var globalId
+    @Environment(\._ios6SelectedTab) var globalId
     @Environment(\._ios6Tag) var tag
-    let label: () -> AnyView
+    let _title: Title
+    let _icon: Icon
     
     func body(content: Content) -> some View {
-        let enabled = globalId == (tag ?? id as AnyHashable)
+        let disabled = globalId != (tag ?? id as AnyHashable)
         return Group {
-            if self.loaded || enabled {
+            Spacer()
+                .preference(key: _IOS6TabItemKey.self,
+                            value: [IOS6TabBarStyleConfiguration.Label(_title, _icon, id: (tag ?? id as AnyHashable))])
+            
+            if self.loaded || disabled {
                 content
-                    .disabled(!enabled)
-                    .opacity(enabled ? 1 : 0)
+                    .ios6Disabled(disabled)
+                    .opacity(disabled ? 0 : 1)
                     .onAppear {
                         self.loaded = true
                 }
-            } else {
-                Spacer()
             }
-        }.preference(key: _IOS6TabItemKey.self, value: [IOS6TabBarStyleConfiguration.Label(label, id: (tag ?? id as AnyHashable))])
+        }
     }
     
-    init(label: @escaping () -> AnyView) {
-        self.label = label
+    init(title: Title, icon: Icon) {
+        self._title = title
+        self._icon = icon
     }
 }
 
 extension View {
     /// Sets the IOS6 tab bar item associated with this view.
     /// - Parameters:
-    ///   - label: a label that represent the current view
+    ///   - title: title label
+    ///   - icon: icon label
     /// - Returns: some View
-    public func ios6TabItem<V>(@ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
-        modifier(_IOS6TabItem(label: { AnyView(label()) }))
+    public func ios6TabItem<Title: View, Icon: View>(title: () -> Title, icon: () -> Icon) -> some View {
+        modifier(_IOS6TabItem(title: title(), icon: icon()))
+    }
+    
+    /// Sets the IOS6 tab bar item associated with this view.
+    /// - Parameters:
+    ///   - title: title
+    ///   - name: system image name
+    /// - Returns: some View
+    public func ios6TabItem<S>(_ title: S, systemImage name: String) -> some View where S : StringProtocol {
+        modifier(_IOS6TabItem(title: Text(title), icon: Image(systemName: name).resizable()))
+    }
+    
+    /// Sets the IOS6 tab bar item associated with this view.
+    /// - Parameters:
+    ///   - title: A string to used as the label’s title.
+    ///   - icon: icon label
+    /// - Returns: some View
+    public func ios6TabItem<S, Icon: View>(_ title: S, icon: () -> Icon) -> some View where S : StringProtocol {
+        modifier(_IOS6TabItem(title: Text(title), icon: icon()))
+    }
+    
+    /// Sets the IOS6 tab bar item associated with this view.
+    /// - Parameters:
+    ///   - title: A string to used as the label’s title.
+    ///   - image: The name of the image resource to lookup.
+    /// - Returns: some View
+    public func ios6TabItem<S, Icon: View>(_ title: S, image: String) -> some View where S : StringProtocol {
+        modifier(_IOS6TabItem(title: Text(title), icon: Image(image)))
     }
 }
 
@@ -54,13 +86,13 @@ struct _IOS6TabItemKey: PreferenceKey {
     }
 }
 
-struct _IOS6TabKey: EnvironmentKey {
+struct _IOS6SelectedTabKey: EnvironmentKey {
     static var defaultValue: AnyHashable? = nil
 }
 
 extension EnvironmentValues {
-    var _ios6Tab: AnyHashable? {
-        get { return self[_IOS6TabKey.self] }
-        set { self[_IOS6TabKey.self] = newValue }
+    var _ios6SelectedTab: AnyHashable? {
+        get { return self[_IOS6SelectedTabKey.self] }
+        set { self[_IOS6SelectedTabKey.self] = newValue }
     }
 }

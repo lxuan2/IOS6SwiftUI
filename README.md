@@ -17,7 +17,6 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetListCell
-- \[x]  IOS6PresetTabItem
 - \[x]  IOS6PresetSignLabel
 
 ### Modifer

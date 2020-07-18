@@ -10,7 +10,7 @@ import SwiftUI
 
 struct _IOS6StatusBar: ViewModifier {
     @State private var id: UUID = UUID()
-    @Environment(\.isEnabled) var isEnabled
+    @Environment(\._ios6IsEnabled) var isEnabled
     let label: () -> AnyView
     
     func body(content: Content) -> some View {

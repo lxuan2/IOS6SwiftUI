@@ -27,7 +27,7 @@ public struct IOS6TabView<SelectionValue: Hashable, Content: View>: View {
             }.padding(.bottom, 50)
         }
         .overlay(_IOS6TabBar(selection: $hashedSelection.onChange(self.updateSelection), items: data), alignment: .bottom)
-        .environment(\._ios6Tab, item)
+        .environment(\._ios6SelectedTab, item)
         .onPreferenceChange(_IOS6TabItemKey.self) {
             self.data = $0
             self.tabItemsChangeHandler(items: $0)

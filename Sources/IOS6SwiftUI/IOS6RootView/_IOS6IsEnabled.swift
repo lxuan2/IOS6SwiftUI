@@ -1,5 +1,5 @@
 //
-//  IOS6SelectedKey.swift
+//  _IOS6IsEnabled.swift
 //  IOS6
 //
 //  Created by Xuan Li on 6/21/20.
@@ -10,15 +10,21 @@ import SwiftUI
 
 /// `Private API`:
 /// A Environment Key indicates selecting state.
-struct _IOS6IsSelectedKey: EnvironmentKey {
+struct _IOS6IsEnabledKey: EnvironmentKey {
     static var defaultValue: Bool = false
 }
 
 extension EnvironmentValues {
     /// `Private API`:
     /// A Environment Value indicates selecting state.
-    var _ios6IsSelected: Bool {
-        get { self[_IOS6IsSelectedKey.self] }
-        set { self[_IOS6IsSelectedKey.self] = newValue }
+    var _ios6IsEnabled: Bool {
+        get { self[_IOS6IsEnabledKey.self] }
+        set { self[_IOS6IsEnabledKey.self] = newValue }
+    }
+}
+
+extension View {
+    func ios6Disabled(_ disabled: Bool) -> some View {
+        environment(\._ios6IsEnabled, !disabled)
     }
 }
