@@ -2,6 +2,8 @@
 
 A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI and similar behaviors as SwiftUI.
 
+<img src="/example.png" width=300 align=right>
+
 ## Public API
 ### View
 - \[x]  IOS6NavigationView
