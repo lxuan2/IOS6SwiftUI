@@ -16,10 +16,6 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6SignLabel
 - \[x]  IOS6Slider
 
-### Preset view (Recommanded)
-- \[x]  IOS6PresetTableCell
-- \[x]  IOS6PresetSignLabel
-
 ### Modifer
 - \[x]  ios6RootBackground
 - \[x]  ios6StatusBar
@@ -40,12 +36,26 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6PresentationMode
 
 ### Style
+**ButtonStyle**
 - \[x]  IOS6ToggleStyle
+- \[x]  IOS6DefaultButtonStyle
+- \[x]  IOS6FormButtonStyle
+- \[x]  IOS6ListButtonStyle
+
+**IOS6TabBarStyle**
+- \[x]  IOS6BlueDiamondTabBarStyle
+
+### Protocol
+- \[x]  IOS6TabBarStyle
+
+### Preset view (Recommanded)
+- \[x]  IOS6PresetTableCell
+- \[x]  IOS6PresetSignLabel
 
 ---
 ## Availability
 Device: iPhone and iPad
-System: IOS 13.0.0 ~ IOS 13.6.0. ( IOS14 has not been tested yet. )
+System: IOS 13.0.0 ~ IOS 13.6.0. ( IOS 14 has not been tested yet. )
 
 ## Installation
 In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
