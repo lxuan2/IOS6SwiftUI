@@ -17,16 +17,15 @@ struct _IOS6TabItem<Title: View, Icon: View>: ViewModifier {
     let _icon: Icon
     
     func body(content: Content) -> some View {
-        let disabled = globalId != (tag ?? id as AnyHashable)
+        let enabled = globalId == (tag ?? id as AnyHashable)
         return Group {
             Spacer()
                 .preference(key: _IOS6TabItemKey.self,
                             value: [IOS6TabBarStyleConfiguration.Label(_title, _icon, id: (tag ?? id as AnyHashable))])
             
-            if self.loaded || disabled {
+            if self.loaded || enabled {
                 content
-                    .ios6Disabled(disabled)
-                    .opacity(disabled ? 0 : 1)
+                    .opacity(enabled ? 1 : 0)
                     .onAppear {
                         self.loaded = true
                 }

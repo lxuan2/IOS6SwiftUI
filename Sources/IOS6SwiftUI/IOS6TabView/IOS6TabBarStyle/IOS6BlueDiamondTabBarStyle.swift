@@ -61,7 +61,7 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
                     }
                     .aspectRatio(1.5, contentMode: .fit)
                     .mask(label.icon.scaledToFit())
-                    .shadow(color: .black, radius: 1, x: 0, y: isSelected ? 1.5 : -1.5)
+                    .shadow(color: .black, radius: 1, x: 0, y: isSelected ? 1 : -1)
                     .padding(3)
                     
                     label.title

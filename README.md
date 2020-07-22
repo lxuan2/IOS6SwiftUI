@@ -8,7 +8,6 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6NavigationLink
 - \[x]  IOS6RootView
 - \[x]  IOS6TabView
-- \[x]  IOS6Button
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
 - \[x]  IOS6List
@@ -16,16 +15,16 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6Slider
 
 ### Preset view (Recommanded)
-- \[x]  IOS6PresetListCell
+- \[x]  IOS6PresetTableCell
 - \[x]  IOS6PresetSignLabel
 
 ### Modifer
 - \[x]  ios6RootBackground
 - \[x]  ios6StatusBar
-- \[x]  ios6SectionItem
-- \[x]  ios6SectionListHeader
-- \[x]  ios6SectionFormHeader
-- \[x]  ios6SectionFormFooter
+- \[x]  ios6FormCellPosition
+- \[x]  ios6FormSectionFont
+- \[x]  ios6FormSectionFontBold
+- \[x]  ios6ListSectionHeader
 - \[x]  ios6TabItem
 - \[x]  ios6Tag
 - \[x]  ios6NavigationBarTitle
@@ -61,42 +60,66 @@ import IOS6SwiftUI
 
 struct ContentView: View {
     @State private var isOn = false
+    @State private var progess = 0.0
     
     var body: some View {
-        IOS6NavigationView(interactiveSwipe: true) {
-            IOS6Form {
-                Section {
-                    IOS6Toggle(isOn: self.$isOn) {
-                        IOS6PresetListCell(image: Image("AppleIDiCloud"), title: "iCloud")
-                    }
-                    .ios6SecPosition(.top)
-                    .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
-                    
-                    IOS6NavigationLink(destination: Text("Messages").ios6NavigationBarTitle("Messages"), sectionPostion: .medium) {
-                        IOS6PresetListCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
-                    }
-                    
-                    IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime"), sectionPostion: .bottom) {
-                        IOS6PresetListCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: self.commentIcon)
+        IOS6RootView {
+            IOS6NavigationView(interactiveSwipe: true) {
+                IOS6Form {
+                    Section(header: Text("App:").ios6FormSectionFontBold(), footer: Text("This is the comment").ios6FormSectionFont()) {
+                        IOS6Slider(value: self.$progess)
+                            .ios6FormCellPosition(.top)
+                        
+                        IOS6Toggle(isOn: self.$isOn) {
+                            IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: "iCloud")
+                        }
+                        .ios6FormCellPosition(.mid)
+                        .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
+                        
+                        IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
+                            IOS6PresetTableCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
+                        }.ios6FormCellPosition(.mid)
+                        
+                        IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime")) {
+                            IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: CommentIcon())
+                        }.ios6FormCellPosition(.mid)
+                        
+                        IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
+                            IOS6PresetTableCell(image: Image("AppleIDGameCenter"), title: "Game Center")
+                        }.ios6FormCellPosition(.bottom)
                     }
                 }
+                .ios6NavigationBarTitle("Demo")
             }
-            .ios6NavigationBarTitle("Demo")
         }
     }
-    
-    var commentIcon: some View {
-        Capsule()
-            .fill(Color.white)
-            .ios6ForegroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
-            .overlay(
-                Text("1")
-                    .fontWeight(.medium)
-                    .ios6ForegroundColor(regular: .white,
-                                         active: Color(red: 44.0/255.0,
-                                                       green: 108.0/255.0,
-                                                       blue: 234.0/255.0)))
-            .frame(maxWidth: 33, maxHeight: 22.5)
+
+    struct CommentIcon: View {
+        var body: some View {
+            Text("1")
+                .font(Font.headline.weight(.bold))
+                .ios6ForegroundColor(regular: .white,
+                                     active: Color(red: 44.0/255.0,
+                                                   green: 108.0/255.0,
+                                                   blue: 234.0/255.0))
+                //.padding(.vertical, 0.5)
+                .padding(.horizontal, 8)
+                .frame(minWidth: 30)
+                .background(
+                    ZStack {
+                        Capsule(style: .circular)
+                            .fill(Color.white)
+                        
+                        Capsule(style: .circular)
+                            .strokeBorder(
+                                LinearGradient(gradient: Gradient(colors: [
+                                    Color.black.opacity(0.15),
+                                    Color.gray.opacity(0.2)]),
+                                               startPoint: .top, endPoint: .bottom), lineWidth: 0.8)
+                    }
+                    .ios6ForegroundColor(regular: Color(red: 138/255.0, green: 152/255.0, blue: 182/255.0), active: .white)
+            )
+        }
     }
 }
 ```

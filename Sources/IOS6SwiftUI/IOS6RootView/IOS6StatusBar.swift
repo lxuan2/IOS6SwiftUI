@@ -10,11 +10,10 @@ import SwiftUI
 
 struct _IOS6StatusBar: ViewModifier {
     @State private var id: UUID = UUID()
-    @Environment(\._ios6IsEnabled) var isEnabled
     let label: () -> AnyView
     
     func body(content: Content) -> some View {
-        content.preference(key: _IOS6StatusBarKey.self, value: isEnabled ? _IOS6StatusBarData(label: label, id: id) : nil)
+        content.preference(key: _IOS6StatusBarKey.self, value: _IOS6StatusBarData(label: label, id: id))
     }
 }
 

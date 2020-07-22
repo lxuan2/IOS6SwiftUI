@@ -20,6 +20,7 @@ public struct IOS6Form<Content: View>: View {
             self.content()
                 .environment(\.horizontalSizeClass, self.horizontalSizeClass)
         }
+        .buttonStyle(IOS6FormButtonStyle())
         .environment(\.horizontalSizeClass, .regular)
         .onAppear {
             UITableView.appearance().backgroundColor = UIColor.clear

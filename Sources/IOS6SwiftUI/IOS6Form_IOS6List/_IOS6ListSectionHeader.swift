@@ -1,5 +1,5 @@
 //
-//  _IOS6SectionHeader.swift
+//  _IOS6ListSectionHeader.swift
 //  IOS6
 //
 //  Created by Xuan Li on 7/12/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct _IOS6SectionListHeader: ViewModifier {
+struct _IOS6ListSectionHeader: ViewModifier {
     
     func body(content: Content) -> some View {
         Color(red: 180/255.0, green: 192/255.0, blue: 197/255.0).overlay(
@@ -33,14 +33,14 @@ struct _IOS6SectionListHeader: ViewModifier {
 }
 
 extension View {
-    public func ios6SectionListHeader() -> some View {
-        modifier(_IOS6SectionListHeader())
+    public func ios6ListSectionHeader() -> some View {
+        modifier(_IOS6ListSectionHeader())
     }
 }
 
 struct IOS6SectionHeader_Previews: PreviewProvider {
     static var previews: some View {
         Text("test")
-            .ios6SectionListHeader()
+            .ios6ListSectionHeader()
     }
 }

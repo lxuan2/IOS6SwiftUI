@@ -9,11 +9,11 @@
 import SwiftUI
 
 public struct IOS6PresetSignLabel: View {
-    let isPressed: Bool
+    @Environment(\.ios6ButtonSelected) private var isSelected
     let sign: IOS6PresetSign
     
     public var body: some View {
-        IOS6SignLabel(color: color, isPressed: isPressed, paddingScale: scale) {
+        IOS6SignLabel(color: color, paddingScale: scale) {
             Image(systemName: self.name)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -24,11 +24,11 @@ public struct IOS6PresetSignLabel: View {
     var color: Color? {
         switch sign {
         case .xmark_red:
-            return isPressed ?
+            return isSelected ?
                 Color(red: 70/255.0, green: 0/255.0, blue: 10/255.0) :
                 Color(red: 145/255.0, green: 0/255.0, blue: 14/255.0)
         case .checkmark_green:
-            return isPressed ?
+            return isSelected ?
                 Color(red: 0/255.0, green: 90/255.0, blue: 0/255.0) :
                 Color(red: 0/255.0, green: 164/255.0, blue: 0/255.0)
         default:
@@ -58,8 +58,7 @@ public struct IOS6PresetSignLabel: View {
         }
     }
     
-    public init(isPressed: Bool = false, sign: IOS6PresetSign) {
-        self.isPressed = isPressed
+    public init(sign: IOS6PresetSign) {
         self.sign = sign
     }
 }

@@ -18,7 +18,9 @@ public struct IOS6List<Content: View>: View {
     public var body: some View {
         List {
             content()
-        }.onAppear {
+        }
+        .buttonStyle(IOS6ListButtonStyle())
+        .onAppear {
             UITableView.appearance().backgroundColor = self.bgC
             UITableViewCell.appearance().backgroundColor = self.cellBgC
             UITableView.appearance().separatorStyle = .none

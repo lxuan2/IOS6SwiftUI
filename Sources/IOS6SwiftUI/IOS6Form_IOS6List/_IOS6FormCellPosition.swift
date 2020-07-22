@@ -1,5 +1,5 @@
 //
-//  _IOS6SectionItem.swift
+//  _IOS6FormCellPosition.swift
 //  IOS6SwiftUI
 //
 //  Created by Xuan Li on 4/17/20.
@@ -9,18 +9,18 @@ import SwiftUI
 
 /// `Private API`:
 /// A ViewModifer configuring Form / List cell to match etched style in IOS6.
-struct _IOS6SectionItem<Wallpaper: View>: ViewModifier {
-    private let pos: IOS6SectionPosition
+struct _IOS6FormCellPosition<Wallpaper: View>: ViewModifier {
+    private let pos: IOS6FormCellPosition
     private let background: Wallpaper
     private let isLink: Bool
     
-    init(at postion: IOS6SectionPosition, background: Wallpaper) {
+    init(at postion: IOS6FormCellPosition, background: Wallpaper) {
         pos = postion
         self.background = background
         isLink = false
     }
     
-    init(at postion: IOS6SectionPosition, background: Wallpaper, isLink: Bool) {
+    init(at postion: IOS6FormCellPosition, background: Wallpaper, isLink: Bool) {
         pos = postion
         self.background = background
         self.isLink = isLink
@@ -28,25 +28,24 @@ struct _IOS6SectionItem<Wallpaper: View>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .listRowInsets(pos == .none ? nil : EdgeInsets(top: 9.5, leading: 10, bottom: 9.5, trailing: isLink ? 31.5 : 10))
+            .environment(\._ios6SectionPosition, pos)
+            .listRowInsets(.init(top: 9, leading: 10, bottom: 11, trailing: 10))
             .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
     }
     
     struct _BackgroundView<_Background: View>: View {
-        let pos: IOS6SectionPosition
+        let pos: IOS6FormCellPosition
         let background: _Background
         
         var body: some View {
             ZStack {
                 if pos == .bottom {
                     _DownRectangle(cornerRadius: 10, padding: 0.8)
-                        .strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                        .strokeBorder(Color.black.opacity(0.3), lineWidth: 1)
                 }
                 
-                background
-                
                 VStack(spacing: 0) {
-                    if pos == .medium || pos == .bottom || pos == .list {
+                    if pos == .mid || pos == .bottom {
                         Color.white
                             .blendMode(.destinationOver)
                             .frame(minHeight: 1, maxHeight: 1)
@@ -54,31 +53,38 @@ struct _IOS6SectionItem<Wallpaper: View>: ViewModifier {
                     
                     Spacer()
                     
-                    if pos == .medium || pos == .top || pos == .list {
+                    if pos == .mid || pos == .top {
                         Color.black.opacity(0.18)
                             .frame(minHeight: 1, maxHeight: 1)
                     }
                 }
                 
-                if pos == .top {
+                background
+                
+                if pos == .top || pos == .single {
                     _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
-                    _UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
                 }
                 
-                if pos == .medium {
+                if pos == .top {
+                    _UpRectangle(cornerRadius: 10).strokeBorder(Color(red: 175.0/255.0, green: 175.0/255.0, blue: 175.0/255.0), lineWidth: 1)
+                }
+                
+                if pos == .mid {
                     HStack {
-                        Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
+                        Color.black.opacity(0.3)
                             .frame(minWidth: 1, maxWidth: 1)
                         
                         Spacer()
                         
-                        Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0)
+                        Color.black.opacity(0.3)
                             .frame(minWidth: 1, maxWidth: 1)
                     }
                 }
                 
                 if pos == .single {
-                    RoundedRectangle(cornerRadius: 10).strokeBorder(Color(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(Color.black.opacity(0.3), lineWidth: 1)
+                        .padding(.bottom, 0.8)
                 }
             }
         }
@@ -206,29 +212,30 @@ struct _DownRectangle: Shape, InsettableShape {
 }
 
 extension View {
-    /// Configure the position in IOS6Form / IOS6List when developing the customized
+    
+    /// Configure the position in IOS6Form when developing the customized
     /// view not in this packages.
     ///
-    /// Setting the postion gives the cell in the IOS6Form / IOS6List with correct shadow.
+    /// Setting the postion gives the cell in the IOS6Form with correct shadow.
     /// The list cell background is allowed to be customized in this function.
     ///
     /// - Parameters:
-    ///   - postion: position in IOS6Form(.top, .bottom, .medium, .single) / IOS6List(.list)
-    ///   - background: customized background for the cell in IOS6Form / IOS6List
+    ///   - postion: position in IOS6Form(.top, .bottom, .medium, .single)
+    ///   - background: customized background for the cell in IOS6Form
     /// - Returns: some View
-    public func ios6SectionItem<Background: View>(_ postion: IOS6SectionPosition, background: Background) -> some View {
-        self.modifier(_IOS6SectionItem(at: postion, background: background))
+    public func ios6FormCellPosition<Background: View>(_ postion: IOS6FormCellPosition, background: Background) -> some View {
+        self.modifier(_IOS6FormCellPosition(at: postion, background: background))
     }
     
-    /// Configure the position in IOS6Form / IOS6List when developing the customized
+    /// Configure the position in IOS6Form when developing the customized
     /// view not in this packages.
     ///
-    /// Setting the postion gives the cell in the IOS6Form / IOS6List with correct shadow.
+    /// Setting the postion gives the cell in the IOS6Form with correct shadow.
     /// No background view is given.
     ///
-    /// - Parameter postion: position in IOS6Form(.top, .bottom, .medium, .single) / IOS6List(.list)
+    /// - Parameter postion: position in IOS6Form(.top, .bottom, .medium, .single)
     /// - Returns: some View
-    public func ios6SectionItem(_ postion: IOS6SectionPosition) -> some View {
-        self.modifier(_IOS6SectionItem(at: postion, background: EmptyView()))
+    public func ios6FormCellPosition(_ postion: IOS6FormCellPosition) -> some View {
+        self.modifier(_IOS6FormCellPosition(at: postion, background: EmptyView()))
     }
 }

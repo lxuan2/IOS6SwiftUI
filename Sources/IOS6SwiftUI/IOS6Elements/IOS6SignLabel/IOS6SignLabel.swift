@@ -10,6 +10,7 @@ import SwiftUI
 
 public struct IOS6SignLabel<Label: View>: View {
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.ios6ButtonSelected) private var isSelected
     let color: Color?
     let label: () -> Label
     let radius: CGFloat = 23
@@ -27,7 +28,7 @@ public struct IOS6SignLabel<Label: View>: View {
             .overlay(_CuttingCircle().fill(coverGradient))
             .overlay(labelView)
             .frame(width: radius, height: radius)
-            .accentColor(isPressed ?
+            .accentColor(isSelected ?
                 Color(red: 18/255.0, green: 63/255.0, blue: 128/255.0) :
                 Color(red: 34/255.0, green: 113/255.0, blue: 218/255.0))
     }

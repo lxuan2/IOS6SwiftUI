@@ -11,14 +11,14 @@ import SwiftUI
 /// A foreground color view modifer set all view inside with
 /// `regular` or `active` color with animation.
 struct _IOS6ForegroundColor: ViewModifier {
-    @Environment(\._ios6ActiveColor) private var activeColor
+    @Environment(\.ios6ButtonSelected) private var isSelected
     let regular: Color
     let active: Color?
     
     func body(content: Content) -> some View {
         content
             .foregroundColor(.white)
-            .colorMultiply(activeColor == nil ? regular : active == nil ? activeColor! : active!)
+            .colorMultiply(isSelected ? active ?? Color.accentColor : regular)
     }
 }
 

@@ -65,9 +65,7 @@ class _IOS6NavigationStack: ObservableObject {
             let lock = stack[index].lock
             
             // Remove last view with animation
-            withAnimation(.easeIn(duration: _IOS6NavigationStack.unselectedTime + _IOS6NavigationStack.standardTime)) {
-                lock?.wrappedValue = false
-            }
+            lock?.wrappedValue = false
             
             withAnimation(.easeInOut(duration: _IOS6NavigationStack.standardTime)) {
                 let prevIndex = stack.count - 2
@@ -126,9 +124,7 @@ class _IOS6NavigationStack: ObservableObject {
                 let time = _IOS6NavigationStack.standardTime * Double(1 - value.translation.width / proxy.size.width)
                 let lock = stack[count - 1].lock
                 
-                withAnimation(.easeIn(duration: _IOS6NavigationStack.unselectedTime + time)) {
-                    lock?.wrappedValue = false
-                }
+                lock?.wrappedValue = false
                 
                 withAnimation(.easeInOut(duration: time)) {
                     stack.removeLast()
@@ -176,7 +172,7 @@ extension _IOS6NavigationStack {
 
 extension _IOS6NavigationStack {
     static let standardTime: Double = 0.35
-    private static let unselectedTime: Double = 0.15
+    static let unselectedTime: Double = 0.15
 }
 
 extension CGFloat {

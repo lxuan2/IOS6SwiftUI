@@ -1,5 +1,5 @@
 //
-//  IOS6PresetListCell.swift
+//  IOS6PresetTableCell.swift
 //  IOS6
 //
 //  Created by Xuan Li on 5/9/20.
@@ -11,12 +11,11 @@ import SwiftUI
 /// A view for row apperance in the form with IOS 6 style.
 ///
 /// This is a recommanded layout template for cells in IOS6Form / IOS6List.
-public struct IOS6PresetListCell<Comment: View>: View {
+public struct IOS6PresetTableCell<Comment: View>: View {
     private let image: Image?
     private let title: String
     private let commentView: Comment?
     private let commentIsText: Bool
-    @Environment(\.isEnabled) private var isEnable
     
     public var body: some View {
         HStack(spacing: 0) {
@@ -31,27 +30,27 @@ public struct IOS6PresetListCell<Comment: View>: View {
                         RoundedRectangle(cornerRadius: 5)
                             .strokeBorder(Color.black.opacity(0.4), lineWidth: 0.5))
                     .scaledToFit()
+                    .padding(.trailing, 9.5)
                     .layoutPriority(2)
-                    .padding(.trailing, 10)
             }
             
             Text(title)
                 .fontWeight(.bold)
-                .ios6ForegroundColor(isEnable ? .black : Color(red: 0.4, green: 0.4, blue: 0.4))
+                .ios6ForegroundColor(regular: .black, active: .white)
                 .shadow(radius: 0, x: 0, y: 0.5)
-                .padding(.horizontal, 2)
+                .fixedSize(horizontal: true, vertical: false)
+                .padding(.horizontal, 3.5)
                 .layoutPriority(1)
             
             if commentView != nil {
-                Spacer(minLength: 10)
+                Spacer(minLength: 9.5)
                 
                 commentView
-                    .ios6ForegroundColor(!commentIsText ? .white : isEnable ? .accentColor : Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .ios6ForegroundColor(regular: !commentIsText ? .white : .accentColor, active: .white)
                     .layoutPriority(0)
             }
         }
         .frame(minHeight: 30, maxHeight: 30)
-        .opacity(isEnable ? 1 : 0.7)
     }
     
     /// An initializer with image, title and comment.
@@ -71,7 +70,7 @@ public struct IOS6PresetListCell<Comment: View>: View {
     }
 }
 
-extension IOS6PresetListCell where Comment == Text {
+extension IOS6PresetTableCell where Comment == Text {
     /// An initializer with image view, title and comment string.
     /// - Parameters:
     ///   - image: image view to be presented in the front
@@ -98,6 +97,6 @@ extension IOS6PresetListCell where Comment == Text {
 
 struct IOS6TableCell_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6PresetListCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
+        IOS6PresetTableCell(image: Image("ins"), title: "Airplane Mode", comment: "NETGEAR22-5G")
     }
 }

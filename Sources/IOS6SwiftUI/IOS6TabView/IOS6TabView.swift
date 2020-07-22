@@ -38,7 +38,9 @@ public struct IOS6TabView<SelectionValue: Hashable, Content: View>: View {
         if let _ = hashedSelection as? SelectionValue,
             selection?.wrappedValue != hashedSelection,
             data.map({ $0.id }).contains(selection?.wrappedValue) {
-            hashedSelection = selection?.wrappedValue
+            DispatchQueue.main.async {
+                self.hashedSelection = self.selection?.wrappedValue
+            }
         }
         return hashedSelection
     }

@@ -24,7 +24,7 @@ extension EnvironmentValues {
 }
 
 extension View {
-    func ios6Disabled(_ disabled: Bool) -> some View {
+    func _ios6Disabled(_ disabled: Bool) -> some View {
         environment(\._ios6IsEnabled, !disabled)
     }
 }
