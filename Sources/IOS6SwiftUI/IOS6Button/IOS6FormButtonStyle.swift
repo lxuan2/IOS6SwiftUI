@@ -72,7 +72,7 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                     }
                     
                     if isLink {
-                        Spacer(minLength: 27.5)
+                        Spacer(minLength: 23)
                     }
                 }
                 .opacity(self.isEnabled ? 1 : 0.9)
@@ -133,11 +133,11 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                             Image(systemName: "chevron.right")
                                 .font(Font.footnote.weight(.heavy))
                                 .foregroundColor(pressed ? .white : Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                                .padding(.horizontal, 14.5)
+                                .padding(.horizontal, 11.5)
                         }
                     }
                 )
-                    .listRowInsets(.init(top: 9, leading: 10, bottom: 10, trailing: 10))
+                .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 8))
         }
         
         var IOS6ButtonDefaultListBackground: LinearGradient {

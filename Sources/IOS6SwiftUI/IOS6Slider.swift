@@ -76,6 +76,7 @@ public struct IOS6Slider<V: BinaryFloatingPoint>: View {
         }
         .coordinateSpace(name: "IOS6Slider")
         .frame(height: circleHeight)
+        .listRowInsets(.init(top: 6.5, leading: 11, bottom: 7.5, trailing: 11))
     }
     
     var clippedValue: CGFloat {

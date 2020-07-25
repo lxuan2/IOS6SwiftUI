@@ -22,11 +22,12 @@ public struct IOS6ToggleStyle: ToggleStyle {
         var body: some View {
             HStack {
                 configuration.label
-                Spacer()
+                Spacer(minLength: 3)
                 _IOS6ToggleView(isOn: configuration.$isOn.onChange{ value in
                     self.percent = value ? 1 : 0
                 })
             }
+            .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 11))
         }
         
         init(_ configuration: IOS6ToggleStyle.Configuration) {

@@ -23,6 +23,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6FormSectionFont
 - \[x]  ios6FormSectionFontBold
 - \[x]  ios6ListSectionHeader
+- \[x]  ios6TabBarStyle
 - \[x]  ios6TabItem
 - \[x]  ios6Tag
 - \[x]  ios6NavigationBarTitle

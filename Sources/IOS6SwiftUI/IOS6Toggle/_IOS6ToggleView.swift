@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct _IOS6ToggleView: View {
-    let height: CGFloat = 26
-    let width: CGFloat = 74
+    let height: CGFloat = 27
+    let width: CGFloat = 77
     
     @Environment(\.isEnabled) private var isEnabled
     @GestureState private var isPressed: Bool = false

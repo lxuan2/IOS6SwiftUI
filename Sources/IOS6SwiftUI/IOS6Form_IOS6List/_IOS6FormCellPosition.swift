@@ -29,7 +29,10 @@ struct _IOS6FormCellPosition<Wallpaper: View>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .environment(\._ios6SectionPosition, pos)
-            .listRowInsets(.init(top: 9, leading: 10, bottom: 11, trailing: 10))
+            .padding(.top, pos == .top ? 1.5 : 0)
+            .padding(.bottom, pos == .bottom ? 1.5 : 0)
+//            .listRowInsets(.init(top: 10.5, leading: 11.5, bottom: 11.75, trailing: 11.5))
+            .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 8))
             .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
     }
     

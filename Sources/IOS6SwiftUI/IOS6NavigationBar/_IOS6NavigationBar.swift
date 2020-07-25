@@ -43,7 +43,7 @@ struct _IOS6NavigationBar: View {
                     .opacity(self.isEnabled ? 1 : 0.8)
             }
         }
-        .frame(height: 45)
+        .frame(height: 44)
     }
 }
 
