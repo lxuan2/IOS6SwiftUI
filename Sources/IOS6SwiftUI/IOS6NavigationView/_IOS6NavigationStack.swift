@@ -20,9 +20,6 @@ class _IOS6NavigationStack: ObservableObject {
         stack.append(_IOS6NavigationPageView(page: rootView, index: 0))
         barStack.append(nil)
         offsetStack.append(0)
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
     }
     
     func push<Content: View>(isPresent: Binding<Bool>, newView: Content) {

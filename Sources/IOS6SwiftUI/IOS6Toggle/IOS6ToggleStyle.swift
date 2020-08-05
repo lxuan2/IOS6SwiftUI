@@ -27,7 +27,7 @@ public struct IOS6ToggleStyle: ToggleStyle {
                     self.percent = value ? 1 : 0
                 })
             }
-            .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 11))
+            .listRowInsets(.init(top: 8.5, leading: 11, bottom: 9.5, trailing: 14))
         }
         
         init(_ configuration: IOS6ToggleStyle.Configuration) {

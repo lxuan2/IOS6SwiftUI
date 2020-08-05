@@ -31,7 +31,8 @@ public struct IOS6Form<Content: View>: View {
 //            UITableView.appearance().tableHeaderView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: self.sectionSpace)))
 //            UITableView.appearance().tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: self.sectionSpace)))
             UIView.appearance().isExclusiveTouch = true
-        }.padding(.horizontal, -7).clipped()
+        }
+        //.padding(.horizontal, -7).clipped()
     }
     
     /// An initializer with view builder.

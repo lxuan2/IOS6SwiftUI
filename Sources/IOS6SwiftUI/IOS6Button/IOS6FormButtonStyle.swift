@@ -72,16 +72,16 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                     }
                     
                     if isLink {
-                        Spacer(minLength: 23)
+                        Spacer(minLength: 26)
                     }
                 }
                 .opacity(self.isEnabled ? 1 : 0.9)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .contentShape(Rectangle())
                 .listRowBackground(
                     ZStack(alignment: .trailing) {
                         if pos == .bottom {
-                            _DownRectangle(cornerRadius: 10, padding: 0.8)
+                            _DownRectangle(cornerRadius: 10, padding: 1)
                                 .strokeBorder(Color.black.opacity(0.3), lineWidth: 1)
                         }
                         
@@ -100,11 +100,8 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                             }
                         }
                         
-                        IOS6ButtonDefaultListBackground
-                            .opacity(pressed ? 1 : 0)
-                        
                         if pos == .top || pos == .single {
-                            _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
+                            _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.21), lineWidth: 1).blur(radius: 1)
                         }
                         
                         if pos == .top {
@@ -129,15 +126,18 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                                 .padding(.bottom, 0.8)
                         }
                         
+                        IOS6ButtonDefaultListBackground
+                            .opacity(pressed ? 1 : 0)
+                        
                         if isLink {
                             Image(systemName: "chevron.right")
                                 .font(Font.footnote.weight(.heavy))
                                 .foregroundColor(pressed ? .white : Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
-                                .padding(.horizontal, 11.5)
+                                .padding(.horizontal, 14.5)
                         }
                     }
                 )
-                .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 8))
+                //.listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 8))
         }
         
         var IOS6ButtonDefaultListBackground: LinearGradient {

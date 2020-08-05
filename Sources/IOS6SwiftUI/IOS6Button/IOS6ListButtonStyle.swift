@@ -72,7 +72,7 @@ public struct IOS6ListBaseButtonStyle: ButtonStyle {
                     }
                     
                     if isLink {
-                        Spacer(minLength: 22.5)
+                        Spacer(minLength: 23)
                     }
                 }
                 .opacity(self.isEnabled ? 1 : 0.9)
@@ -103,7 +103,7 @@ public struct IOS6ListBaseButtonStyle: ButtonStyle {
                     }
             )
                     //.listRowInsets(.init(top: 8.5, leading: 15, bottom: 9.5, trailing: 15))
-                    .listRowInsets(.init(top: 6.5, leading: 15, bottom: 7.5, trailing: 8))
+                    .listRowInsets(.init(top: 6.5, leading: 15, bottom: 7.5, trailing: 11))
         }
         
         var IOS6ButtonDefaultListBackground: LinearGradient {

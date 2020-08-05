@@ -32,7 +32,7 @@ struct _IOS6FormCellPosition<Wallpaper: View>: ViewModifier {
             .padding(.top, pos == .top ? 1.5 : 0)
             .padding(.bottom, pos == .bottom ? 1.5 : 0)
 //            .listRowInsets(.init(top: 10.5, leading: 11.5, bottom: 11.75, trailing: 11.5))
-            .listRowInsets(.init(top: 6.5, leading: 8, bottom: 7.5, trailing: 8))
+            .listRowInsets(.init(top: 7.5, leading: 11, bottom: 8.5, trailing: 11))
             .listRowBackground( pos == .none ? nil : _BackgroundView(pos: pos, background: background))
     }
     
@@ -65,7 +65,7 @@ struct _IOS6FormCellPosition<Wallpaper: View>: ViewModifier {
                 background
                 
                 if pos == .top || pos == .single {
-                    _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.225), lineWidth: 1).blur(radius: 0.6)
+                    _UpCap(cornerRadius: 11).stroke(Color.black.opacity(0.21), lineWidth: 1).blur(radius: 1)
                 }
                 
                 if pos == .top {

@@ -18,7 +18,7 @@ public struct IOS6NavigationView<Content: View>: View {
     public var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
-                _IOS6NavigationBar()
+                _IOS6NavigationBar(width: proxy.size.width)
                     .zIndex(1)
                 
                 ZStack(alignment: .leading) {
@@ -42,6 +42,7 @@ public struct IOS6NavigationView<Content: View>: View {
                 .zIndex(0)
             }
         }
+        .clipped()
         .environment(\._ios6NavigationStack, stack)
         .environmentObject(stack)
         .edgesIgnoringSafeArea([.horizontal, .bottom])

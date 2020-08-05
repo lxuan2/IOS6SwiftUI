@@ -22,7 +22,7 @@ struct _IOS6NavigationContentView: View {
                     .onPreferenceChange(_IOS6NavigationBarTitleKey.self) { self.stack.updateTitle(at: page.id, with: $0) }
                     .onAppear { self.stack.transIn(page.id) }
             }
-        }.clipped()
+        }
     }
 }
 

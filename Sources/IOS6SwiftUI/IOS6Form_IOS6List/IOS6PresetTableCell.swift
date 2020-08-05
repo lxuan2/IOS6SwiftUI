@@ -30,7 +30,7 @@ public struct IOS6PresetTableCell<Comment: View>: View {
                         RoundedRectangle(cornerRadius: 5)
                             .strokeBorder(Color.black.opacity(0.4), lineWidth: 0.5))
                     .scaledToFit()
-                    .padding(.trailing, 6.5)
+                    .padding(.trailing, 10.5)
                     .layoutPriority(2)
             }
             
@@ -38,19 +38,18 @@ public struct IOS6PresetTableCell<Comment: View>: View {
                 .fontWeight(.bold)
                 .ios6ForegroundColor(regular: .black, active: .white)
                 .shadow(radius: 0, x: 0, y: 0.5)
-                .fixedSize(horizontal: true, vertical: false)
                 .padding(.horizontal, 3)
                 .layoutPriority(1)
             
             if commentView != nil {
-                Spacer(minLength: 9.5)
+                Spacer(minLength: 6.5)
                 
                 commentView
                     .ios6ForegroundColor(regular: !commentIsText ? .white : .accentColor, active: .white)
-                    .layoutPriority(0)
+                    .layoutPriority(5)
             }
         }
-        .frame(minHeight: 29, maxHeight: 29)
+        .frame(minHeight: 29.5, maxHeight: 29.5)
     }
     
     /// An initializer with image, title and comment.
