@@ -111,7 +111,7 @@ extension BlurSegmentedPicker {
                 
                 self.hold = true
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                     self.hold = false
                 }
         }
@@ -141,7 +141,7 @@ extension BlurSegmentedPicker {
             let press = state.isActive() || hold
             let bd = geometry[select.bounds]
             let ratio: CGFloat = press ? 0.95 : 1
-            pad += (press ? (geometry.size.height - pad * 2) * (1 - ratio) / 2 : 0 )
+            pad += (geometry.size.height - pad * 2) * (1 - ratio) / 2
             bounds = CGRect(x: bd.minX - horizontal + (bd.width + horizontal * 2) * (1 - ratio) / 2,
                             y: 0,
                             width: (bd.width + horizontal * 2) * ratio,
@@ -157,9 +157,9 @@ extension BlurSegmentedPicker {
         return
             VibrancyEffectView(blurEffect: .systemUltraThinMaterial, style: .tertiaryLabel, content: Capsule())
                 .frame(width: bounds.width)
-                .offset(x: bounds.minX, y: 0)
                 .padding(.vertical, pad)
-                .animation(.easeInOut(duration: 0.2))
+                .offset(x: bounds.minX, y: 0)
+                .animation(.easeInOut(duration: 0.18))
     }
 }
 

@@ -41,8 +41,7 @@ public struct PickerTag: ViewModifier {
                     .transformEnvironment(\.colorScheme) { $0 = highlight ? .dark : $0 }
                     .opacity(opacity ? 0.5 : 1)
                     .scaleEffect(scale ? 0.95 : 1)
-                    .animation(.easeInOut(duration: 0.2))
-                    .anchorPreference(key: BlurSegmentedPickerPreferenceKey.self, value: .bounds, transform: { [BlurSegmentedPickerItemData(id: self.id as AnyHashable, bounds: $0)] })
+                    .animation(.easeInOut(duration: 0.15))                    .anchorPreference(key: BlurSegmentedPickerPreferenceKey.self, value: .bounds, transform: { [BlurSegmentedPickerItemData(id: self.id as AnyHashable, bounds: $0)] })
         }
     }
     
