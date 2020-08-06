@@ -34,15 +34,13 @@ public struct PickerTag: ViewModifier {
             highlight = backSelected
         }
         return
-            Button(action: {print("DDDDD")}) {
-                content
-                    .foregroundColor(.white)
-                    .colorMultiply(highlight ? .primary : .secondary)
-                    .transformEnvironment(\.colorScheme) { $0 = highlight ? .dark : $0 }
-                    .opacity(opacity ? 0.5 : 1)
-                    .scaleEffect(scale ? 0.95 : 1)
-                    .animation(.easeInOut(duration: 0.15))                    .anchorPreference(key: BlurSegmentedPickerPreferenceKey.self, value: .bounds, transform: { [BlurSegmentedPickerItemData(id: self.id as AnyHashable, bounds: $0)] })
-        }
+            content
+            .foregroundColor(.white)
+            .colorMultiply(highlight ? .primary : .secondary)
+            .transformEnvironment(\.colorScheme) { $0 = highlight ? .dark : $0 }
+            .opacity(opacity ? 0.5 : 1)
+            .scaleEffect(scale ? 0.95 : 1)
+            .anchorPreference(key: BlurSegmentedPickerPreferenceKey.self, value: .bounds, transform: { [BlurSegmentedPickerItemData(id: self.id as AnyHashable, bounds: $0)] })
     }
     
     public init(_ tag: AnyHashable) {

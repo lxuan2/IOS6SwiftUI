@@ -9,7 +9,8 @@
 import SwiftUI
 
 public struct BlurSegmentedPicker<SelectionValue: Hashable, Content: View>: View {
-    @GestureState private var state: BlurSegmentedPickerState = .idle
+    @GestureState(resetTransaction: .init(animation: .init(Animation.easeInOut(duration: 0.2).delay(0.1))))
+    private var state: BlurSegmentedPickerState = .idle
     @State private var internalSelection: AnyHashable
     @State private var hold: Bool = false
     @Binding var selection: SelectionValue
@@ -20,20 +21,18 @@ public struct BlurSegmentedPicker<SelectionValue: Hashable, Content: View>: View
             self.content
         }
         .fixedSize()
-        .padding(.horizontal, 21)
-        .padding(.vertical, 9.75)
+        .padding(.vertical, 6)
+        .padding(.horizontal, 17)
         .foregroundColor(.secondary)
         .font(Font.headline.weight(.semibold))
         .environment(\.pickerItem, .init(selection: internalSelection, state: hold ? .active : state))
+        .backgroundPreferenceValue(BlurSegmentedPickerPreferenceKey.self) { preferences in
+            GeometryReader { self.createBackground($0, preferences)}
+        }
         .overlayPreferenceValue(BlurSegmentedPickerPreferenceKey.self) { preferences in
             GeometryReader { self.createTouchLayer($0, preferences) }
         }
-        .backgroundPreferenceValue(BlurSegmentedPickerPreferenceKey.self) { preferences in
-            GeometryReader {
-                self.createBackground($0, preferences)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            }
-        }
+        .padding(4)
         .background(BlurEffectView(style: .systemUltraThinMaterial).clipShape(Capsule()))
     }
     
@@ -67,22 +66,25 @@ extension BlurSegmentedPicker {
         }
         let gesture =
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                .updating(self.$state) { value, state, trans in
-                    if state.isIdle() {
-                        for i in region {
-                            if i.id == self.internalSelection, i.range.contains(value.startLocation.x) {
-                                state = .active
-                                return
-                            }
+            .updating(self.$state) { value, state, trans in
+                if state.isIdle() {
+                    for i in region {
+                        if i.id == self.internalSelection, i.range.contains(value.startLocation.x) {
+                            state = .active
+                            trans = .init(animation: .easeIn(duration: 0.1))
+                            return
                         }
-                        state = .quiteActive(startSelection: self.internalSelection)
                     }
+                    state = .quiteActive(startSelection: self.internalSelection)
+                }
             }.onChanged { value in
                 if !self.state.isIdle() {
                     for i in region {
                         if i.range.contains(value.location.x) {
                             if self.internalSelection != i.id {
-                                self.internalSelection = i.id
+                                withAnimation(.easeIn(duration: 0.2)) {
+                                    self.internalSelection = i.id
+                                }
                             }
                             break
                         }
@@ -108,25 +110,20 @@ extension BlurSegmentedPicker {
                         }
                     }
                 }
-                
-                self.hold = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                    self.hold = false
-                }
-        }
+            }
         return
             Color.clear
-                .contentShape(Rectangle())
-                .simultaneousGesture(gesture)
+            .contentShape(Rectangle())
+            .simultaneousGesture(gesture)
     }
 }
 
 extension BlurSegmentedPicker {
     func createBackground(_ geometry: GeometryProxy, _ preferences: [BlurSegmentedPickerItemData]) -> some View {
-        let horizontal: CGFloat = 17
-        var bounds = CGRect(x: 0, y: 0, width: 0, height: 0)
-        var pad: CGFloat = 4
+        var leading: CGFloat = 0
+        var trailing: CGFloat = 0
+        var horizontalPad: CGFloat = 0
+        var verticalPad: CGFloat = 0
         
         var slt: AnyHashable
         switch state {
@@ -138,28 +135,27 @@ extension BlurSegmentedPicker {
         if let select = preferences.first(where: {
             $0.id == slt
         }) {
-            let press = state.isActive() || hold
-            let bd = geometry[select.bounds]
-            let ratio: CGFloat = press ? 0.95 : 1
-            pad += (geometry.size.height - pad * 2) * (1 - ratio) / 2
-            bounds = CGRect(x: bd.minX - horizontal + (bd.width + horizontal * 2) * (1 - ratio) / 2,
-                            y: 0,
-                            width: (bd.width + horizontal * 2) * ratio,
-                            height: 0)
+            let press = state.isActive()
+            let frame = geometry.frame(in: .local)
+            let bounds = geometry[select.bounds]
+            leading = bounds.minX - frame.minX - 17
+            trailing = frame.maxX - bounds.maxX - 17
+            horizontalPad = press ? (bounds.width / 2 + 17) * (1 - 0.95) : 0
+            verticalPad = press ? frame.size.height * (1 - 0.95) / 2 : 0
         } else {
-            bounds = CGRect(x: 0, y: 0, width: 0, height: 0)
             if !preferences.isEmpty {
                 DispatchQueue.main.async {
                     self.internalSelection = preferences[0].id
                 }
             }
         }
+        
         return
             VibrancyEffectView(blurEffect: .systemUltraThinMaterial, style: .tertiaryLabel, content: Capsule())
-                .frame(width: bounds.width)
-                .padding(.vertical, pad)
-                .offset(x: bounds.minX, y: 0)
-                .animation(.easeInOut(duration: 0.18))
+            .padding(.leading, leading)
+            .padding(.trailing, trailing)
+            .padding(.vertical, verticalPad)
+            .padding(.horizontal, horizontalPad)
     }
 }
 
