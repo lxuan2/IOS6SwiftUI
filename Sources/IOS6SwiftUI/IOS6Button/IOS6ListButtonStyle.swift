@@ -97,7 +97,8 @@ public struct IOS6ListBaseButtonStyle: ButtonStyle {
                         if isLink {
                             Image(systemName: "chevron.right")
                                 .font(Font.footnote.weight(.heavy))
-                                .foregroundColor(pressed ? .white : Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
+                                .foregroundColor(.white)
+                                .colorMultiply(pressed ? .white : Color(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0))
                                 .padding(.horizontal, 14.5)
                         }
                     }

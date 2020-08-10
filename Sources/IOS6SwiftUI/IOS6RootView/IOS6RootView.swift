@@ -47,11 +47,11 @@ public struct IOS6RootView<Content: View>: View {
     }
     
     private var StatusBar: AnyView {
-        statusBar == nil ? AnyView(EmptyView()) : statusBar!.label()
+        statusBar == nil ? AnyView(EmptyView()) : statusBar!.label
     }
     
     private var Background: AnyView {
-        rootBackground == nil ? AnyView(Color.black.edgesIgnoringSafeArea(.all)) : rootBackground!.label()
+        rootBackground == nil ? AnyView(Color.black.edgesIgnoringSafeArea(.all)) : rootBackground!.label
     }
 }
 

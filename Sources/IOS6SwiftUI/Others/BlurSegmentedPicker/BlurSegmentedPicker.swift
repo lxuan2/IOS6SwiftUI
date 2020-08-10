@@ -21,8 +21,8 @@ public struct BlurSegmentedPicker<SelectionValue: Hashable, Content: View>: View
             self.content
         }
         .fixedSize()
-        .padding(.vertical, 6)
-        .padding(.horizontal, 17)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 21)
         .foregroundColor(.secondary)
         .font(Font.headline.weight(.semibold))
         .environment(\.pickerItem, .init(selection: internalSelection, state: hold ? .active : state))
@@ -32,8 +32,6 @@ public struct BlurSegmentedPicker<SelectionValue: Hashable, Content: View>: View
         .overlayPreferenceValue(BlurSegmentedPickerPreferenceKey.self) { preferences in
             GeometryReader { self.createTouchLayer($0, preferences) }
         }
-        .padding(4)
-        .background(BlurEffectView(style: .systemUltraThinMaterial).clipShape(Capsule()))
     }
     
     public init(selection: Binding<SelectionValue>, @ViewBuilder content: () -> Content) {
@@ -71,7 +69,7 @@ extension BlurSegmentedPicker {
                     for i in region {
                         if i.id == self.internalSelection, i.range.contains(value.startLocation.x) {
                             state = .active
-                            trans = .init(animation: .easeIn(duration: 0.1))
+                            trans = .init(animation: .easeInOut(duration: 0.2))
                             return
                         }
                     }
@@ -82,7 +80,7 @@ extension BlurSegmentedPicker {
                     for i in region {
                         if i.range.contains(value.location.x) {
                             if self.internalSelection != i.id {
-                                withAnimation(.easeIn(duration: 0.2)) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
                                     self.internalSelection = i.id
                                 }
                             }
@@ -94,7 +92,15 @@ extension BlurSegmentedPicker {
                 var slt = self.internalSelection
                 for i in region {
                     if i.range.contains(value.predictedEndLocation.x) {
-                        self.internalSelection = i.id
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            self.hold = true
+                        }
+                        withAnimation(Animation.easeInOut(duration: 0.1).delay(0.1)) {
+                            self.hold = false
+                        }
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            self.internalSelection = i.id
+                        }
                         slt = i.id
                         break
                     }
@@ -141,7 +147,7 @@ extension BlurSegmentedPicker {
             leading = bounds.minX - frame.minX - 17
             trailing = frame.maxX - bounds.maxX - 17
             horizontalPad = press ? (bounds.width / 2 + 17) * (1 - 0.95) : 0
-            verticalPad = press ? frame.size.height * (1 - 0.95) / 2 : 0
+            verticalPad = press ? frame.size.height * (1 - 0.95) / 2 + 4 : 4
         } else {
             if !preferences.isEmpty {
                 DispatchQueue.main.async {
@@ -151,11 +157,15 @@ extension BlurSegmentedPicker {
         }
         
         return
-            VibrancyEffectView(blurEffect: .systemUltraThinMaterial, style: .tertiaryLabel, content: Capsule())
-            .padding(.leading, leading)
-            .padding(.trailing, trailing)
-            .padding(.vertical, verticalPad)
-            .padding(.horizontal, horizontalPad)
+            BlurEffect(blurStyle: .systemUltraThinMaterial, vibrancyStyle: .tertiaryLabel) {
+                Capsule()
+                .padding(.leading, leading)
+                .padding(.trailing, trailing)
+                .padding(.vertical, verticalPad)
+                .padding(.horizontal, horizontalPad)
+                .animation(.easeInOut(duration: 0.2))
+            }
+            .clipShape(Capsule())
     }
 }
 

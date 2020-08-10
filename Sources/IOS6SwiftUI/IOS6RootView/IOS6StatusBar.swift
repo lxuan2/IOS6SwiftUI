@@ -10,7 +10,7 @@ import SwiftUI
 
 struct _IOS6StatusBar: ViewModifier {
     @State private var id: UUID = UUID()
-    let label: () -> AnyView
+    let label: AnyView
     
     func body(content: Content) -> some View {
         content.preference(key: _IOS6StatusBarKey.self, value: _IOS6StatusBarData(label: label, id: id))
@@ -25,17 +25,15 @@ extension View {
     /// - Parameter background: background view
     /// - Returns: some View
     public func ios6StatusBar<Background: View>(_ background: Background) -> some View {
-        modifier(_IOS6StatusBar(label: {
-            AnyView(background)
-        }))
+        modifier(_IOS6StatusBar(label:AnyView(background)))
     }
 }
 
 struct _IOS6StatusBarData: Equatable, Identifiable {
-    let label: () -> AnyView
+    let label: AnyView
     let id: UUID
     
-    init(label: @escaping () -> AnyView, id: UUID) {
+    init(label: AnyView, id: UUID) {
         self.id = id
         self.label = label
     }

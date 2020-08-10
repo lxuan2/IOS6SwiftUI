@@ -15,8 +15,7 @@ struct _IOS6FormSectionFont: ViewModifier {
             .foregroundColor(Color(red: 76/255.0, green: 86/255.0, blue: 108/255.0))
             .etched(isDown: false, color: Color.white)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .listRowInsets(.init(top: 0, leading: 15, bottom: 0, trailing: 15))
-            .listRowInsets(.init(top: 7, leading: 14, bottom: 20, trailing: 14))
+            .listRowInsets(EdgeInsets(top: 7.5, leading: 18.5, bottom: 6, trailing: 18.5))
     }
 }
 

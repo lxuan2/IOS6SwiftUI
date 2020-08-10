@@ -10,7 +10,7 @@ import SwiftUI
 
 struct _IOS6RootBackground: ViewModifier {
     @State private var id: UUID = UUID()
-    let label: () -> AnyView
+    let label: AnyView
     
     func body(content: Content) -> some View {
         content.preference(key: _IOS6RootBackgroundKey.self, value: _IOS6RootBackgroundData(label: label, id: id))
@@ -25,17 +25,15 @@ extension View {
     /// - Parameter background: background view
     /// - Returns: some view
     public func ios6RootBackground<Background: View>(_ background: Background) -> some View {
-        modifier(_IOS6RootBackground(label: {
-            AnyView(background)
-        }))
+        modifier(_IOS6RootBackground(label: AnyView(background)))
     }
 }
 
 struct _IOS6RootBackgroundData: Equatable, Identifiable {
-    let label: () -> AnyView
+    let label: AnyView
     let id: UUID
     
-    init(label: @escaping () -> AnyView, id: UUID) {
+    init(label: AnyView, id: UUID) {
         self.id = id
         self.label = label
     }
