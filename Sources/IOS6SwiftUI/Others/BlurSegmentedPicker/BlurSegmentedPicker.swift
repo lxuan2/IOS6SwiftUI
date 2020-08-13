@@ -157,7 +157,7 @@ extension BlurSegmentedPicker {
         }
         
         return
-            BlurEffect(blurStyle: .systemUltraThinMaterial, vibrancyStyle: .tertiaryLabel) {
+            VisualEffectBlur(blurStyle: .systemUltraThinMaterial, vibrancyStyle: .tertiaryLabel) {
                 Capsule()
                 .padding(.leading, leading)
                 .padding(.trailing, trailing)
