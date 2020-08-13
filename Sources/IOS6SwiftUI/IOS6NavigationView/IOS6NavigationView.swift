@@ -12,43 +12,11 @@ import SwiftUI
 /// navigation hierarchy in IOS6 style.
 public struct IOS6NavigationView<Content: View>: View {
     private let interactiveSwipe: Bool
-    @ObservedObject private var stack: _IOS6NavigationStack
-    private let debounceDistance: CGFloat = 10
+    private let content: Content
     
     public var body: some View {
-        GeometryReader { proxy in
-            VStack(spacing: 0) {
-                _IOS6NavigationBar(width: proxy.size.width)
-                    .zIndex(1)
-                
-                ZStack(alignment: .leading) {
-                    _IOS6NavigationContentView(width: proxy.size.width)
-                        .allowsHitTesting(!self.stack.blocking)
-                    
-                    if self.interactiveSwipe {
-                        Color.clear
-                            .frame(width: 20 + proxy.safeAreaInsets.leading)
-                            .contentShape(Rectangle())
-                            .gesture(
-                                DragGesture(minimumDistance: self.debounceDistance, coordinateSpace: .global)
-                                    .onChanged {
-                                        self.stack.updateOffset((($0.translation.width - self.debounceDistance) / proxy.size.width))
-                                }
-                                .onEnded { self.stack.endOffset(with: $0, in: proxy) }
-                        )
-                    }
-                }
-                .background(_IOS6NavigationWallpaper())
-                .zIndex(0)
-            }
-        }
-        .clipped()
-        .environment(\._ios6NavigationStack, stack)
-        .environmentObject(stack)
-        .edgesIgnoringSafeArea([.horizontal, .bottom])
-        .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
-        .colorScheme(.light)
-        .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
+        _IOS6NavigationView(interactiveSwipe: interactiveSwipe)
+            .environmentObject(_IOS6NavigationStack(rootView: content))
     }
     
     /// An initializer
@@ -57,7 +25,7 @@ public struct IOS6NavigationView<Content: View>: View {
     ///   - content: navigation root view
     public init(interactiveSwipe: Bool = true, @ViewBuilder content: @escaping () -> Content) {
         self.interactiveSwipe = interactiveSwipe
-        stack = _IOS6NavigationStack(rootView: content())
+        self.content = content()
     }
 }
 

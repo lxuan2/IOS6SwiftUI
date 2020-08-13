@@ -28,9 +28,19 @@ public struct IOS6TabView<SelectionValue: Hashable, Content: View>: View {
         }
         .overlay(_IOS6TabBar(selection: $hashedSelection.onChange(self.updateSelection), items: data), alignment: .bottom)
         .environment(\._ios6SelectedTab, item)
-        .onPreferenceChange(_IOS6TabItemKey.self) {
-            self.data = $0
-            self.tabItemsChangeHandler(items: $0)
+        .onPreferenceChange(_IOS6TabItemKey.self) { value in
+            let sorted = value.sorted { first, second in
+                if let firstInt = first.id as? Int {
+                    if let secondInt = second.id as? Int {
+                        return firstInt < secondInt
+                    } else {
+                        return true
+                    }
+                }
+                return false
+            }
+            self.data = sorted
+            self.tabItemsChangeHandler(items: sorted)
         }
     }
     
