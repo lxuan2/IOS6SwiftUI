@@ -1,91 +1,42 @@
 //
 //  BlurEffect.swift
-//  test
+//  IOS6
 //
-//  Created by Xuan Li on 8/2/20.
+//  Created by Xuan Li on 8/12/20.
+//  Copyright © 2020 Xuan Li. All rights reserved.
 //
 
 import SwiftUI
 
 // MARK: - BlurEffect
 
-public struct BlurEffect<Content: View>: View {
+public struct BlurEffect: View {
     var blurStyle: UIBlurEffect.Style
-    var vibrancyStyle: UIVibrancyEffectStyle?
-    var content: Content
-    
-    public init(blurStyle: UIBlurEffect.Style = .systemMaterial, vibrancyStyle: UIVibrancyEffectStyle? = nil, @ViewBuilder content: () -> Content) {
+
+    public init(blurStyle: UIBlurEffect.Style = .systemMaterial) {
         self.blurStyle = blurStyle
-        self.vibrancyStyle = vibrancyStyle
-        self.content = content()
     }
-    
+
     public var body: some View {
-        Representable(blurStyle: blurStyle, vibrancyStyle: vibrancyStyle, content: ZStack { content })
-            .accessibility(hidden: Content.self == EmptyView.self)
+        Representable(blurStyle: blurStyle)
     }
 }
 
 // MARK: - Representable
 
 extension BlurEffect {
-    struct Representable<Content: View>: UIViewRepresentable {
+    struct Representable: UIViewRepresentable {
         var blurStyle: UIBlurEffect.Style
-        var vibrancyStyle: UIVibrancyEffectStyle?
-        var content: Content
-        
+
         func makeUIView(context: Context) -> UIVisualEffectView {
-            context.coordinator.blurView
-        }
-        
-        func updateUIView(_ view: UIVisualEffectView, context: Context) {
-            context.coordinator.update(content: content, blurStyle: blurStyle, vibrancyStyle: vibrancyStyle)
-        }
-        
-        func makeCoordinator() -> Coordinator {
-            Coordinator(content: content)
-        }
-    }
-}
-
-// MARK: - Coordinator
-
-extension BlurEffect.Representable {
-    class Coordinator {
-        let blurView = UIVisualEffectView()
-        let vibrancyView = UIVisualEffectView()
-        let hostingController: UIHostingController<Content>
-        
-        init(content: Content) {
-            hostingController = UIHostingController(rootView: content)
-            hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            hostingController.view.backgroundColor = nil
-            blurView.contentView.addSubview(vibrancyView)
+            let blurView = UIVisualEffectView()
             blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            vibrancyView.contentView.addSubview(hostingController.view)
-            vibrancyView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            return blurView
         }
-        
-        func update(content: Content, blurStyle: UIBlurEffect.Style, vibrancyStyle: UIVibrancyEffectStyle?) {
-            hostingController.rootView = content
+
+        func updateUIView(_ view: UIVisualEffectView, context: Context) {
             let blurEffect = UIBlurEffect(style: blurStyle)
-            blurView.effect = blurEffect
-            if let vibrancyStyle = vibrancyStyle {
-                vibrancyView.effect = UIVibrancyEffect(blurEffect: blurEffect, style: vibrancyStyle)
-            } else {
-                vibrancyView.effect = nil
-            }
-            hostingController.view.setNeedsDisplay()
-        }
-    }
-}
-
-// MARK: - Content-less Initializer
-
-extension BlurEffect where Content == EmptyView {
-    public init(blurStyle: UIBlurEffect.Style = .systemMaterial) {
-        self.init( blurStyle: blurStyle, vibrancyStyle: nil) {
-            EmptyView()
+            view.effect = blurEffect
         }
     }
 }
@@ -100,11 +51,8 @@ struct BlurEffect_Previews: PreviewProvider {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            
-            BlurEffect(blurStyle: .systemUltraThinMaterial, vibrancyStyle: .fill) {
-                Text("Hello World!")
-                    .frame(width: 200, height: 100)
-            }
+
+            BlurEffect(blurStyle: .systemUltraThinMaterial)
         }
         .previewLayout(.sizeThatFits)
     }
