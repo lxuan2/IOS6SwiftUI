@@ -10,16 +10,15 @@ import SwiftUI
 
 struct _IOS6TabBar: View {
     @Environment(\._ios6TabBarStyle) private var style
-    
-    private var configuration: IOS6TabBarStyleConfiguration
+    let selection: Binding<AnyHashable?>
+    let labels: [IOS6TabBarStyleConfiguration.Label]
     
     var body: some View {
-        self.style.makeBody(configuration:
-            self.configuration
-        )
+        self.style.makeBody(configuration: IOS6TabBarStyleConfiguration(selection: selection, labels: labels))
     }
     
-    init(selection: Binding<AnyHashable?>, items: [IOS6TabBarStyleConfiguration.Label]) {
-        self.configuration = IOS6TabBarStyleConfiguration(selection: selection, labels: items)
+    init(selection: Binding<AnyHashable?>, labels: [IOS6TabBarStyleConfiguration.Label]) {
+        self.selection = selection
+        self.labels = labels
     }
 }

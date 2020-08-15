@@ -12,6 +12,7 @@ import IOS6SwiftUI
 struct ContentView: View {
     @State private var disable = false
     @State private var selection: Int = 2
+    @State private var isOn = false
     
     var body: some View {
         IOS6RootView {
@@ -25,9 +26,7 @@ struct ContentView: View {
                 IOS6NavigationView {
                     ListView()
                 }
-                .ios6TabItem("List") {
-                    Image(systemName: "list.bullet").resizable().padding(3)
-                }
+                .ios6TabItem("List", systemImage: "list.number", insets: .init(top: 1, leading: 1, bottom: 1, trailing: 1))
                 .ios6Tag(1)
                 
                 MaterialView()

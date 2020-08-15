@@ -14,32 +14,16 @@ public struct IOS6TabBarStyleConfiguration {
     public let labels: [IOS6TabBarStyleConfiguration.Label]
     
     public struct Label: Equatable, Identifiable {
-        private let _icon: () -> AnyView
-        private let _title: () -> AnyView
+        public let icon: Image
+        public let title: Text
+        public let insets: EdgeInsets
         public let id: AnyHashable
         
-        public var icon: some View {
-            self._icon()
-        }
-        
-        public var title: some View {
-            self._title()
-        }
-        
-        init<Title: View, Icon: View>(_ title: Title, _ icon: Icon, id: AnyHashable) {
-            self._title = title.makeTypeErasedBody
-            self._icon = icon.makeTypeErasedBody
+        init(_ title: Text, _ icon: Image, insets: EdgeInsets, id: AnyHashable) {
+            self.title = title
+            self.icon = icon
+            self.insets = insets
             self.id = id
         }
-        
-        public static func == (lhs: IOS6TabBarStyleConfiguration.Label, rhs: IOS6TabBarStyleConfiguration.Label) -> Bool {
-            lhs.id == rhs.id
-        }
-    }
-}
-
-fileprivate extension View {
-    func makeTypeErasedBody() -> AnyView {
-        AnyView(self)
     }
 }
