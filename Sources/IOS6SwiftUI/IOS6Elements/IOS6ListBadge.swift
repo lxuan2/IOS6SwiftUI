@@ -38,7 +38,7 @@ public struct IOS6ListBadge: View {
     }
 }
 
-struct IOS6CommentIcon_Previews: PreviewProvider {
+struct IOS6ListBadge_Previews: PreviewProvider {
     static var previews: some View {
         IOS6ListBadge(text: "1")
     }

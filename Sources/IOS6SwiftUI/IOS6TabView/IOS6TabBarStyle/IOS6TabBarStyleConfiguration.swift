@@ -11,35 +11,55 @@ import SwiftUI
 public struct IOS6TabBarStyleConfiguration {
     public var selection: Binding<AnyHashable?>
     
-    public let labels: [IOS6TabBarStyleConfiguration.Label]
+    public let items: [IOS6TabBarStyleConfiguration.Item]
     
-    public struct Label: Equatable, Identifiable {
-        private let _icon: () -> AnyView
-        private let _title: () -> AnyView
+    public func setTabItem(_ item: Item) {
+        selection.wrappedValue = item.tag
+    }
+    
+    public func isSelected(_ item: Item) -> Bool {
+        selection.wrappedValue == item.tag
+    }
+    
+    public struct Item: Equatable, Identifiable {
+        public let icon: Icon
+        public let title: Title
         public let id: AnyHashable
+        let tag: AnyHashable
         
-        public var icon: some View {
-            self._icon()
-        }
-        
-        public var title: some View {
-            self._title()
-        }
-        
-        init<Title: View, Icon: View>(_ title: Title, _ icon: Icon, id: AnyHashable) {
-            self._title = title.makeTypeErasedBody
-            self._icon = icon.makeTypeErasedBody
+        init<TitleType: View, IconType: View>(_ title: TitleType, _ icon: IconType, tag: AnyHashable, id: AnyHashable) {
+            self.title = Title(title: title)
+            self.icon = Icon(icon: icon)
+            self.tag = tag
             self.id = id
         }
         
-        public static func == (lhs: IOS6TabBarStyleConfiguration.Label, rhs: IOS6TabBarStyleConfiguration.Label) -> Bool {
-            lhs.id == rhs.id
+        public static func == (lhs: IOS6TabBarStyleConfiguration.Item, rhs: IOS6TabBarStyleConfiguration.Item) -> Bool {
+            lhs.id == rhs.id && lhs.tag == rhs.tag
         }
-    }
-}
-
-fileprivate extension View {
-    func makeTypeErasedBody() -> AnyView {
-        AnyView(self)
+        
+        public struct Icon: View {
+            private let icon: AnyView
+            
+            public var body: some View {
+                icon
+            }
+            
+            init<IconType: View>(icon: IconType) {
+                self.icon = AnyView(icon)
+            }
+        }
+        
+        public struct Title: View {
+            private let title: AnyView
+            
+            public var body: some View {
+                title
+            }
+            
+            init<TitleType: View>(title: TitleType) {
+                self.title = AnyView(title)
+            }
+        }
     }
 }

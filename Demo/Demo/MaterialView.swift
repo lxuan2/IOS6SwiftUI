@@ -40,6 +40,7 @@ struct MaterialView: View {
                     }
                 )
             }
+            
             ScrollView(.vertical) {
                 VStack(spacing: 0) {
                     Picker(selection: self.$selection, label: Text("Background")) {
@@ -107,7 +108,7 @@ struct MaterialView: View {
                     }
                 }
             }
-        }
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 

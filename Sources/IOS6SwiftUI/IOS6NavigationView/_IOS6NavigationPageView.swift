@@ -9,24 +9,28 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationPageView: UIViewControllerRepresentable, Identifiable {
-    private let content: UIViewController
+struct _IOS6NavigationPageView: View, Identifiable {
+    private let content: AnyView
     let lock: Binding<Bool>?
     let id: Int
     
+    var body: some View {
+        content
+    }
+    
     init<Page: View>(page: Page, index: Int, previousPageLock: Binding<Bool>? = nil) {
-        content = UIHostingController(rootView: page)
+        content = AnyView(page)
         lock = previousPageLock
         id = index
     }
     
-    func makeUIViewController(context: Context) -> UIViewController {
-        content.view.backgroundColor = UIColor.clear
-        content.view.isOpaque = false
-        return content
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+//    func makeUIViewController(context: Context) -> UIViewController {
+//        content.view.backgroundColor = UIColor.clear
+//        content.view.isOpaque = false
+//        return content
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 struct IOS6NavigationPageView_Previews: PreviewProvider {

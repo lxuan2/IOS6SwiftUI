@@ -23,8 +23,6 @@ struct _IOS6NavigationView: View {
                     _IOS6NavigationContentView(width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing)
                         .allowsHitTesting(!self.stack.blocking)
                     
-                    .edgesIgnoringSafeArea(.all)
-                    
                     if self.interactiveSwipe {
                         Color.clear
                             .frame(width: 20 + proxy.safeAreaInsets.leading)

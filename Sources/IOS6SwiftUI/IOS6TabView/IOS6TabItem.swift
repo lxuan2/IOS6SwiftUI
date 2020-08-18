@@ -20,10 +20,11 @@ struct _IOS6TabItem<Title: View, Icon: View>: ViewModifier {
         let enabled = globalId == (tag ?? id as AnyHashable)
         return Group {
             Spacer()
-                .modifier(IOS6TabBarItemPreference(title: _title, icon: _icon, id: (tag ?? id as AnyHashable)))
+                .modifier(IOS6TabBarItemPreference(title: _title, icon: _icon, tag: (tag ?? id as AnyHashable)))
             
             if self.loaded || enabled {
                 content
+                    ._ios6Disabled(!enabled)
                     .opacity(enabled ? 1 : 0)
                     .onAppear {
                         self.loaded = true
@@ -77,9 +78,9 @@ extension View {
 }
 
 struct _IOS6TabItemKey: PreferenceKey {
-    static var defaultValue: [IOS6TabBarStyleConfiguration.Label] = []
+    static var defaultValue: [IOS6TabBarStyleConfiguration.Item] = []
     
-    static func reduce(value: inout [IOS6TabBarStyleConfiguration.Label], nextValue: () -> [IOS6TabBarStyleConfiguration.Label]) {
+    static func reduce(value: inout [IOS6TabBarStyleConfiguration.Item], nextValue: () -> [IOS6TabBarStyleConfiguration.Item]) {
         value.append(contentsOf: nextValue())
     }
 }
@@ -98,11 +99,11 @@ extension EnvironmentValues {
 struct IOS6TabBarItemPreference<Title: View, Icon: View>: ViewModifier {
     let title: Title
     let icon: Icon
-    let id: AnyHashable
+    let tag: AnyHashable
     
     func body(content: Content) -> some View {
         content
             .preference(key: _IOS6TabItemKey.self,
-                    value: [IOS6TabBarStyleConfiguration.Label(title, icon, id: id)])
+                        value: [IOS6TabBarStyleConfiguration.Item(title, icon, tag: tag, id: Int32.random(in: 0..<Int32.max))])
     }
 }

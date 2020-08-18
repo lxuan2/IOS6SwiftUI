@@ -20,11 +20,11 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
                 .zIndex(0)
             
             HStack(spacing: 0) {
-                ForEach(configuration.labels) { label in
+                ForEach(configuration.items) { item in
                     Button(action: {
-                        configuration.selection.wrappedValue = label.id
+                        configuration.setTabItem(item)
                     }) {
-                        TabItem(isSelected: label.id == configuration.selection.wrappedValue, label: label)
+                        Label(isSelected: configuration.isSelected(item), item: item)
                     }.buttonStyle(NoButtonStyle())
                 }
             }
@@ -37,15 +37,9 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
             .padding(.top, 1)
     }
     
-    private struct NoButtonStyle: ButtonStyle {
-        func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-        }
-    }
-    
-    private struct TabItem: View {
+    private struct Label: View {
         let isSelected: Bool
-        let label: IOS6TabBarStyleConfiguration.Label
+        let item: IOS6TabBarStyleConfiguration.Item
         
         var body: some View {
             ZStack {
@@ -60,11 +54,11 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
                         }
                     }
                     .aspectRatio(1.5, contentMode: .fit)
-                    .mask(label.icon.scaledToFit())
+                    .mask(item.icon.scaledToFit())
                     .shadow(color: .black, radius: 1, x: 0, y: isSelected ? 1 : -1)
                     .padding(3)
                     
-                    label.title
+                    item.title
                         .scaledFont(size: 10, weight: .bold)
                         .foregroundColor(isSelected ? .white : .gray)
                 }
@@ -75,7 +69,7 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
         }
     }
     
-    struct _IOS6BlueDiamondTabBarWallpaper: View {
+    private struct _IOS6BlueDiamondTabBarWallpaper: View {
         var body: some View {
             LinearGradient(gradient: Gradient(colors: [Color(red: 25/255.0, green: 108/255.0, blue: 238/255.0),
                                                        Color(red: 35/255.0, green: 135/255.0, blue: 211/255.0),
@@ -104,6 +98,12 @@ public struct IOS6BlueDiamondTabBarStyle: IOS6TabBarStyle {
                 
                 return path
             }
+        }
+    }
+    
+    private struct NoButtonStyle: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
         }
     }
 }

@@ -95,7 +95,7 @@ struct ContentView: View {
                         }.ios6FormCellPosition(.mid)
                         
                         IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime")) {
-                            IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6CommentIcon(text: "1"))
+                            IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6ListBadge(text: "1"))
                         }.ios6FormCellPosition(.mid)
                         
                         IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
@@ -112,6 +112,7 @@ struct ContentView: View {
 ---
 ## Upcoming Features
 - \[ ] Fix IOS6Slider range and adopt new APIs
+- \[ ] Fix navigation view changing on time
 - \[ ] Add notification icon to tab item
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
@@ -120,6 +121,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Allow tab item changing on time
 - \[x] Add an example project
 - \[x] Add tag, ios6tabview now memorize loaded view
 - \[x] Add IOS6TabBarStyle

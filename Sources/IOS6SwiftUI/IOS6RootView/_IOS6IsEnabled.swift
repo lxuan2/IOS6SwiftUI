@@ -11,7 +11,7 @@ import SwiftUI
 /// `Private API`:
 /// A Environment Key indicates selecting state.
 struct _IOS6IsEnabledKey: EnvironmentKey {
-    static var defaultValue: Bool = false
+    static var defaultValue: Bool = true
 }
 
 extension EnvironmentValues {
@@ -25,6 +25,8 @@ extension EnvironmentValues {
 
 extension View {
     func _ios6Disabled(_ disabled: Bool) -> some View {
-        environment(\._ios6IsEnabled, !disabled)
+        self
+            .environment(\._ios6IsEnabled, !disabled)
+            .disabled(disabled)
     }
 }
