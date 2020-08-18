@@ -118,9 +118,8 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
-- \[ ] Test IOS6Slider init and fix min/max label and add onEditChange
-- \[ ] Fix navigation view changing on time
 - \[ ] Add notification icon to tab item
+- \[ ] Fix navigation view changing on time
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
 - \[ ] Archive final version for IOS13 and start IOS14 development
@@ -128,6 +127,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Test IOS6Slider init and fix min/max label and add onEditChange
 - \[x] add ios6SliderStyle
 - \[x] Fix IOS6Slider range and adopt new APIs
 - \[x] Allow tab item changing on time

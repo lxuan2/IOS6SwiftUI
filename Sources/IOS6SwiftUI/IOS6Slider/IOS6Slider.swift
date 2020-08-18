@@ -14,6 +14,9 @@ public struct IOS6Slider<ValueLabel: View>: View {
     
     public var body: some View {
         style.makeBody(configuration: configuration)
+            .onAppear {
+            // Init handler correct value
+        }
     }
 }
 
@@ -38,20 +41,9 @@ extension IOS6Slider {
     public init<V>(value: Binding<V>, in bounds: ClosedRange<V> = 0...1, onEditingChanged: @escaping (Bool) -> Void = { _ in }, minimumValueLabel: ValueLabel, maximumValueLabel: ValueLabel) where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
         let binding: Binding<CGFloat> =
             Binding(get: {
-                if bounds.contains(value.wrappedValue) {
-                    return CGFloat(value.wrappedValue / (bounds.upperBound - bounds.lowerBound))
-                } else {
-                    let newV = min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound)
-                    DispatchQueue.main.async {
-                        value.wrappedValue = newV
-                    }
-                    return CGFloat(newV)
-                }
-            }, set: { newValue in
-                let newWrappedValue = V(newValue) * (bounds.upperBound - bounds.lowerBound)
-                if value.wrappedValue != newWrappedValue {
-                    value.wrappedValue = newWrappedValue
-                }
+                CGFloat((min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound) - bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound))
+            }, set: {
+                value.wrappedValue = min(max(V($0), 0), 1) * (bounds.upperBound - bounds.lowerBound) + bounds.lowerBound
             })
         self.configuration = IOS6SliderStyleConfiguration(value: binding, minimumValueLabel: minimumValueLabel, maximumValueLabel: maximumValueLabel, onEditingChanged: onEditingChanged)
     }
@@ -76,18 +68,11 @@ extension IOS6Slider {
     public init<V>(value: Binding<V>, in bounds: ClosedRange<V>, step: V.Stride = 1, onEditingChanged: @escaping (Bool) -> Void = { _ in }, minimumValueLabel: ValueLabel, maximumValueLabel: ValueLabel) where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
         let binding: Binding<CGFloat> =
             Binding(get: {
-                let (newV, newG) = clipToStep(value.wrappedValue, in: bounds, step: step)
-                if newV != value.wrappedValue {
-                    DispatchQueue.main.async {
-                        value.wrappedValue = newV
-                    }
-                }
-                return newG
+                CGFloat((min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound) - bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound))
             }, set: { newValue in
                 let newV = regularizeToStep(newValue, in: bounds, step: step)
-                let newWrappedValue = V(newV)
-                if value.wrappedValue != newWrappedValue {
-                    value.wrappedValue = newWrappedValue
+                if value.wrappedValue != newV {
+                    value.wrappedValue = newV
                 }
             })
         self.configuration = IOS6SliderStyleConfiguration(value: binding, minimumValueLabel: minimumValueLabel, maximumValueLabel: maximumValueLabel, onEditingChanged: onEditingChanged)
@@ -113,20 +98,9 @@ extension IOS6Slider where ValueLabel == EmptyView {
     public init<V>(value: Binding<V>, in bounds: ClosedRange<V> = 0...1, onEditingChanged: @escaping (Bool) -> Void = { _ in }) where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
         let binding: Binding<CGFloat> =
             Binding(get: {
-                if bounds.contains(value.wrappedValue) {
-                    return CGFloat(value.wrappedValue / (bounds.upperBound - bounds.lowerBound))
-                } else {
-                    let newV = min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound)
-                    DispatchQueue.main.async {
-                        value.wrappedValue = newV
-                    }
-                    return CGFloat(newV)
-                }
-            }, set: { newValue in
-                let newWrappedValue = V(newValue) * (bounds.upperBound - bounds.lowerBound)
-                if value.wrappedValue != newWrappedValue {
-                    value.wrappedValue = newWrappedValue
-                }
+                CGFloat((min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound) - bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound))
+            }, set: {
+                value.wrappedValue = min(max(V($0), 0), 1) * (bounds.upperBound - bounds.lowerBound) + bounds.lowerBound
             })
         self.configuration = IOS6SliderStyleConfiguration(value: binding, minimumValueLabel: EmptyView(), maximumValueLabel: EmptyView(), onEditingChanged: onEditingChanged)
     }
@@ -149,18 +123,11 @@ extension IOS6Slider where ValueLabel == EmptyView {
     public init<V>(value: Binding<V>, in bounds: ClosedRange<V>, step: V.Stride = 1, onEditingChanged: @escaping (Bool) -> Void = { _ in }) where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
         let binding: Binding<CGFloat> =
             Binding(get: {
-                let (newV, newG) = clipToStep(value.wrappedValue, in: bounds, step: step)
-                if newV != value.wrappedValue {
-                    DispatchQueue.main.async {
-                        value.wrappedValue = newV
-                    }
-                }
-                return newG
+                CGFloat((min(max(value.wrappedValue, bounds.lowerBound), bounds.upperBound) - bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound))
             }, set: { newValue in
                 let newV = regularizeToStep(newValue, in: bounds, step: step)
-                let newWrappedValue = V(newV)
-                if value.wrappedValue != newWrappedValue {
-                    value.wrappedValue = newWrappedValue
+                if value.wrappedValue != newV {
+                    value.wrappedValue = newV
                 }
             })
         self.configuration = IOS6SliderStyleConfiguration(value: binding, minimumValueLabel: EmptyView(), maximumValueLabel: EmptyView(), onEditingChanged: onEditingChanged)
@@ -173,35 +140,9 @@ struct IOS6Slider_Previews: PreviewProvider {
     }
 }
 
-fileprivate func clipToStep<V>(_ value: V, in bounds: ClosedRange<V>, step: V.Stride) -> (V, CGFloat) where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
-    if bounds.contains(value) {
-        let x = (CGFloat(value) / CGFloat(step)).rounded() * CGFloat(step)
-        return (V(x), x/CGFloat(bounds.upperBound - bounds.lowerBound))
-    } else {
-        let newV = min(max(value, bounds.lowerBound), bounds.upperBound)
-        var x = CGFloat(newV) / CGFloat(step).rounded() * CGFloat(step)
-        if V(x) > bounds.upperBound {
-            x -= CGFloat(step)
-        } else if V(x) < bounds.lowerBound {
-            x += CGFloat(step)
-        }
-        return (V(x), x/CGFloat(bounds.upperBound - bounds.lowerBound))
-    }
-}
-
 fileprivate func regularizeToStep<V>(_ value: CGFloat, in bounds: ClosedRange<V>, step: V.Stride) -> V where V : BinaryFloatingPoint, V.Stride : BinaryFloatingPoint {
-    let newValue = value * CGFloat(bounds.upperBound - bounds.lowerBound)
-    let clipped = (value / CGFloat(step)).rounded() * CGFloat(step)
-    if bounds.contains(V(clipped)) {
-        return V(clipped)
-    } else {
-        let newV = min(max(newValue, CGFloat(bounds.lowerBound)), CGFloat(bounds.upperBound))
-        var x = CGFloat(newV) / CGFloat(step).rounded() * CGFloat(step)
-        if V(x) > bounds.upperBound {
-            x -= CGFloat(step)
-        } else if V(x) < bounds.lowerBound {
-            x += CGFloat(step)
-        }
-        return V(x)
-    }
+    let projected = (value * CGFloat(bounds.upperBound - bounds.lowerBound) / CGFloat(step)).rounded() * CGFloat(step) + CGFloat(bounds.lowerBound)
+    let clipped = min(bounds.upperBound, max(bounds.lowerBound, V(projected)))
+    
+    return clipped
 }

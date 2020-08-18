@@ -23,11 +23,14 @@ struct SettingView: View {
     var body: some View {
         IOS6Form {
             Section(header: Text("App:").padding(.top, 17).ios6FormSectionFontBold(), footer: Text("This is the comment").ios6FormSectionFont()) {
-                IOS6Slider(value: self.$progess, in: 0...100)
+                IOS6Slider(value: self.$progess, in: 1...100,
+                           minimumValueLabel: Image(systemName: "speaker.fill")
+                            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 5))
+                            .foregroundColor(Color(red: 123 / 255.0, green: 123 / 255.0, blue: 123 / 255.0)),
+                           maximumValueLabel: Image(systemName: "speaker.3.fill")
+                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 8))
+                            .foregroundColor(Color(red: 123 / 255.0, green: 123 / 255.0, blue: 123 / 255.0)))
                     .ios6FormCellPosition(.top)
-                
-                IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: String(self.progess))
-                .ios6FormCellPosition(.mid)
                 
                 IOS6Toggle(isOn: self.$isOn) {
                     IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: "iCloud")

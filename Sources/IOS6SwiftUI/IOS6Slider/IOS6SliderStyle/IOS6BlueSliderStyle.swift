@@ -10,15 +10,19 @@ import SwiftUI
 
 public struct IOS6BlueSliderStyle: IOS6SliderStyle {
     public func makeBody(configuration: Configuration) -> some View {
-        IOS6BlueSliderStyleSlider(configuration: configuration)
+        HStack {
+            configuration.minimumValueLabel
+            IOS6BlueSliderStyleSlider(configuration: configuration)
+            configuration.maximumValueLabel
+        }
     }
     
     private struct IOS6BlueSliderStyleSlider: View {
+        @GestureState private var dragState: IOS6BlueSliderStyleDragState
         @State private var isPressed: Bool = false
-        @State private var dragAmount: CGFloat = 0
+        private let circleHeight: CGFloat = 21
+        private let barHeight: CGFloat = 9
         let configuration: Configuration
-        let circleHeight: CGFloat = 21
-        let barHeight: CGFloat = 9
         
         var body: some View {
             GeometryReader { proxy in
@@ -31,7 +35,7 @@ public struct IOS6BlueSliderStyle: IOS6SliderStyle {
                              Color(red: 108/255.0, green: 161/255.0, blue: 237/255.0),
                              Color(red: 118/255.0, green: 174/255.0, blue: 246/255.0)]),
                                        startPoint: .top, endPoint: .bottom)
-                            .frame(width: self.clippedValue * proxy.size.width)
+                            .frame(width: self.configuration.value * proxy.size.width)
                         
                         LinearGradient(gradient: Gradient(colors:
                             [Color.black.opacity(0.3),
@@ -62,13 +66,18 @@ public struct IOS6BlueSliderStyle: IOS6SliderStyle {
                     )
                         .gesture(
                             DragGesture(minimumDistance: 14, coordinateSpace: .named("IOS6Slider"))
-                                .onChanged { value in
-                                    self.configuration.value = max(min(self.configuration.value + (value.translation.width - self.dragAmount)/(proxy.size.width-self.circleHeight), 1), 0)
-                                    self.dragAmount = value.translation.width
+                                .updating(self.$dragState) { _, state, _ in
+                                    if state == .idle {
+                                        state = .active(startValue: self.configuration.value)
+                                        DispatchQueue.main.async {
+                                            self.configuration.onEditingChanged(true)
+                                        }
+                                    }
                             }
-                            .onEnded { value in
-                                self.configuration.value = max(min(self.configuration.value + (value.translation.width - self.dragAmount)/(proxy.size.width-self.circleHeight), 1), 0)
-                                self.dragAmount = 0
+                            .onChanged {
+                                if case let .active(startValue) = self.dragState {
+                                    self.configuration.value = max(min($0.translation.width/(proxy.size.width-self.circleHeight) + startValue, 1), 0)
+                                }
                             }
                     )
                         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { value in self.isPressed = value }, perform: {})
@@ -76,7 +85,7 @@ public struct IOS6BlueSliderStyle: IOS6SliderStyle {
                         .background(Circle().strokeBorder(Color.black.opacity(0.5), lineWidth: 1).offset(x: 0, y: 1).blur(radius: 0.5))
                         .overlay(Circle().stroke(Color.gray, lineWidth: 0.5))
                         .frame(height: self.circleHeight)
-                        .position(x: self.clippedValue * (proxy.size.width-self.circleHeight)+self.circleHeight/2, y: proxy.size.height/2)
+                        .position(x: self.configuration.value * (proxy.size.width-self.circleHeight)+self.circleHeight/2, y: proxy.size.height/2)
                 }
             }
             .coordinateSpace(name: "IOS6Slider")
@@ -84,8 +93,22 @@ public struct IOS6BlueSliderStyle: IOS6SliderStyle {
             .listRowInsets(.init(top: 8.5, leading: 14, bottom: 9.5, trailing: 14))
         }
         
-        var clippedValue: CGFloat {
-            min(max(configuration.value, 0), 1)
+        func dragGestureHandler(value: DragGesture.Value, rangeWidth: CGFloat) {
+            
+        }
+        
+        private enum IOS6BlueSliderStyleDragState: Equatable {
+            case idle
+            case active(startValue: CGFloat)
+        }
+        
+        init(configuration: Configuration) {
+            self.configuration = configuration
+            self._dragState = .init(initialValue: .idle, reset: { _, _ in
+                DispatchQueue.main.async {
+                    configuration.onEditingChanged(false)
+                }
+            })
         }
     }
 }
