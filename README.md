@@ -24,6 +24,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6FormSectionFont
 - \[x]  ios6FormSectionFontBold
 - \[x]  ios6ListSectionHeader
+- \[x]  ios6SliderStyle
 - \[x]  ios6TabBarStyle
 - \[x]  ios6TabItem
 - \[x]  ios6Tag
@@ -39,16 +40,22 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 
 ### Style
 **ButtonStyle**
-- \[x]  IOS6ToggleStyle
 - \[x]  IOS6DefaultButtonStyle
 - \[x]  IOS6FormButtonStyle
 - \[x]  IOS6ListButtonStyle
 
+**ToggleStyle**
+- \[x]  IOS6ToggleStyle
+
 **IOS6TabBarStyle**
 - \[x]  IOS6BlueDiamondTabBarStyle
 
+**IOS6TabBarStyle**
+- \[x]  IOS6BlueSliderStyle
+
 ### Protocol
 - \[x]  IOS6TabBarStyle
+- \[x]  IOS6SliderStyle
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetTableCell
@@ -111,7 +118,7 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
-- \[ ] Fix IOS6Slider range and adopt new APIs
+- \[ ] Test IOS6Slider init and fix min/max label and add onEditChange
 - \[ ] Fix navigation view changing on time
 - \[ ] Add notification icon to tab item
 - \[ ] IOS6Alert
@@ -121,6 +128,8 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] add ios6SliderStyle
+- \[x] Fix IOS6Slider range and adopt new APIs
 - \[x] Allow tab item changing on time
 - \[x] Add an example project
 - \[x] Add tag, ios6tabview now memorize loaded view

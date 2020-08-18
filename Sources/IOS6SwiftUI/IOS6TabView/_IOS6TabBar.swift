@@ -14,7 +14,7 @@ struct _IOS6TabBar: View {
     let labels: [IOS6TabBarStyleConfiguration.Item]
     
     var body: some View {
-        self.style.makeBody(configuration: IOS6TabBarStyleConfiguration(selection: selection, items: labels))
+        style.makeBody(configuration: IOS6TabBarStyleConfiguration(selection: selection, items: labels))
     }
     
     init(selection: Binding<AnyHashable?>, labels: [IOS6TabBarStyleConfiguration.Item]) {

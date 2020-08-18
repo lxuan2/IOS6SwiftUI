@@ -23,8 +23,11 @@ struct SettingView: View {
     var body: some View {
         IOS6Form {
             Section(header: Text("App:").padding(.top, 17).ios6FormSectionFontBold(), footer: Text("This is the comment").ios6FormSectionFont()) {
-                IOS6Slider(value: self.$progess)
+                IOS6Slider(value: self.$progess, in: 0...100)
                     .ios6FormCellPosition(.top)
+                
+                IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: String(self.progess))
+                .ios6FormCellPosition(.mid)
                 
                 IOS6Toggle(isOn: self.$isOn) {
                     IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: "iCloud")
