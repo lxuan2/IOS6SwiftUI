@@ -124,14 +124,15 @@ class _IOS6NavigationStack: ObservableObject {
                 lock?.wrappedValue = false
                 
                 withAnimation(.easeInOut(duration: time)) {
-                    stack.removeLast()
-                    barStack.removeLast()
-                    offsetStack.removeLast()
-                    offsetStack[count - 1] = 0
+                    offsetStack[offsetStack.count - 2] = 0
+                    offsetStack[offsetStack.count - 1] = 1
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + _IOS6NavigationStack.unselectedTime + time) {
                     self.blocking = false
+                    self.offsetStack.removeLast()
+                    self.stack.removeLast()
+                    self.barStack.removeLast()
                 }
             } else {
                 withAnimation(Animation.easeInOut(duration: 0.2)) {

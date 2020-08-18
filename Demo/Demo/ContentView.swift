@@ -26,7 +26,9 @@ struct ContentView: View {
                 IOS6NavigationView {
                     ListView()
                 }
-                .ios6TabItem("List", systemImage: "list.number", insets: .init(top: 1, leading: 1, bottom: 1, trailing: 1))
+                .ios6TabItem("List") {
+                    Image(systemName: "list.number").resizable().padding(1)
+                }
                 .ios6Tag(1)
                 
                 MaterialView()

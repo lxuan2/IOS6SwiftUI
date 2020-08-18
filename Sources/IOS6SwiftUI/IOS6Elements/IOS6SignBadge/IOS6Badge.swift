@@ -1,5 +1,5 @@
 //
-//  IOS6SignLabel.swift
+//  IOS6Badge.swift
 //  IOS6
 //
 //  Created by Xuan Li on 7/7/20.
@@ -8,19 +8,19 @@
 
 import SwiftUI
 
-public struct IOS6SignLabel<Label: View>: View {
+public struct IOS6Badge<Label: View>: View {
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.ios6ButtonSelected) private var isSelected
-    let color: Color?
-    let label: () -> Label
+    let regularColor: Color
+    let activeColor: Color
+    let label: Label
     let radius: CGFloat = 23
-    let isPressed: Bool
     let isEtched: Bool
-    let paddingScale: CGFloat
+    let paddingRatio: CGFloat
     
     public var body: some View {
         Circle()
-            .fill(backgroundColor)
+            .fill(isSelected ? activeColor : regularColor)
             .shadow(color: Color.black.opacity(0.8), radius: boudaryWidth/1.5, x: 0, y: 0)
             .shadow(color: Color.black.opacity(0.3), radius: boudaryWidth/1.5, x: 0, y: boudaryWidth * 1.1)
             .overlay(whiteCircleShadow)
@@ -28,13 +28,6 @@ public struct IOS6SignLabel<Label: View>: View {
             .overlay(_CuttingCircle().fill(coverGradient))
             .overlay(labelView)
             .frame(width: radius, height: radius)
-            .accentColor(isSelected ?
-                Color(red: 18/255.0, green: 63/255.0, blue: 128/255.0) :
-                Color(red: 34/255.0, green: 113/255.0, blue: 218/255.0))
-    }
-    
-    var backgroundColor: Color {
-        isEnabled ? color ?? Color.accentColor : Color.accentColor
     }
     
     var whiteCircleShadow: some View {
@@ -60,9 +53,9 @@ public struct IOS6SignLabel<Label: View>: View {
     }
     
     var labelView: some View {
-        label()
+        label
             .shadow(color: Color.black.opacity(isEnabled && isEtched ? 0.27 : 0), radius: 0, x: 0, y: -boudaryWidth/2.5)
-            .padding(boudaryWidth * paddingScale)
+            .padding(boudaryWidth * paddingRatio)
             .foregroundColor(.white)
             .colorMultiply(.white)
     }
@@ -86,18 +79,18 @@ public struct IOS6SignLabel<Label: View>: View {
         }
     }
     
-    public init(color: Color? = nil, isPressed: Bool = false, isEtched: Bool = true, paddingScale: CGFloat = 1, label: @escaping () -> Label) {
-        self.color = color
-        self.label = label
-        self.isPressed = isPressed
+    public init(regularColor: Color?=nil, activeColor: Color?=nil, isEtched: Bool = true, paddingRatio: CGFloat = 1, label: () -> Label) {
+        self.regularColor = regularColor ?? Color(red: 34/255.0, green: 113/255.0, blue: 218/255.0)
+        self.activeColor = activeColor ?? Color(red: 18/255.0, green: 63/255.0, blue: 128/255.0)
+        self.label = label()
         self.isEtched = isEtched
-        self.paddingScale = paddingScale
+        self.paddingRatio = paddingRatio
     }
 }
 
-struct IOS6WhiteBoundaryIcon_Previews: PreviewProvider {
+struct IOS6SignIcon_Previews: PreviewProvider {
     static var previews: some View {
-        IOS6SignLabel {
+        IOS6Badge {
             Image(systemName: "chevron.right")
                 .resizable()
                 .aspectRatio(contentMode: .fit)

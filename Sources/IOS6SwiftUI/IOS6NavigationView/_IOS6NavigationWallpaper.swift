@@ -15,7 +15,7 @@ struct _IOS6NavigationWallpaper: View {
     var body: some View {
         Color(red: 211/255, green: 215/255, blue: 224/255)
             .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
-            .compositingGroup()
+            .edgesIgnoringSafeArea([.horizontal, .bottom])
     }
     
     struct Strips: Shape {

@@ -37,7 +37,7 @@ struct SettingView: View {
                 }.ios6FormCellPosition(.mid)
                 
                 IOS6NavigationLink(destination: DismissViewLink()) {
-                    IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: CommentIcon())
+                    IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6ListBadge(text: "1"))
                 }.ios6FormCellPosition(.mid)
                 
                 IOS6NavigationLink(destination: self.refresh) {
@@ -69,7 +69,7 @@ struct SettingView: View {
                 }.ios6FormCellPosition(.mid)
                 
                 IOS6NavigationLink(destination: DismissViewLink()) {
-                    IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: CommentIcon())
+                    IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6ListBadge(text: "2"))
                 }.ios6FormCellPosition(.mid)
                 
                 IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
@@ -147,31 +147,6 @@ struct SettingView: View {
     }
 }
 
-struct CommentIcon: View {
-    var body: some View {
-        Text("1")
-            .font(Font.headline.weight(.bold))
-            .blendMode(.destinationOut)
-            .padding(.vertical, 0.5)
-            .padding(.horizontal, 9)
-            .frame(minWidth: 30)
-            .background(
-                ZStack {
-                    Capsule(style: .circular)
-                        .fill(Color.white)
-                    
-                    Capsule(style: .circular)
-                        .strokeBorder(
-                            LinearGradient(gradient: Gradient(colors: [
-                                                                Color.black.opacity(0.15),
-                                                                Color.gray.opacity(0.2)]),
-                                           startPoint: .top, endPoint: .bottom), lineWidth: 0.8)
-                }
-                .ios6ForegroundColor(regular: Color(red: 138/255.0, green: 152/255.0, blue: 182/255.0), active: .white)
-            )
-    }
-}
-
 struct FormView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
@@ -198,7 +173,7 @@ struct RoundWidget: View {
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0, coordinateSpace: .global)
                         .onChanged { value in
-                            let decay: CGFloat = value.translation.height < 0 ? 5 : self.adaptiveDismissable ? 1.2 : 2.5
+                            let decay: CGFloat = value.translation.height < 0 ? 3 : self.adaptiveDismissable ? 1.2 : 2.5
                             self.percent = value.translation.height / geo.size.width / decay
                             self.time = value.time
                         }

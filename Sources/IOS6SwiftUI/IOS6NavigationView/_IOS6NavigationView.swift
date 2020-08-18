@@ -16,12 +16,14 @@ struct _IOS6NavigationView: View {
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
-                _IOS6NavigationBar(width: proxy.size.width)
+                _IOS6NavigationBar(width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing)
                     .zIndex(1)
                 
                 ZStack(alignment: .leading) {
-                    _IOS6NavigationContentView(width: proxy.size.width)
+                    _IOS6NavigationContentView(width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing)
                         .allowsHitTesting(!self.stack.blocking)
+                    
+                    .edgesIgnoringSafeArea(.all)
                     
                     if self.interactiveSwipe {
                         Color.clear
@@ -34,15 +36,14 @@ struct _IOS6NavigationView: View {
                                 }
                                 .onEnded { self.stack.endOffset(with: $0, in: proxy) }
                         )
+                            .edgesIgnoringSafeArea([.vertical, .leading])
                     }
                 }
                 .background(_IOS6NavigationWallpaper())
                 .zIndex(0)
             }
         }
-        .clipped()
         .environment(\._ios6NavigationStack, stack)
-        .edgesIgnoringSafeArea([.horizontal, .bottom])
         .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
         .colorScheme(.light)
         .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))

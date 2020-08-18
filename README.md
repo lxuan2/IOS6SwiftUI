@@ -13,8 +13,9 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6Toggle
 - \[x]  IOS6Form
 - \[x]  IOS6List
-- \[x]  IOS6SignLabel
 - \[x]  IOS6Slider
+- \[x]  IOS6Badge
+- \[x]  IOS6ListBadge
 
 ### Modifer
 - \[x]  ios6RootBackground
@@ -51,12 +52,12 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetTableCell
-- \[x]  IOS6PresetSignLabel
+- \[x]  IOS6PresetSignBadge
 
 ---
 ## Availability
 Device: iPhone and iPad
-System: IOS 13.0.0 ~ IOS 13.6.0. ( IOS 14 has not been tested yet. )
+System: IOS 13.0.0 ~ IOS 13.6.1. ( IOS 14 has not been tested yet. )
 
 ## Installation
 In Xcode 11 or greater, under your project, select: `File > Swift Packages > Add Pacakage Dependency`. 
@@ -94,7 +95,7 @@ struct ContentView: View {
                         }.ios6FormCellPosition(.mid)
                         
                         IOS6NavigationLink(destination: Text("FaceTime").ios6NavigationBarTitle("FaceTime")) {
-                            IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: CommentIcon())
+                            IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6CommentIcon(text: "1"))
                         }.ios6FormCellPosition(.mid)
                         
                         IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
@@ -106,39 +107,12 @@ struct ContentView: View {
             }
         }
     }
-
-    struct CommentIcon: View {
-        var body: some View {
-            Text("1")
-                .font(Font.headline.weight(.bold))
-                .ios6ForegroundColor(regular: .white,
-                                     active: Color(red: 44.0/255.0,
-                                                   green: 108.0/255.0,
-                                                   blue: 234.0/255.0))
-                //.padding(.vertical, 0.5)
-                .padding(.horizontal, 8)
-                .frame(minWidth: 30)
-                .background(
-                    ZStack {
-                        Capsule(style: .circular)
-                            .fill(Color.white)
-                        
-                        Capsule(style: .circular)
-                            .strokeBorder(
-                                LinearGradient(gradient: Gradient(colors: [
-                                    Color.black.opacity(0.15),
-                                    Color.gray.opacity(0.2)]),
-                                               startPoint: .top, endPoint: .bottom), lineWidth: 0.8)
-                    }
-                    .ios6ForegroundColor(regular: Color(red: 138/255.0, green: 152/255.0, blue: 182/255.0), active: .white)
-            )
-        }
-    }
 }
 ```
 ---
 ## Upcoming Features
-- \[ ] Add an example project
+- \[ ] Fix IOS6Slider range and adopt new APIs
+- \[ ] Add notification icon to tab item
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
 - \[ ] Archive final version for IOS13 and start IOS14 development
@@ -146,6 +120,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Add an example project
 - \[x] Add tag, ios6tabview now memorize loaded view
 - \[x] Add IOS6TabBarStyle
 - \[x] Add more documents

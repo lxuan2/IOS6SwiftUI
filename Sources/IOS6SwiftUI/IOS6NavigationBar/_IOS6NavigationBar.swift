@@ -30,7 +30,7 @@ struct _IOS6NavigationBar: View {
         }
             .clipped()
             .opacity(self.isEnabled ? 1 : 0.8)
-            .background(background)
+            .background(background.edgesIgnoringSafeArea([.horizontal, .bottom]))
             .frame(height: 44)
     }
     

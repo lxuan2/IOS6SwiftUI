@@ -34,7 +34,7 @@ struct ListView: View {
                 }
                 .overlay(
                     IOS6NavigationLink(destination: self.swiftuiTransConfigView){
-                        IOS6PresetSignLabel(sign: .arrow_blue)
+                        IOS6PresetSignBadge(sign: .arrow_blue)
                     }.buttonStyle(IOS6DefaultButtonStyle()), alignment: .trailing)
             }
             
@@ -49,7 +49,7 @@ struct ListView: View {
                 }
                 .overlay(
                     IOS6NavigationLink(destination: self.systemConfigView){
-                        IOS6PresetSignLabel(sign: .arrow_blue)
+                        IOS6PresetSignBadge(sign: .checkmark_green)
                     }.buttonStyle(IOS6DefaultButtonStyle()), alignment: .trailing)
                 
                 Button(action: {
@@ -71,7 +71,7 @@ struct ListView: View {
                 }
                 .overlay(
                     IOS6NavigationLink(destination: self.fixedSheetConfigView){
-                        IOS6PresetSignLabel(sign: .arrow_blue)
+                        IOS6PresetSignBadge(sign: .arrow_blue)
                     }.buttonStyle(IOS6DefaultButtonStyle()), alignment: .trailing)
             }
             
