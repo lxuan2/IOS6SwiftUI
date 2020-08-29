@@ -50,15 +50,15 @@ struct SettingView: View {
                     IOS6PresetTableCell(image: Image("AppleIDGameCenter"), title: "Game Center")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("iBooks").ios6NavigationBarTitle("iBooks")) {
+                IOS6NavigationLink(destination: Text("iBooks").ios6NavigationTitle("iBooks")) {
                     IOS6PresetTableCell(image: Image("AppleIDiBooks"), title: "iBooks")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("App Store").ios6NavigationBarTitle("App Store")) {
+                IOS6NavigationLink(destination: Text("App Store").ios6NavigationTitle("App Store")) {
                     IOS6PresetTableCell(image: Image("AppleIDAppstore"), title: "App Store")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("iTunes").ios6NavigationBarTitle("iTunes")) {
+                IOS6NavigationLink(destination: Text("iTunes").ios6NavigationTitle("iTunes")) {
                     IOS6PresetTableCell(image: Image("AppleIDMusicStore"), title: "iTunes")
                 }.ios6FormCellPosition(.bottom)
             }
@@ -78,19 +78,19 @@ struct SettingView: View {
                     IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6ListBadge(text: "2"))
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("Game Center").ios6NavigationBarTitle("Game Center")) {
+                IOS6NavigationLink(destination: Text("Game Center").ios6NavigationTitle("Game Center")) {
                     IOS6PresetTableCell(image: Image("AppleIDGameCenter"), title: "Game Center")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("iBooks").ios6NavigationBarTitle("iBooks")) {
+                IOS6NavigationLink(destination: Text("iBooks").ios6NavigationTitle("iBooks")) {
                     IOS6PresetTableCell(image: Image("AppleIDiBooks"), title: "iBooks")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("App Store").ios6NavigationBarTitle("App Store")) {
+                IOS6NavigationLink(destination: Text("App Store").ios6NavigationTitle("App Store")) {
                     IOS6PresetTableCell(image: Image("AppleIDAppstore"), title: "App Store")
                 }.ios6FormCellPosition(.mid)
                 
-                IOS6NavigationLink(destination: Text("iTunes").ios6NavigationBarTitle("iTunes")) {
+                IOS6NavigationLink(destination: Text("iTunes").ios6NavigationTitle("iTunes")) {
                     IOS6PresetTableCell(image: Image("AppleIDMusicStore"), title: "iTunes")
                 }.ios6FormCellPosition(.bottom)
             }
@@ -143,13 +143,13 @@ struct SettingView: View {
                 }
             }
         }
-        .ios6NavigationBarTitle(self.title)
+        .ios6NavigationTitle(self.title)
     }
     
     var refresh: some View {
         IOS6RefreshView(onRefresh: { sleep(1) }) {
             Color.white.frame(width: 385, height: 200)
-        }.ios6NavigationBarTitle("Refresh View")
+        }.ios6NavigationTitle("Refresh View")
     }
 }
 

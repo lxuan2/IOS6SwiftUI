@@ -1,38 +1,47 @@
 //
 //  IOS6NavigationView.swift
-//  animation
+//  test
 //
-//  Created by Xuan Li on 1/15/20.
+//  Created by Xuan Li on 8/19/20.
 //  Copyright © 2020 Xuan Li. All rights reserved.
 //
 
 import SwiftUI
 
-/// A view for presenting a stack of views representing a visible path in a
-/// navigation hierarchy in IOS6 style.
 public struct IOS6NavigationView<Content: View>: View {
-    private let interactiveSwipe: Bool
-    private let content: Content
+    @Environment(\._ios6NavigationViewStyle) private var style
+    let sideBar: Root
+    let master: Root
+    let detail: Root
     
     public var body: some View {
-        _IOS6NavigationView(interactiveSwipe: interactiveSwipe)
-            .environmentObject(_IOS6NavigationStack(rootView: content))
-    }
-    
-    /// An initializer
-    /// - Parameters:
-    ///   - interactiveSwipe: a `Bool` value indicate whether interactive swipe is allowed
-    ///   - content: navigation root view
-    public init(interactiveSwipe: Bool = true, @ViewBuilder content: @escaping () -> Content) {
-        self.interactiveSwipe = interactiveSwipe
-        self.content = content()
+        let sideBarComponent = Component(root: sideBar, content: style.makeSideBarBody, type: .sideBar)
+        let masterComponent = Component(root: master, content: style.makeMasterBody, type: .master)
+        let detailComponent = Component(root: detail, content: style.makeDetailBody, type: .detail)
+        let configuration = Configuration(sideBar: sideBarComponent, master: masterComponent, detail: detailComponent)
+        return style.makeBody(configuration: configuration)
     }
 }
 
-struct IOS6NavigationView_Previews: PreviewProvider {
-    static var previews: some View {
-        IOS6NavigationView {
-            Text("Navigation View")
-        }
+public extension IOS6NavigationView where Content == TupleView<(Root,Root,Root)> {
+    init(@IOS6NavigationViewBuilder content: () -> Content ) {
+        let views = content().value
+        self.sideBar = views.0
+        self.master = views.1
+        self.detail = views.2
     }
+}
+
+public extension IOS6NavigationView {
+    init(@IOS6NavigationViewBuilder content: () -> Content ) {
+        self.sideBar = Root(EmptyView())
+        self.master = Root(content())
+        self.detail = Root(EmptyView())
+    }
+}
+
+extension IOS6NavigationView {
+    public typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
+    public typealias Configuration = IOS6NavigationViewStyleConfiguration
+    public typealias Component = IOS6NavigationViewStyleConfiguration.Component
 }

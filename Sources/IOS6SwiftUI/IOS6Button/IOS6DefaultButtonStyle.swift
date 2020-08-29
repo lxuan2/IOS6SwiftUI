@@ -26,7 +26,7 @@ public struct IOS6DefaultButtonStyle: ButtonStyle {
                 .environment(\.ios6ButtonSelected, pressed)
                 .opacity(self.isEnabled ? 1 : 0.9)
                 .onPreferenceChange(_IOS6HoldPressPreferenceKey.self) { value in
-                    withAnimation(self.hold && !value ? Animation.spring().delay(_IOS6NavigationStack.unselectedTime) : .none) {
+                    withAnimation(self.hold && !value ? Animation.spring().delay(0.35) : .none) {
                         self.hold = value
                     }
             }

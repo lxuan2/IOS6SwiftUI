@@ -15,24 +15,30 @@ import Foundation
 /// and provides selected state by keeping pressing state. Also allow customized
 /// button style.
 public struct IOS6NavigationLink<Label: View, Destination : View>: View {
-    private let label: () -> Label
+    @Environment(\._ios6NavigationLinkType) var type
+    @Environment(\._ios6NavigationIdGenerator) var generator
+    @State private var id: Int? = nil
+    @State private var hold: Bool = false
+    private let label: Label
     private let destination: Destination
-    @State private var sheet = false
-    @Environment(\._ios6NavigationStack) private var stack
     
     public var body: some View {
-        Button(action: {
-            if self.stack != nil, !self.stack!.blocking {
-                self.sheet = true
-                self.stack!.push(isPresent: self.$sheet,
-                                 newView: self.destination)
+        let bind: Binding<Int?> = .init(get: { self.id }, set: { value in
+            self.hold = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay) { self.id = value }
+        })
+        return Button(action: {
+            if let g = self.generator {
+                self.hold = true
+                self.id = g()
             }
         }) {
-            label()
+            label
                 ._ios6IsNavigationLink(true)
-                ._ios6HoldButtonPress(sheet)
+                ._ios6HoldButtonPress(hold)
         }
-        .disabled(stack == nil)
+        .modifier(IOS6NavigationLinkPreference(destination: destination, type: type, id: bind))
+        .disabled(generator == nil)
     }
     
     /// A initializer with desination view and label view
@@ -43,7 +49,11 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
     ///   - label: a content view.
     public init(destination: Destination, label: @escaping () -> Label) {
         self.destination = destination
-        self.label = label
+        self.label = label()
+    }
+    
+    func isDetailLink(_ isDetailLink: Bool) -> some View {
+        environment(\._ios6NavigationLinkType, isDetailLink ? .detail : .master)
     }
 }
 
@@ -59,7 +69,7 @@ struct IOS6NavigationLink_Previews: PreviewProvider {
     }
 }
 
-struct _IOS6NavigationLinkPreferenceKey: PreferenceKey {
+struct _IOS6NavigationisLinkPreferenceKey: PreferenceKey {
     typealias Value = Bool
     
     static var defaultValue: Value = false
@@ -71,6 +81,28 @@ struct _IOS6NavigationLinkPreferenceKey: PreferenceKey {
 
 extension View {
     func _ios6IsNavigationLink(_ isPressed: Bool) -> some View {
-        self.preference(key: _IOS6NavigationLinkPreferenceKey.self, value: isPressed)
+        self.preference(key: _IOS6NavigationisLinkPreferenceKey.self, value: isPressed)
+    }
+}
+
+struct _IOS6NavigationLinkPreferenceKey: PreferenceKey {
+    typealias Value = [IOS6NavigationViewStyleComponentConfiguration.Link]
+    
+    static var defaultValue: Value = []
+    
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value.append(contentsOf: nextValue())
+    }
+}
+
+struct IOS6NavigationLinkPreference<Destination: View>: ViewModifier {
+    let destination: Destination
+    let type: IOS6NavigationViewStyleComponentConfiguration.LinkType
+    @Binding var id: Int?
+    
+    func body(content: Content) -> some View {
+        content
+            .preference(key: _IOS6NavigationLinkPreferenceKey.self,
+                        value: id == nil ? [] : [IOS6NavigationViewStyleComponentConfiguration.Link(destination, type: type, id: $id)])
     }
 }

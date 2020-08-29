@@ -62,11 +62,11 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                 HStack {
                     configuration.label
                         .environment(\.ios6ButtonSelected, pressed)
-                        .onPreferenceChange(_IOS6NavigationLinkPreferenceKey.self) { value in
+                        .onPreferenceChange(_IOS6NavigationisLinkPreferenceKey.self) { value in
                             self.isLink = value
                     }
                     .onPreferenceChange(_IOS6HoldPressPreferenceKey.self) { value in
-                        withAnimation(self.hold && !value ? Animation.spring().delay(_IOS6NavigationStack.unselectedTime) : .none) {
+                        withAnimation(self.hold && !value ? .easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay * 2) : .none) {
                             self.hold = value
                         }
                     }

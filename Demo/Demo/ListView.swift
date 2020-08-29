@@ -78,7 +78,7 @@ struct ListView: View {
             IOS6NavigationLink(destination: SettingView()) {
                 IOS6PresetTableCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
             }
-        }.ios6NavigationBarTitle("Modal Presentation")
+        }.ios6NavigationTitle("Modal Presentation")
     }
     
     let listColor = UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1)
@@ -88,7 +88,7 @@ struct ListView: View {
             IOS6Toggle(isOn: self.$swiftuiTransAllowDismiss) {
                 Text("Allow adaptive dismiss")
             }.ios6FormCellPosition(.single)
-        }.ios6NavigationBarTitle("Configuration")
+        }.ios6NavigationTitle("Configuration")
     }
     
     var systemConfigView: some View {
@@ -103,7 +103,7 @@ struct ListView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .ios6FormCellPosition(.single)
             }
-        }.ios6NavigationBarTitle("Configuration")
+        }.ios6NavigationTitle("Configuration")
     }
     
     var fixedSheetConfigView: some View {
@@ -111,7 +111,7 @@ struct ListView: View {
             IOS6Toggle(isOn: self.$swiftuiTransAllowDismiss) {
                 Text("Allow adaptive dismiss")
             }.ios6FormCellPosition(.single)
-        }.ios6NavigationBarTitle("Configuration")
+        }.ios6NavigationTitle("Configuration")
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  _IOS6NavigationBarTitle.swift
+//  _IOS6NavigationBarPageView.swift
 //  IOS6
 //
 //  Created by Xuan Li on 4/25/20.
@@ -9,24 +9,37 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationBarTitleView: View {
-    var title: String
+struct _IOS6NavigationBarPageView: View {
+    var title: String?
+    var backTitle: String?
+    var noBackTitle: Bool
+    var dismiss: () -> Void
+    let width: CGFloat
+    let height: CGFloat
     
     var body: some View {
-        Text(title)
-            .foregroundColor(.white)
-            .scaledFont(size: 20, weight: .bold)
-            .etched()
-    }
-    
-    init(title: String?) {
-        self.title = title ?? ""
-    }
-}
-
-struct IOS6NavigationBarTitle_Previews: PreviewProvider {
-    static var previews: some View {
-        _IOS6NavigationBarTitleView(title: "Test")
+        ZStack {
+            HStack {
+                if !self.noBackTitle {
+                    Button(self.backTitle ?? "Back") {
+                        self.dismiss()
+                    }
+                    .buttonStyle(_IOS6NavigationBackButtonStyle())
+                }
+                Spacer()
+            }
+            
+            Text(self.title ?? "")
+                .foregroundColor(.white)
+                .scaledFont(size: 20, weight: .bold)
+                .etched()
+                .layoutPriority(1)
+                .position(x: (self.width - 5.5*2) / 2, y: (self.height - 9.5*2) / 2)
+                .animation(nil)
+        }
+        .lineLimit(1)
+        .padding(.horizontal, 5.5)
+        .padding(.vertical, 9.5)
     }
 }
 
@@ -61,3 +74,4 @@ extension View {
         shadow(color: color ?? Color.black.opacity(0.5), radius: 0, x: 0, y: isDown ? -1 : 1)
     }
 }
+

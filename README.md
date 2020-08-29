@@ -28,7 +28,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6TabBarStyle
 - \[x]  ios6TabItem
 - \[x]  ios6Tag
-- \[x]  ios6NavigationBarTitle
+- \[x]  ios6NavigationTitle
 - \[x]  ios6ForegroundColor
 - \[x]  ios6ToggleColor
 - \[x]  present
@@ -53,9 +53,13 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 **IOS6TabBarStyle**
 - \[x]  IOS6BlueSliderStyle
 
+**IOS6NavigationViewStyle**
+- \[x]  IOS6StackNavigationViewStyle
+
 ### Protocol
 - \[x]  IOS6TabBarStyle
 - \[x]  IOS6SliderStyle
+- \[x]  IOS6NavigationViewStyle
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetTableCell
@@ -119,7 +123,7 @@ struct ContentView: View {
 ---
 ## Upcoming Features
 - \[ ] Add notification icon to tab item
-- \[ ] Fix navigation view changing on time
+
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
 - \[ ] Archive final version for IOS13 and start IOS14 development
@@ -127,6 +131,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
+- \[x] Reimplement IOS6NavigationView
 - \[x] Test IOS6Slider init and fix min/max label and add onEditChange
 - \[x] add ios6SliderStyle
 - \[x] Fix IOS6Slider range and adopt new APIs

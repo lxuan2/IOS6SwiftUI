@@ -14,9 +14,9 @@ public struct IOS6Slider<ValueLabel: View>: View {
     
     public var body: some View {
         style.makeBody(configuration: configuration)
-            .onAppear {
-            // Init handler correct value
-        }
+//            .onAppear {
+//            // Init handler correct value
+//        }
     }
 }
 
