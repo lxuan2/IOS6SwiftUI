@@ -31,6 +31,7 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
     
     struct IOS6StackNavigationView: View {
         @State private var offsetAmount: CGFloat = 0
+        @State private var additionalAmount: CGFloat = 0
         let root: Root
         let links: [Link]
         let barData: [_IOS6NavigationBar.Data]
@@ -39,33 +40,34 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
         @State private var offsets: [Int: CGFloat] = [:]
         
         var body: some View {
-            ZStack(alignment: .leading) {
-                VStack(spacing: 0) {
-                    _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() })
-                    
-                    _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width, offsets: $offsets)
-                        .modifier(IgnoreLayoutOffset(x: offsetAmount).ignoredByLayout())
-                }
+            VStack(spacing: 0) {
+                _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() })
                 
-                Color.clear
-                    .contentShape(Rectangle())
-                    .gesture(
-                        DragGesture(minimumDistance: 10, coordinateSpace: .global)
-                            .onChanged {
-                                self.offsetAmount = max(0, $0.translation.width - 10)
-                        }
-                        .onEnded {
-                            let half = self.proxy.size.width / 2
-                            if $0.predictedEndTranslation.width - 10 > half {
-                                self.dismissFunc(percent: Double(1 - ($0.translation.width - 10) / self.proxy.size.width))
-                            } else {
-                                withAnimation {
-                                    self.offsetAmount = 0
+                ZStack(alignment: .leading) {
+                    _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing, contentWidth: proxy.size.width, offsets: $offsets)
+                        .modifier(IgnoreLayoutOffset(x: offsetAmount + additionalAmount).ignoredByLayout())
+                    
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture(minimumDistance: 10, coordinateSpace: .global)
+                                .onChanged {
+                                    self.offsetAmount = max(0, $0.translation.width - 10)
+                            }
+                            .onEnded {
+                                let half = self.proxy.size.width / 2
+                                if $0.predictedEndTranslation.width - 10 > half {
+                                    self.dismissFunc(percent: Double(1 - ($0.translation.width - 10) / self.proxy.size.width))
+                                } else {
+                                    withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.resetTime)) {
+                                        self.offsetAmount = 0
+                                    }
                                 }
                             }
-                        }
-                )
-                    .frame(width: 20 + proxy.safeAreaInsets.leading)
+                    )
+                        .frame(width: 20 + proxy.safeAreaInsets.leading)
+                        .edgesIgnoringSafeArea(.horizontal)
+                }
             }
         }
         
@@ -73,15 +75,18 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
             withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime * percent)) {
                 self.offsetAmount = self.proxy.size.width
             }
+            self.additionalAmount = self.proxy.safeAreaInsets.leading + self.proxy.safeAreaInsets.trailing
             self.dismiss?()
             DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay) {
                 self.offsetAmount = 0
+                self.additionalAmount = 0
             }
         }
         
         typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
         typealias Link =  IOS6NavigationViewStyleComponentConfiguration.Link
         static let transTime: Double = 0.4
+        static let resetTime: Double = 0.2
         static let delay: Double = 0.1
     }
     

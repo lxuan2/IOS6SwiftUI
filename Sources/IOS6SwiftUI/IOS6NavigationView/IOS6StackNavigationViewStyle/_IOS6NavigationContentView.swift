@@ -12,14 +12,15 @@ struct _IOS6NavigationContentView: View {
     let root: Root
     let links: [Link]
     let width: CGFloat
+    let contentWidth: CGFloat
     @Binding var offsets: [Int: CGFloat]
     @State private var rootOffset: CGFloat = 0
     
     var body: some View {
         ZStack {
             root
-                .frame(width: width)
-                .offset(x: rootOffset , y: 0)
+                .frame(width: contentWidth)
+                .offset(x: rootOffset * width , y: 0)
             
             ForEach(links,content: linkItem)
         }
@@ -27,22 +28,22 @@ struct _IOS6NavigationContentView: View {
     
     func linkItem(_ link: Link) -> some View {
         let id = link.id
-        let idIndex = self.links.firstIndex(of: link)
+        let idIndex = links.firstIndex(of: link)
         return link
-            .frame(width: self.width)
-            .offset(x: self.offsets[link.id] ?? self.width, y: 0)
+            .frame(width: contentWidth)
+            .offset(x: (offsets[link.id] ?? 1) * width, y: 0)
             .onAppear {
                 withAnimation(Animation.easeInOut(duration: 0.4).delay(0.2)) {
-                    self.offsets[link.id] = 0
-                    if let index = self.links.firstIndex(of: link), index > 0 {
-                        self.offsets[self.links[index-1].id] = -self.width
+                    self.offsets[id] = 0
+                    if let index = idIndex, index > 0 {
+                        self.offsets[self.links[index-1].id] = -1
                         if index > 1 {
-                            self.offsets[self.links[index-2].id] = -self.width*2
+                            self.offsets[self.links[index-2].id] = -2
                         } else {
-                            self.rootOffset = -self.width*2
+                            self.rootOffset = -2
                         }
                     } else {
-                        self.rootOffset = -self.width
+                        self.rootOffset = -1
                     }
                 }
         }.onDisappear {
@@ -50,9 +51,9 @@ struct _IOS6NavigationContentView: View {
             if let index = idIndex, index > 0 {
                 self.offsets[self.links[index-1].id] = 0
                 if index > 1 {
-                    self.offsets[self.links[index-2].id] = -self.width
+                    self.offsets[self.links[index-2].id] = -1
                 } else {
-                    self.rootOffset = -self.width
+                    self.rootOffset = -1
                 }
             } else {
                 self.rootOffset = 0

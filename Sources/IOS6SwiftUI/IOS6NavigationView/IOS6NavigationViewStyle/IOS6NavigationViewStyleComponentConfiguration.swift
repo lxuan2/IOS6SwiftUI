@@ -36,10 +36,14 @@ public struct IOS6NavigationViewStyleComponentConfiguration {
         /// When you create a custom view, Swift infers this type from your
         /// implementation of the required `body` property.
         public var body: some View {
-            link
-                .transformPreference(_IOS6NavigationTitleKey.self) { titles in
-                    titles = titles.isEmpty ? [nil] : [titles.last!]
-            }
+            Color.clear
+                .edgesIgnoringSafeArea(.all)
+                .overlay(
+                    link
+                        .transformPreference(_IOS6NavigationTitleKey.self) { titles in
+                            titles = titles.isEmpty ? [nil] : [titles.last!]
+                })
+            
         }
         
         public static func == (lhs: Link, rhs: Link) -> Bool {
@@ -72,10 +76,14 @@ public struct IOS6NavigationViewStyleComponentConfiguration {
         /// When you create a custom view, Swift infers this type from your
         /// implementation of the required `body` property.
         public var body: some View {
-            root
-                .transformPreference(_IOS6NavigationTitleKey.self) { titles in
-                    titles = titles.isEmpty ? [nil] : [titles.last!]
-            }
+            Color.clear
+                .edgesIgnoringSafeArea(.all)
+                .overlay(
+                    root
+                        .transformPreference(_IOS6NavigationTitleKey.self) { titles in
+                            titles = titles.isEmpty ? [nil] : [titles.last!]
+                    }
+            )
         }
     }
     

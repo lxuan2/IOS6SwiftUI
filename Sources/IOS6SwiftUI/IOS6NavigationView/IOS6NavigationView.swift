@@ -21,7 +21,7 @@ public struct IOS6NavigationView<Content: View>: View {
         let configuration = Configuration(sideBar: sideBarComponent, master: masterComponent, detail: detailComponent)
         return ScrollView([]) {
             style.makeBody(configuration: configuration)
-        }
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 
