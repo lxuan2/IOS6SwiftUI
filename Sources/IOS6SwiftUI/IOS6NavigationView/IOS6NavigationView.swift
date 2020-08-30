@@ -19,7 +19,9 @@ public struct IOS6NavigationView<Content: View>: View {
         let masterComponent = Component(root: master, content: style.makeMasterBody, type: .master)
         let detailComponent = Component(root: detail, content: style.makeDetailBody, type: .detail)
         let configuration = Configuration(sideBar: sideBarComponent, master: masterComponent, detail: detailComponent)
-        return style.makeBody(configuration: configuration)
+        return ScrollView([]) {
+            style.makeBody(configuration: configuration)
+        }
     }
 }
 

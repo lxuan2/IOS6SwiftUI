@@ -30,7 +30,7 @@ struct ListView: View {
                     IOS6PresetTableCell(title:"present with SwiftUI transion")
                 }
                 .present(isPresented: self.$swiftuiTrans, with: .interactiveSpring(response: 0.4)) {
-                    RoundWidget(adaptiveDismissable: self.swiftuiTransAllowDismiss)
+                    RoundWidget(adaptiveDismissable: self.swiftuiTransAllowDismiss, content: { DismissView() })
                 }
                 .overlay(
                     IOS6NavigationLink(destination: self.swiftuiTransConfigView){
@@ -85,7 +85,7 @@ struct ListView: View {
     
     var swiftuiTransConfigView: some View {
         IOS6Form {
-            IOS6Toggle(isOn: self.$swiftuiTransAllowDismiss) {
+            Toggle(isOn: self.$swiftuiTransAllowDismiss) {
                 Text("Allow adaptive dismiss")
             }.ios6FormCellPosition(.single)
         }.ios6NavigationTitle("Configuration")
@@ -108,7 +108,7 @@ struct ListView: View {
     
     var fixedSheetConfigView: some View {
         IOS6Form {
-            IOS6Toggle(isOn: self.$swiftuiTransAllowDismiss) {
+            Toggle(isOn: self.$swiftuiTransAllowDismiss) {
                 Text("Allow adaptive dismiss")
             }.ios6FormCellPosition(.single)
         }.ios6NavigationTitle("Configuration")

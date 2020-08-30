@@ -29,6 +29,7 @@ public struct IOS6RootView<Content: View>: View {
             .onPreferenceChange(_IOS6StatusBarKey.self) { builder in
                 self.statusBar = builder
             }
+            .toggleStyle(IOS6ToggleStyle())
             
             GeometryReader { proxy in
                 self.StatusBar

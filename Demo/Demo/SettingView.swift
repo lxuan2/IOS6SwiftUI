@@ -11,7 +11,6 @@ import IOS6SwiftUI
 
 struct SettingView: View {
     @State private var isOn = false
-    @State private var title = "Setting"
     @State private var flag = false
     @State private var flag1 = false
     @State private var flag2 = false
@@ -32,11 +31,11 @@ struct SettingView: View {
                             .foregroundColor(Color(red: 123 / 255.0, green: 123 / 255.0, blue: 123 / 255.0)))
                     .ios6FormCellPosition(.top)
                 
-                IOS6Toggle(isOn: self.$isOn) {
+                Toggle(isOn: self.$isOn) {
                     IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: "iCloud")
                 }
                 .ios6FormCellPosition(.mid)
-                .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
+                .toggleStyle(IOS6ToggleStyle(tint: Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0)))
                 
                 IOS6NavigationLink(destination: SettingView()) {
                     IOS6PresetTableCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
@@ -64,11 +63,10 @@ struct SettingView: View {
             }
             
             Section(header: Text("App:").ios6FormSectionFontBold()) {
-                IOS6Toggle(isOn: self.$isOn) {
+                Toggle(isOn: self.$isOn) {
                     IOS6PresetTableCell(image: Image("AppleIDiCloud"), title: "iCloud")
                 }
                 .ios6FormCellPosition(.top)
-                .ios6ToggleColor(Color(red: 255.0/255.0, green: 127.0/255.0, blue: 2.0/255.0))
                 
                 IOS6NavigationLink(destination: SettingView()) {
                     IOS6PresetTableCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
@@ -119,7 +117,7 @@ struct SettingView: View {
                 }
                 .ios6FormCellPosition(.mid)
                 .present(isPresented: self.$flag1, with: .interactiveSpring(response: 0.4)) {
-                    RoundWidget(adaptiveDismissable: true)
+                    RoundWidget(adaptiveDismissable: true, content: { DismissView() })
                 }
                 
                 Button(action: {
@@ -143,7 +141,7 @@ struct SettingView: View {
                 }
             }
         }
-        .ios6NavigationTitle(self.title)
+        .ios6NavigationTitle("Setting")
     }
     
     var refresh: some View {
@@ -156,51 +154,5 @@ struct SettingView: View {
 struct FormView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
-    }
-}
-
-struct RoundWidget: View {
-    @State private var percent: CGFloat = 0
-    @State private var time: Date = Date()
-    @Environment(\.ios6PresentationMode) private var presentMode
-    var adaptiveDismissable: Bool = true
-    
-    @ViewBuilder var body: some View {
-        Color.black.opacity(0.4)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .edgesIgnoringSafeArea(.all)
-            .zIndex(0)
-        
-        GeometryReader { geo in
-            DismissView()
-                .aspectRatio(1.1, contentMode: .fit)
-                .cornerRadius(35)
-                .offset(x: 0, y: self.percent * geo.size.width)
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                        .onChanged { value in
-                            let decay: CGFloat = value.translation.height < 0 ? 3 : self.adaptiveDismissable ? 1.2 : 2.5
-                            self.percent = value.translation.height / geo.size.width / decay
-                            self.time = value.time
-                        }
-                        .onEnded { value in
-                            let decay: CGFloat = value.translation.height < 0 ? 5 : self.adaptiveDismissable ? 1 : 2.5
-                            let newPercent = value.translation.height / geo.size.width / decay
-                            let speed = Double(newPercent) / (value.time.timeIntervalSinceReferenceDate - self.time.timeIntervalSinceReferenceDate)
-                            if self.adaptiveDismissable, newPercent > 0.6 || speed > 40 {
-                                self.presentMode.dismiss()
-                            } else {
-                                withAnimation {
-                                    self.percent = 0
-                                }
-                            }
-                        })
-                .padding(.all, 5)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                
-        }
-        .transition(.move(edge: .bottom))
-        .edgesIgnoringSafeArea(.all)
-        .zIndex(1)
     }
 }

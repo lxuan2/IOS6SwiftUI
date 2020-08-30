@@ -10,7 +10,6 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  IOS6NavigationLink
 - \[x]  IOS6RootView
 - \[x]  IOS6TabView
-- \[x]  IOS6Toggle
 - \[x]  IOS6Form
 - \[x]  IOS6List
 - \[x]  IOS6Slider
@@ -30,7 +29,6 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 - \[x]  ios6Tag
 - \[x]  ios6NavigationTitle
 - \[x]  ios6ForegroundColor
-- \[x]  ios6ToggleColor
 - \[x]  present
 - \[x]  scaledFont
 - \[x]  etched
@@ -89,7 +87,7 @@ struct ContentView: View {
     
     var body: some View {
         IOS6RootView {
-            IOS6NavigationView(interactiveSwipe: true) {
+            IOS6NavigationView {
                 IOS6Form {
                     Section(header: Text("App:").ios6FormSectionFontBold(), footer: Text("This is the comment").ios6FormSectionFont()) {
                         IOS6Slider(value: self.$progess)
@@ -123,7 +121,6 @@ struct ContentView: View {
 ---
 ## Upcoming Features
 - \[ ] Add notification icon to tab item
-
 - \[ ] IOS6Alert
 - \[ ] IOS6ActionSheet
 - \[ ] Archive final version for IOS13 and start IOS14 development
@@ -131,7 +128,7 @@ struct ContentView: View {
 - \[ ] More Navigation Styles (eg. Map)
 
 ## Finished Tasks
-- \[x] Reimplement IOS6NavigationView
+- \[x] Reimplement IOS6NavigationView and improve efficiency
 - \[x] Test IOS6Slider init and fix min/max label and add onEditChange
 - \[x] add ios6SliderStyle
 - \[x] Fix IOS6Slider range and adopt new APIs

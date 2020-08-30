@@ -11,6 +11,7 @@ import SwiftUI
 struct _IOS6ToggleView: View {
     let height: CGFloat = 27
     let width: CGFloat = 77
+    let color: Color
     
     @Environment(\.isEnabled) private var isEnabled
     @GestureState private var isPressed: Bool = false
@@ -25,14 +26,15 @@ struct _IOS6ToggleView: View {
         }
     }
     
-    init(isOn: Binding<Bool>) {
+    init(isOn: Binding<Bool>, color: Color) {
         _isOn = isOn
         _oldPercent = State(initialValue: isOn.wrappedValue ? self.width - self.height / 2:self.height / 2)
         _percent = _oldPercent
+        self.color = color
     }
     
     var body: some View {
-        Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2)
+        Background(offset: isPressed ? percent: isOn ? self.width - self.height / 2:self.height / 2, color: color)
             .overlay(
                 RoundedRectangle(cornerRadius: 9)
                     .fill(
@@ -238,8 +240,7 @@ struct _IOS6ToggleView: View {
     
     struct Background: View {
         let offset: CGFloat
-        
-        @Environment(\._ios6ToggleColor) private var color
+        let color: Color
         private let white = Color(red: 238.0/255.0, green: 238.0/255.0, blue: 238.0/255.0)
         
         var body: some View {
@@ -286,6 +287,6 @@ struct _IOS6ToggleView: View {
 
 struct IOS6ToggleView_Previews: PreviewProvider {
     static var previews: some View {
-        _IOS6ToggleView(isOn: .constant(false))
+        _IOS6ToggleView(isOn: .constant(false), color: .blue)
     }
 }

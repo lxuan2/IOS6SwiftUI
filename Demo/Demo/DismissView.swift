@@ -20,7 +20,7 @@ struct DismissView: View {
             
             VStack {
                 if avaliable {
-                    IOS6Toggle(isOn: $allowDismiss) {
+                    Toggle(isOn: $allowDismiss) {
                         Text("Allow Adaptive Dismiss").foregroundColor(.black)
                     }.padding()
                 }
