@@ -31,22 +31,21 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
     
     struct IOS6StackNavigationView: View {
         @State private var offsetAmount: CGFloat = 0
-        @State private var isAnimation: Bool = true
         let root: Root
         let links: [Link]
         let barData: [_IOS6NavigationBar.Data]
         let dismiss: (() -> Void)?
         let proxy: GeometryProxy
+        @State private var offsets: [Int: CGFloat] = [:]
         
         var body: some View {
             ZStack(alignment: .leading) {
                 VStack(spacing: 0) {
-                    _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: offsetAmount, dismiss: { self.dismissFunc() })
+                    _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() })
                     
-                    _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width)
-                        .modifier(MyEffect(x: offsetAmount).ignoredByLayout())
+                    _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width, offsets: $offsets)
+                        .modifier(IgnoreLayoutOffset(x: offsetAmount).ignoredByLayout())
                 }
-                .animation(isAnimation ? Animation.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.transTime).delay(IOS6StackNavigationViewStyle.IOS6StackNavigationView.delay) : nil, value: links.last)
                 
                 Color.clear
                     .contentShape(Rectangle())
@@ -74,13 +73,9 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
             withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime * percent)) {
                 self.offsetAmount = self.proxy.size.width
             }
-            self.isAnimation = false
             self.dismiss?()
             DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay) {
                 self.offsetAmount = 0
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay * 2) {
-                self.isAnimation = true
             }
         }
         
@@ -89,16 +84,18 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
         static let transTime: Double = 0.4
         static let delay: Double = 0.1
     }
-}
-struct MyEffect: GeometryEffect {
-    var x: CGFloat = 0
     
-    var animatableData: CGFloat {
-        get { x }
-        set { x = newValue }
-    }
-    
-    func effectValue(size: CGSize) -> ProjectionTransform {
-        return ProjectionTransform(CGAffineTransform(translationX: x, y: 0))
+    struct IgnoreLayoutOffset: GeometryEffect {
+        var x: CGFloat = 0
+        
+        var animatableData: CGFloat {
+            get { x }
+            set { x = newValue }
+        }
+        
+        func effectValue(size: CGSize) -> ProjectionTransform {
+            return ProjectionTransform(CGAffineTransform(translationX: x, y: 0))
+        }
     }
 }
+

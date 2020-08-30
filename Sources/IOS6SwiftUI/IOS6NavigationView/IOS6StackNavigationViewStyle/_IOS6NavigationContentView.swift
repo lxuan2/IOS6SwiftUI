@@ -12,28 +12,50 @@ struct _IOS6NavigationContentView: View {
     let root: Root
     let links: [Link]
     let width: CGFloat
+    @Binding var offsets: [Int: CGFloat]
+    @State private var rootOffset: CGFloat = 0
     
     var body: some View {
-        var offsets: [Int: CGFloat] = [:]
-        links.forEach { offsets[$0.id] = -width*2 }
-        if !links.isEmpty {
-            offsets[links[links.count - 1].id] = 0
-            if links.count > 1 {
-                offsets[links[links.count - 2].id] = -width
-            }
-        }
-        return ZStack {
+        ZStack {
             root
-                
                 .frame(width: width)
-                .offset(x: links.count == 0 ? 0 : links.count == 1 ? -width : -width*2 , y: 0)
+                .offset(x: rootOffset , y: 0)
             
-            ForEach(links) { link in
-                link
-                    
-                    .frame(width: self.width)
-                    .offset(x: offsets[link.id]!, y: 0)
-                    .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .identity))
+            ForEach(links,content: linkItem)
+        }
+    }
+    
+    func linkItem(_ link: Link) -> some View {
+        let id = link.id
+        let idIndex = self.links.firstIndex(of: link)
+        return link
+            .frame(width: self.width)
+            .offset(x: self.offsets[link.id] ?? self.width, y: 0)
+            .onAppear {
+                withAnimation(Animation.easeInOut(duration: 0.4).delay(0.2)) {
+                    self.offsets[link.id] = 0
+                    if let index = self.links.firstIndex(of: link), index > 0 {
+                        self.offsets[self.links[index-1].id] = -self.width
+                        if index > 1 {
+                            self.offsets[self.links[index-2].id] = -self.width*2
+                        } else {
+                            self.rootOffset = -self.width*2
+                        }
+                    } else {
+                        self.rootOffset = -self.width
+                    }
+                }
+        }.onDisappear {
+            self.offsets.removeValue(forKey: id)
+            if let index = idIndex, index > 0 {
+                self.offsets[self.links[index-1].id] = 0
+                if index > 1 {
+                    self.offsets[self.links[index-2].id] = -self.width
+                } else {
+                    self.rootOffset = -self.width
+                }
+            } else {
+                self.rootOffset = 0
             }
         }
     }

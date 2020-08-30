@@ -45,7 +45,6 @@ struct _IOS6NavigationBar: View {
         var title: String?
         var backTitle: String?
         var noBackTitle: Bool = false
-//        var offset: CGFloat
     }
     
     static func buildNavigationBarData(titles: [String?]) -> [Data] {
