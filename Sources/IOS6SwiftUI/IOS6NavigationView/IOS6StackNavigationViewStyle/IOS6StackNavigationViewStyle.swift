@@ -46,27 +46,28 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
                 ZStack(alignment: .leading) {
                     _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing, contentWidth: proxy.size.width, offsets: $offsets)
                         .modifier(IgnoreLayoutOffset(x: offsetAmount + additionalAmount).ignoredByLayout())
-                    
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .gesture(
-                            DragGesture(minimumDistance: 10, coordinateSpace: .global)
-                                .onChanged {
-                                    self.offsetAmount = max(0, $0.translation.width - 10)
-                            }
-                            .onEnded {
-                                let half = self.proxy.size.width / 2
-                                if $0.predictedEndTranslation.width - 10 > half {
-                                    self.dismissFunc(percent: Double(1 - ($0.translation.width - 10) / self.proxy.size.width))
-                                } else {
-                                    withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.resetTime)) {
-                                        self.offsetAmount = 0
+                    if !links.isEmpty {
+                        Color.clear
+                            .contentShape(Rectangle())
+                            .gesture(
+                                DragGesture(minimumDistance: 10, coordinateSpace: .global)
+                                    .onChanged {
+                                        self.offsetAmount = max(0, $0.translation.width - 10)
+                                }
+                                .onEnded {
+                                    let half = self.proxy.size.width / 2
+                                    if $0.predictedEndTranslation.width - 10 > half {
+                                        self.dismissFunc(percent: Double(1 - ($0.translation.width - 10) / self.proxy.size.width))
+                                    } else {
+                                        withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.resetTime)) {
+                                            self.offsetAmount = 0
+                                        }
                                     }
                                 }
-                            }
-                    )
-                        .frame(width: 20 + proxy.safeAreaInsets.leading)
-                        .edgesIgnoringSafeArea(.horizontal)
+                        )
+                            .frame(width: 20 + proxy.safeAreaInsets.leading)
+                            .edgesIgnoringSafeArea(.horizontal)
+                    }
                 }
             }
         }
@@ -85,7 +86,7 @@ public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
         
         typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
         typealias Link =  IOS6NavigationViewStyleComponentConfiguration.Link
-        static let transTime: Double = 0.4
+        static let transTime: Double = 0.35
         static let resetTime: Double = 0.2
         static let delay: Double = 0.1
     }
