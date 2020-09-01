@@ -13,9 +13,6 @@ public protocol IOS6NavigationViewStyle {
     /// A `View` representing the body of a `IOS6NavigationView`.
     associatedtype Body : View
     
-    /// A `View` representing the body of a `side bar` of `IOS6NavigationView`.
-    associatedtype SideBarBody : View
-    
     /// A `View` representing the body of a `master` of `IOS6NavigationView`.
     associatedtype MasterBody : View
     
@@ -30,15 +27,6 @@ public protocol IOS6NavigationViewStyle {
     /// This method will be called for each instance of `IOS6NavigationView` created within
     /// a view hierarchy where this style is the current `IOS6NavigationViewStyle`.
     func makeBody(configuration: Self.Configuration) -> Self.Body
-    
-    /// Creates a `View` representing the `side bar` body of a `IOS6NavigationView`.
-    ///
-    /// - Parameter configuration: The component properties of the IOS6NavigationView
-    ///   instance being created.
-    ///
-    /// This method will be called for each instance of `IOS6NavigationView` created within
-    /// a view hierarchy where this style is the current `IOS6NavigationViewStyle`.
-    func makeSideBarBody(configuration: Self.ComponentConfiguration) -> Self.SideBarBody
     
     /// Creates a `View` representing the `master` body of a `IOS6NavigationView`.
     ///
@@ -71,10 +59,6 @@ extension IOS6NavigationViewStyle {
     }
     
     public func makeDetailBody(configuration: Self.ComponentConfiguration) -> some View {
-        configuration.root
-    }
-    
-    public func makeSideBarBody(configuration: Self.ComponentConfiguration) -> some View {
         configuration.root
     }
 }

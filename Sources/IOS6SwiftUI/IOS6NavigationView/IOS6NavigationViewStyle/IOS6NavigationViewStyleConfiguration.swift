@@ -13,17 +13,15 @@ public struct IOS6NavigationViewStyleConfiguration {
     
     /// A type-erased component of a `IOS6NavigationView`.
     public struct Component: View {
-        @State private var links: [Link] = []
         @State private var titles: [String?] = []
-        @State private var idRecorder: Int = 0
         private let root: Root
-        private let content: (ComponentConfiguration) -> AnyView
-        private let type: LinkType
+        private var links: [Link]
+        private let makeBody: (ComponentConfiguration) -> AnyView
         
-        init(root: Root, content: @escaping (ComponentConfiguration) -> AnyView, type: LinkType) {
+        init(root: Root, links: [Link], content: @escaping (ComponentConfiguration) -> AnyView) {
             self.root = root
-            self.content = content
-            self.type = type
+            self.makeBody = content
+            self.links = links
         }
         
         /// The type of view representing the body of this view.
@@ -31,37 +29,55 @@ public struct IOS6NavigationViewStyleConfiguration {
         /// When you create a custom view, Swift infers this type from your
         /// implementation of the required `body` property.
         public var body: some View {
-            content(.init(root: root, links: links, titles: titles))
-                .environment(\._ios6NavigationIdGenerator, {
-                    let newId = self.idRecorder
-                    self.idRecorder += 1
-                    return newId
-                })
-                .onPreferenceChange(_IOS6NavigationLinkPreferenceKey.self) { items in
-                    let data = items.sorted { $0.id < $1.id }
-                    self.links = data
-                    self.idRecorder = data.last == nil ? 0 : (data.last!.id) + 1
-            }
+            makeBody(.init(root: root, links: links, titles: titles))
+                
             .onPreferenceChange(_IOS6NavigationTitleKey.self) { items in
                 self.titles = items
             }
         }
-        
-        public typealias Link = IOS6NavigationViewStyleComponentConfiguration.Link
-        public typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
-        public typealias ComponentConfiguration = IOS6NavigationViewStyleComponentConfiguration
-        public typealias LinkType = IOS6NavigationViewStyleComponentConfiguration.LinkType
     }
     
-    init(sideBar: Component, master: Component, detail: Component) {
-        self.sideBar = sideBar
-        self.master = master
-        self.detail = detail
+    init(links: [Link], masterRoot: Root, detailRoot: Root, makeMasterBody: @escaping (ComponentConfiguration) -> AnyView, makeDetailBody: @escaping (ComponentConfiguration) -> AnyView) {
+        self.links = links
+        self.masterRoot = masterRoot
+        self.detailRoot = detailRoot
+        self.makeMasterBody = makeMasterBody
+        self.makeDetailBody = makeDetailBody
     }
     
-    var sideBar: Component
-    var master: Component
-    var detail: Component
+    public func master(links: [Link]) -> Component {
+        Component(root: masterRoot, links: links, content: makeMasterBody)
+    }
+    
+    public func detail(links: [Link]) -> Component {
+        Component(root: detailRoot, links: links, content: makeDetailBody)
+    }
+    
+    public let links: [Link]
+    
+    @inlinable public func getSeparatedLinks() -> ([Link], [Link]) {
+        var masterLinks: [Link] = []
+        var detailLinks: [Link] = []
+        for link in links {
+            switch link.type {
+            case .master:
+                masterLinks.append(link)
+            case .detail:
+                detailLinks.append(link)
+            }
+        }
+        return (masterLinks, detailLinks)
+    }
+    
+    private var masterRoot: Root
+    private var detailRoot: Root
+    private var makeMasterBody: (ComponentConfiguration) -> AnyView
+    private var makeDetailBody: (ComponentConfiguration) -> AnyView
+    
+    public typealias Link = IOS6NavigationViewStyleComponentConfiguration.Link
+    typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
+    typealias ComponentConfiguration = IOS6NavigationViewStyleComponentConfiguration
+    typealias LinkType = IOS6NavigationViewStyleComponentConfiguration.LinkType
 }
 
 struct _IOS6NavigationIdGeneratorEnvironmentKey: EnvironmentKey {
@@ -78,21 +94,3 @@ extension EnvironmentValues {
         }
     }
 }
-
-//var newLinks = self.links
-//// remove old
-//newLinks.removeAll(where: { value in !data.contains(where: { $0.id == value.id }) })
-//for i in data {
-//    if let index = newLinks.firstIndex(where: { $0.id == i.id }) {
-//        // update self
-//        newLinks[index] = i
-//    } else {
-//        // add to self
-//        if self.type == i.type {
-//            newLinks.append(i)
-//        }
-//        // add to other
-//
-//    }
-//}
-//self.links = newLinks

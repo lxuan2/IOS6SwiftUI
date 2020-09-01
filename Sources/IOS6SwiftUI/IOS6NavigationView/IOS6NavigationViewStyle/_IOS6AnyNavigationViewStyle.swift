@@ -12,13 +12,11 @@ struct _IOS6AnyNavigationViewStyle: IOS6NavigationViewStyle {
     private let styleMakeBody: (Configuration) -> AnyView
     private let styleMakeMasterBody: (ComponentConfiguration) -> AnyView
     private let styleMakeDetailBody: (ComponentConfiguration) -> AnyView
-    private let styleMakeSideBarBody: (ComponentConfiguration) -> AnyView
     
     init<S: IOS6NavigationViewStyle>(_ style: S) {
         self.styleMakeBody = style.makeTypeErasedBody
         self.styleMakeMasterBody = style.makeTypeErasedMasterBody
         self.styleMakeDetailBody = style.makeTypeErasedDetailBody
-        self.styleMakeSideBarBody = style.makeTypeErasedSideBarBody
     }
     
     func makeBody(configuration: Configuration) -> AnyView {
@@ -31,10 +29,6 @@ struct _IOS6AnyNavigationViewStyle: IOS6NavigationViewStyle {
     
     func makeDetailBody(configuration: ComponentConfiguration) -> AnyView {
         self.styleMakeDetailBody(configuration)
-    }
-    
-    func makeSideBarBody(configuration: ComponentConfiguration) -> AnyView {
-        self.styleMakeSideBarBody(configuration)
     }
 }
 
@@ -49,9 +43,5 @@ fileprivate extension IOS6NavigationViewStyle {
     
     func makeTypeErasedDetailBody(configuration: ComponentConfiguration) -> AnyView {
         AnyView(makeDetailBody(configuration: configuration))
-    }
-    
-    func makeTypeErasedSideBarBody(configuration: ComponentConfiguration) -> AnyView {
-        AnyView(makeSideBarBody(configuration: configuration))
     }
 }

@@ -13,7 +13,6 @@ public struct IOS6NavigationViewStyleComponentConfiguration {
     public enum LinkType {
         case master
         case detail
-        case sideBar
     }
     
     struct _LinkTypeEnvironmentKey: EnvironmentKey {
@@ -23,11 +22,11 @@ public struct IOS6NavigationViewStyleComponentConfiguration {
     public struct Link : View, Identifiable, Equatable, Hashable {
         private let link: AnyView
         private let _id: Binding<Int?>
-        public let type: LinkType
+        private let _type: LinkType
         
         init<LinkViewType: View>(_ link: LinkViewType, type: LinkType, id: Binding<Int?>) {
             self.link = AnyView(link)
-            self.type = type
+            self._type = type
             self._id = id
         }
         
@@ -57,6 +56,10 @@ public struct IOS6NavigationViewStyleComponentConfiguration {
         
         public var id: Int {
             _id.wrappedValue ?? Int.max
+        }
+        
+        public var type: LinkType {
+            _type
         }
         
         public func dismiss() {

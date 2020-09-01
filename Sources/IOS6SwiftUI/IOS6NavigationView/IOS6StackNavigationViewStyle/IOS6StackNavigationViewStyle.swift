@@ -10,7 +10,7 @@ import SwiftUI
 
 public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
     public func makeBody(configuration: Configuration) -> some View {
-        configuration.master
+        configuration.master(links: configuration.links)
     }
     
     public func makeMasterBody(configuration: ComponentConfiguration) -> some View {
