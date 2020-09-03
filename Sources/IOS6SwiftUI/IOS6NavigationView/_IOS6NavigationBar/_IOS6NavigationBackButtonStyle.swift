@@ -10,13 +10,16 @@ import SwiftUI
 
 /// `Private API`:
 /// IOS6 Navigation Back button style.
-struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
+struct _IOS6NavigationBackButtonStyle<BarBackButton: View>: PrimitiveButtonStyle {
+    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
+    
     func makeBody(configuration: _IOS6NavigationBackButtonStyle.Configuration) -> some View {
-        _IOS6NavigationBackButton(configuration: configuration)
+        _IOS6NavigationBackButton(configuration: configuration, makeBarButton: makeBarButton)
     }
     
     private struct _IOS6NavigationBackButton: View {
         let configuration: _IOS6NavigationBackButtonStyle.Configuration
+        let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
         let height: CGFloat = 25
         @State private var isPressed: Bool = false
         @State private var isValid: Bool = true
@@ -44,48 +47,9 @@ struct _IOS6NavigationBackButtonStyle: PrimitiveButtonStyle {
                 }
                 self.isValid = true
             }
-            
-            return ZStack {
-                _IOS6NavigationBackButtonShape()
-                    .fill(Color.white)
-                    .offset(x: 0, y: 0.5)
-                    .blur(radius: 0.4)
-                
-                _IOS6NavigationBackButtonShape()
-                    .fill(isPressed ?
-                        LinearGradient(
-                            gradient: Gradient(colors:
-                                [Color(red: 150.0/255.0, green: 160.0/255.0, blue: 180.0/255.0),
-                                 Color(red: 93.0/255.0, green: 109.0/255.0, blue: 140.0/255.0),
-                                 Color(red: 53.0/255.0, green: 72.0/255.0, blue: 115.0/255.0)]),
-                            startPoint: .top, endPoint: .bottom) :
-                        LinearGradient(
-                            gradient: Gradient(colors:
-                                [Color(red: 150.0/255.0, green: 166.0/255.0, blue: 188.0/255.0),
-                                 Color(red: 102.0/255.0, green: 123.0/255.0, blue: 155.0/255.0),
-                                 Color(red: 71.0/255.0, green: 98.0/255.0, blue: 138.0/255.0)]),
-                            startPoint: .top, endPoint: .bottom)
-                )
-                    .overlay(
-                        _IOS6NavigationBackButtonShape()
-                            .stroke(Color(red: 51.0/255.0, green: 72.0/255.0, blue: 105.0/255.0), lineWidth: 1))
-                    .overlay(
-                        _IOS6NavigationBackButtonShape()
-                            .stroke(Color(red: 30/255.0, green: 40/255.0, blue: 50/255.0), lineWidth: 1)
-                            .blur(radius: 0.4)
-                            .offset(x: 0, y: 0.4))
-                    .clipShape(_IOS6NavigationBackButtonShape())
-                
-                configuration.label
-                    .foregroundColor(.white)
-                    .scaledFont(size: 11.5, weight: .bold)
-                    .etched()
-                    .padding(.leading, height / 2)
-                    .padding([.vertical, .trailing], height / 2.9)
-                    .layoutPriority(1)
-                    .frame(minWidth: 30)
-            }.gesture(gesture)
-            .compositingGroup()
+            let con = IOS6NavigationBarBackButtonConfiguration(label: configuration.label, isPressed: isPressed)
+            return makeBarButton(con)
+                .gesture(gesture)
         }
     }
 }
@@ -127,11 +91,11 @@ struct _IOS6NavigationBackButtonShape: Shape {
     }
 }
 
-struct IOS6NavigationBackButton_Previews: PreviewProvider {
-    static var previews: some View {
-        Button("Back to First") {
-            
-        }
-        .buttonStyle(_IOS6NavigationBackButtonStyle())
-    }
-}
+//struct IOS6NavigationBackButton_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Button("Back to First") {
+//            
+//        }
+//        .buttonStyle(_IOS6NavigationBackButtonStyle())
+//    }
+//}

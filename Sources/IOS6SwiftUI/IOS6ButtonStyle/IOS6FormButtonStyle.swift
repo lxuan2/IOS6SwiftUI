@@ -66,7 +66,7 @@ public struct IOS6FormBaseButtonStyle: ButtonStyle {
                             self.isLink = value
                     }
                     .onPreferenceChange(_IOS6HoldPressPreferenceKey.self) { value in
-                        withAnimation(self.hold && !value ? .easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay * 2) : .none) {
+                        withAnimation(self.hold && !value ? .easeInOut(duration: transTime + delay * 2) : .none) {
                             self.hold = value
                         }
                     }

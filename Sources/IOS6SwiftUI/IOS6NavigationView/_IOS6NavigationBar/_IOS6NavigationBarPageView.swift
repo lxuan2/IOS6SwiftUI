@@ -9,11 +9,12 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationBarPageView: View {
+struct _IOS6NavigationBarPageView<BarBackButton: View>: View {
     var title: String?
     var backTitle: String?
     var noBackTitle: Bool
     var dismiss: () -> Void
+    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
     let width: CGFloat
     let height: CGFloat
     
@@ -24,7 +25,7 @@ struct _IOS6NavigationBarPageView: View {
                     Button(self.backTitle ?? "Back") {
                         self.dismiss()
                     }
-                    .buttonStyle(_IOS6NavigationBackButtonStyle())
+                    .buttonStyle(_IOS6NavigationBackButtonStyle(makeBarButton: makeBarButton))
                 }
                 Spacer()
             }

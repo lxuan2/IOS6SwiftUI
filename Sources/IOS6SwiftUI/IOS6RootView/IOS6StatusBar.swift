@@ -8,14 +8,13 @@
 
 import SwiftUI
 
-struct _IOS6StatusBar: ViewModifier {
-    @State private var id: UUID = UUID()
+struct _IOS6StatusBar<Label: View>: ViewModifier {
     @Environment(\._ios6IsEnabled) var ios6IsEnabled
-    let label: AnyView
+    let label: Label
     
     func body(content: Content) -> some View {
         content.preference(key: _IOS6StatusBarKey.self,
-                           value: ios6IsEnabled ? _IOS6StatusBarData(label: label, id: id) : nil)
+                           value: ios6IsEnabled ? _IOS6StatusBarData(label: AnyView(label), id: Int32.random(in: 0..<Int32.max)) : nil)
     }
 }
 
@@ -27,15 +26,15 @@ extension View {
     /// - Parameter background: background view
     /// - Returns: some View
     public func ios6StatusBar<Background: View>(_ background: Background) -> some View {
-        modifier(_IOS6StatusBar(label:AnyView(background)))
+        modifier(_IOS6StatusBar(label: background))
     }
 }
 
 struct _IOS6StatusBarData: Equatable, Identifiable {
     let label: AnyView
-    let id: UUID
+    let id: Int32
     
-    init(label: AnyView, id: UUID) {
+    init(label: AnyView, id: Int32) {
         self.id = id
         self.label = label
     }

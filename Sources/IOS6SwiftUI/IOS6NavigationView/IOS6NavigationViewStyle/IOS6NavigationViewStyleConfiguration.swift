@@ -30,9 +30,8 @@ public struct IOS6NavigationViewStyleConfiguration {
         /// implementation of the required `body` property.
         public var body: some View {
             makeBody(.init(root: root, links: links, titles: titles))
-                
-            .onPreferenceChange(_IOS6NavigationTitleKey.self) { items in
-                self.titles = items
+                .onPreferenceChange(_IOS6NavigationTitleKey.self) { items in
+                    self.titles = items
             }
         }
     }
@@ -45,12 +44,22 @@ public struct IOS6NavigationViewStyleConfiguration {
         self.makeDetailBody = makeDetailBody
     }
     
-    public func master(links: [Link]) -> Component {
-        Component(root: masterRoot, links: links, content: makeMasterBody)
+    public func master(links: [Link]? = nil) -> Component {
+        if let _links = links {
+            return Component(root: masterRoot, links: _links, content: makeMasterBody)
+        } else {
+            let _links = self.links.filter { $0.type == .master }
+            return Component(root: masterRoot, links: _links, content: makeMasterBody)
+        }
     }
     
-    public func detail(links: [Link]) -> Component {
-        Component(root: detailRoot, links: links, content: makeDetailBody)
+    public func detail(links: [Link]? = nil) -> Component {
+        if let _links = links {
+            return Component(root: detailRoot, links: _links, content: makeDetailBody)
+        } else {
+            let _links = self.links.filter { $0.type == .detail }
+            return Component(root: detailRoot, links: _links, content: makeDetailBody)
+        }
     }
     
     public let links: [Link]

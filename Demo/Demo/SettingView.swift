@@ -39,7 +39,8 @@ struct SettingView: View {
                 
                 IOS6NavigationLink(destination: SettingView()) {
                     IOS6PresetTableCell(image: Image("AppleIDMessages"), title: "Messages", comment: "New Messages")
-                }.ios6FormCellPosition(.mid)
+                }.isDetailLink(true)
+                .ios6FormCellPosition(.mid)
                 
                 IOS6NavigationLink(destination: DismissViewLink()) {
                     IOS6PresetTableCell(image: Image("AppleIDFaceTime"), title: "FaceTime", comment: IOS6ListBadge(text: "1"))

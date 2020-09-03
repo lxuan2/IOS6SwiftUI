@@ -9,12 +9,13 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationBar: View {
+struct _IOS6NavigationBar<BarBackButton: View>: View {
     @Environment(\.isEnabled) private var isEnabled
-    let data: [Data]
+    let data: [_IOS6NavigationBarData]
     let width: CGFloat
     let offset: CGFloat
     let dismiss: () -> Void
+    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
     private let decay: CGFloat = 2
     
     var body: some View {
@@ -24,6 +25,7 @@ struct _IOS6NavigationBar: View {
                                            backTitle: comp.backTitle,
                                            noBackTitle: comp.noBackTitle,
                                            dismiss: self.dismiss,
+                                           makeBarButton: self.makeBarButton,
                                            width: self.width,
                                            height: 44)
                     .compositingGroup()
@@ -39,32 +41,32 @@ struct _IOS6NavigationBar: View {
     func decayRatio(_ value: CGFloat) -> CGFloat {
         value < 0 ? 1 : decay
     }
-    
-    struct Data: Identifiable, Equatable {
-        var id: Int
-        var title: String?
-        var backTitle: String?
-        var noBackTitle: Bool = false
+}
+
+struct _IOS6NavigationBarData: Identifiable, Equatable {
+    var id: Int
+    var title: String?
+    var backTitle: String?
+    var noBackTitle: Bool = false
+}
+
+func buildNavigationBarData(titles: [String?]) -> [_IOS6NavigationBarData] {
+    var ts: [_IOS6NavigationBarData] = []
+    switch titles.count {
+    case 3...:
+        ts.append(_IOS6NavigationBarData(id: titles.count-2, title: titles[titles.count-2], backTitle: titles[titles.count-3], noBackTitle: false))
+        ts.append(_IOS6NavigationBarData(id: titles.count-1, title: titles[titles.count-1], backTitle: titles[titles.count-2], noBackTitle: false))
+    case 2:
+        ts.append(_IOS6NavigationBarData(id: 0, title: titles[0], backTitle: nil, noBackTitle: true))
+        ts.append(_IOS6NavigationBarData(id: 1, title: titles[1], backTitle: titles[0], noBackTitle: false))
+    case 1:
+        ts.append(_IOS6NavigationBarData(id: -1, title: "", backTitle: nil, noBackTitle: true))
+        ts.append(_IOS6NavigationBarData(id: 0, title: titles[0], backTitle: nil, noBackTitle: true))
+    default:
+        ts.append(_IOS6NavigationBarData(id: -1, title: "", backTitle: nil, noBackTitle: true))
+        ts.append(_IOS6NavigationBarData(id: 0, title: "", backTitle: nil, noBackTitle: true))
     }
-    
-    static func buildNavigationBarData(titles: [String?]) -> [Data] {
-        var ts: [Data] = []
-        switch titles.count {
-        case 3...:
-            ts.append(Data(id: titles.count-2, title: titles[titles.count-2], backTitle: titles[titles.count-3], noBackTitle: false))
-            ts.append(Data(id: titles.count-1, title: titles[titles.count-1], backTitle: titles[titles.count-2], noBackTitle: false))
-        case 2:
-            ts.append(Data(id: 0, title: titles[0], backTitle: nil, noBackTitle: true))
-            ts.append(Data(id: 1, title: titles[1], backTitle: titles[0], noBackTitle: false))
-        case 1:
-            ts.append(Data(id: -1, title: "", backTitle: nil, noBackTitle: true))
-            ts.append(Data(id: 0, title: titles[0], backTitle: nil, noBackTitle: true))
-        default:
-            ts.append(Data(id: -1, title: "", backTitle: nil, noBackTitle: true))
-            ts.append(Data(id: 0, title: "", backTitle: nil, noBackTitle: true))
-        }
-        return ts
-    }
+    return ts
 }
 
 

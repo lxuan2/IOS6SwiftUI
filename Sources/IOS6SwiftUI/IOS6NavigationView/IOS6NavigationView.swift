@@ -13,10 +13,7 @@ public struct IOS6NavigationView<Content: View>: View {
     var detail: Root
     
     public var body: some View {
-        ScrollView([]) {
-            _IOS6NavigationView(master: master, detail: detail)
-        }
-        .edgesIgnoringSafeArea(.all)
+        _IOS6NavigationView(master: master, detail: detail)
     }
     
     public typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root

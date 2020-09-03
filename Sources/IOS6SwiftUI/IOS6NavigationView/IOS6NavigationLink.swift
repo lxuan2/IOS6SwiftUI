@@ -25,7 +25,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
     public var body: some View {
         let bind: Binding<Int?> = .init(get: { self.id }, set: { value in
             self.hold = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay) { self.id = value }
+            DispatchQueue.main.asyncAfter(deadline: .now() + transTime + delay) { self.id = value }
         })
         return Button(action: {
             if let g = self.generator {
@@ -52,7 +52,7 @@ public struct IOS6NavigationLink<Label: View, Destination : View>: View {
         self.label = label()
     }
     
-    func isDetailLink(_ isDetailLink: Bool) -> some View {
+    public func isDetailLink(_ isDetailLink: Bool) -> some View {
         environment(\._ios6NavigationLinkType, isDetailLink ? .detail : .master)
     }
 }

@@ -1,16 +1,16 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
       "filename" : "AppleIDFaceTime@2x~iphone.png",
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "3x"
     }
   ],

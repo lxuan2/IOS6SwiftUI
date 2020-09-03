@@ -1,5 +1,5 @@
 //
-//  _IOS6NavigationContentView.swift
+//  _IOS6StackNavigationContentView.swift
 //  test
 //
 //  Created by Xuan Li on 8/23/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct _IOS6NavigationContentView: View {
+struct _IOS6StackNavigationContentView: View {
     let root: Root
     let links: [Link]
     let width: CGFloat

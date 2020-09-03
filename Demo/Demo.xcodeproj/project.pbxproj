@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B302130224FEF85E0011E5D6 /* IOS6DoubleColumnNavigationViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302130124FEF85E0011E5D6 /* IOS6DoubleColumnNavigationViewStyle.swift */; };
 		B3432A0924E5AF5E00A0116E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A0824E5AF5E00A0116E /* AppDelegate.swift */; };
 		B3432A0B24E5AF5E00A0116E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A0A24E5AF5E00A0116E /* SceneDelegate.swift */; };
 		B3432A0D24E5AF5E00A0116E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A0C24E5AF5E00A0116E /* ContentView.swift */; };
@@ -19,9 +20,12 @@
 		B3432A3224E5B30E00A0116E /* DismissView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A3124E5B30E00A0116E /* DismissView.swift */; };
 		B3432A3424E5B31300A0116E /* DismissViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A3324E5B31300A0116E /* DismissViewLink.swift */; };
 		B3432A3624E5B32A00A0116E /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3432A3524E5B32A00A0116E /* MaterialView.swift */; };
+		B35AFBF624FF41D0008770E7 /* _IOS6DoubleColumnMasterWallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35AFBF524FF41D0008770E7 /* _IOS6DoubleColumnMasterWallpaper.swift */; };
+		B35AFBF824FF42DE008770E7 /* _IOS6DoubleColumnDetailWallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35AFBF724FF42DE008770E7 /* _IOS6DoubleColumnDetailWallpaper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B302130124FEF85E0011E5D6 /* IOS6DoubleColumnNavigationViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS6DoubleColumnNavigationViewStyle.swift; sourceTree = "<group>"; };
 		B3432A0524E5AF5E00A0116E /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3432A0824E5AF5E00A0116E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3432A0A24E5AF5E00A0116E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +40,8 @@
 		B3432A3124E5B30E00A0116E /* DismissView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissView.swift; sourceTree = "<group>"; };
 		B3432A3324E5B31300A0116E /* DismissViewLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissViewLink.swift; sourceTree = "<group>"; };
 		B3432A3524E5B32A00A0116E /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialView.swift; sourceTree = "<group>"; };
+		B35AFBF524FF41D0008770E7 /* _IOS6DoubleColumnMasterWallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _IOS6DoubleColumnMasterWallpaper.swift; sourceTree = "<group>"; };
+		B35AFBF724FF42DE008770E7 /* _IOS6DoubleColumnDetailWallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _IOS6DoubleColumnDetailWallpaper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,9 @@
 				B3432A3124E5B30E00A0116E /* DismissView.swift */,
 				B3432A3324E5B31300A0116E /* DismissViewLink.swift */,
 				B3432A3524E5B32A00A0116E /* MaterialView.swift */,
+				B302130124FEF85E0011E5D6 /* IOS6DoubleColumnNavigationViewStyle.swift */,
+				B35AFBF524FF41D0008770E7 /* _IOS6DoubleColumnMasterWallpaper.swift */,
+				B35AFBF724FF42DE008770E7 /* _IOS6DoubleColumnDetailWallpaper.swift */,
 				B3432A1C24E5B00D00A0116E /* Assets.xcassets */,
 				B3432A2224E5B12300A0116E /* LaunchScreen.storyboard */,
 				B3432A1624E5AF5F00A0116E /* Info.plist */,
@@ -176,14 +185,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B35AFBF824FF42DE008770E7 /* _IOS6DoubleColumnDetailWallpaper.swift in Sources */,
 				B3432A0924E5AF5E00A0116E /* AppDelegate.swift in Sources */,
 				B3432A3424E5B31300A0116E /* DismissViewLink.swift in Sources */,
+				B35AFBF624FF41D0008770E7 /* _IOS6DoubleColumnMasterWallpaper.swift in Sources */,
 				B3432A2E24E5B2FC00A0116E /* SettingView.swift in Sources */,
 				B3432A3024E5B30500A0116E /* ListView.swift in Sources */,
 				B3432A0B24E5AF5E00A0116E /* SceneDelegate.swift in Sources */,
 				B3432A0D24E5AF5E00A0116E /* ContentView.swift in Sources */,
 				B3432A3224E5B30E00A0116E /* DismissView.swift in Sources */,
 				B3432A3624E5B32A00A0116E /* MaterialView.swift in Sources */,
+				B302130224FEF85E0011E5D6 /* IOS6DoubleColumnNavigationViewStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
