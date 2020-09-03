@@ -8,100 +8,57 @@
 
 import SwiftUI
 
-public struct IOS6StackNavigationViewStyle: IOS6NavigationViewStyle {
+public struct IOS6StackNavigationViewStyle<NavigationConfiguration: IOS6NavigationConfiguration>: IOS6NavigationViewStyle {
+    private let _configuration: NavigationConfiguration
+    
+    public init(configuration: NavigationConfiguration) {
+        self._configuration = configuration
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
-        configuration.master(links: configuration.links)
+        ScrollView([]) {
+            configuration.master(links: configuration.links)
+                .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
+                .colorScheme(.light)
+        }
+        .edgesIgnoringSafeArea(.all)
+        .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
     }
     
     public func makeMasterBody(configuration: ComponentConfiguration) -> some View {
-        GeometryReader { proxy in
-            ZStack {
-                _IOS6NavigationWallpaper()
-                
-                IOS6StackNavigationViewStyle.buildIOS6StackNavigationView(configuration: configuration, proxy: proxy)
-                    .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
-                    .colorScheme(.light)
-            }
-        }.ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
-    }
-    
-    static func buildIOS6StackNavigationView(configuration: ComponentConfiguration, proxy: GeometryProxy) -> some View {
-        IOS6StackNavigationView(root: configuration.root, links: configuration.links, barData: _IOS6NavigationBar.buildNavigationBarData(titles: configuration.titles), dismiss: configuration.links.last?.dismiss, proxy: proxy)
-    }
-    
-    struct IOS6StackNavigationView: View {
-        @State private var offsetAmount: CGFloat = 0
-        @State private var additionalAmount: CGFloat = 0
-        let root: Root
-        let links: [Link]
-        let barData: [_IOS6NavigationBar.Data]
-        let dismiss: (() -> Void)?
-        let proxy: GeometryProxy
-        @State private var offsets: [Int: CGFloat] = [:]
-        
-        var body: some View {
+        ZStack {
             VStack(spacing: 0) {
-                _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() })
-                
-                ZStack(alignment: .leading) {
-                    _IOS6NavigationContentView(root: root, links: links, width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing, contentWidth: proxy.size.width, offsets: $offsets)
-                        .modifier(IgnoreLayoutOffset(x: offsetAmount + additionalAmount).ignoredByLayout())
-                    if !links.isEmpty {
-                        Color.clear
-                            .contentShape(Rectangle())
-                            .gesture(
-                                DragGesture(minimumDistance: 10, coordinateSpace: .global)
-                                    .onChanged {
-                                        self.offsetAmount = max(0, $0.translation.width - 10)
-                                }
-                                .onEnded {
-                                    let half = self.proxy.size.width / 2
-                                    if $0.predictedEndTranslation.width - 10 > half {
-                                        self.dismissFunc(percent: Double(1 - ($0.translation.width - 10) / self.proxy.size.width))
-                                    } else {
-                                        withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.resetTime)) {
-                                            self.offsetAmount = 0
-                                        }
-                                    }
-                                }
-                        )
-                            .frame(width: 20 + proxy.safeAreaInsets.leading)
-                            .edgesIgnoringSafeArea(.horizontal)
-                    }
-                }
+                _configuration.navigationBarBackground.frame(height: 44)
+                _configuration.contentBackground
+            }.edgesIgnoringSafeArea([.horizontal, .bottom])
+            
+            GeometryReader { proxy in
+                _IOS6StackNavigationView(root: configuration.root,
+                                         links: configuration.links,
+                                         barData: buildNavigationBarData(titles: configuration.titles),
+                                         dismiss: configuration.links.last?.dismiss,
+                                         configuration: self._configuration,
+                                         proxy: proxy)
             }
-        }
-        
-        func dismissFunc(percent: Double = 1) {
-            withAnimation(.easeInOut(duration: IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime * percent)) {
-                self.offsetAmount = self.proxy.size.width
-            }
-            self.additionalAmount = self.proxy.safeAreaInsets.leading + self.proxy.safeAreaInsets.trailing
-            self.dismiss?()
-            DispatchQueue.main.asyncAfter(deadline: .now() + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.transTime + IOS6StackNavigationViewStyle.IOS6StackNavigationView.self.delay) {
-                self.offsetAmount = 0
-                self.additionalAmount = 0
-            }
-        }
-        
-        typealias Root = IOS6NavigationViewStyleComponentConfiguration.Root
-        typealias Link =  IOS6NavigationViewStyleComponentConfiguration.Link
-        static let transTime: Double = 0.35
-        static let resetTime: Double = 0.2
-        static let delay: Double = 0.1
-    }
-    
-    struct IgnoreLayoutOffset: GeometryEffect {
-        var x: CGFloat = 0
-        
-        var animatableData: CGFloat {
-            get { x }
-            set { x = newValue }
-        }
-        
-        func effectValue(size: CGSize) -> ProjectionTransform {
-            return ProjectionTransform(CGAffineTransform(translationX: x, y: 0))
         }
     }
 }
 
+extension IOS6StackNavigationViewStyle where NavigationConfiguration == IOS6BlueNavigationConfiguration {
+    public init() {
+        self._configuration = IOS6BlueNavigationConfiguration()
+    }
+}
+
+struct IgnoreLayoutOffset: GeometryEffect {
+    var x: CGFloat = 0
+    
+    var animatableData: CGFloat {
+        get { x }
+        set { x = newValue }
+    }
+    
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        return ProjectionTransform(CGAffineTransform(translationX: x, y: 0))
+    }
+}
