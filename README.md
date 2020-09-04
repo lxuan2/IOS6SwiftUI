@@ -54,10 +54,15 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 **IOS6NavigationViewStyle**
 - \[x]  IOS6StackNavigationViewStyle
 
+**IOS6NavigationAppearance**
+- \[x]  IOS6BlueNavigationAppearance
+- \[x]  IOS6GrayNavigationAppearance
+
 ### Protocol
 - \[x]  IOS6TabBarStyle
 - \[x]  IOS6SliderStyle
 - \[x]  IOS6NavigationViewStyle
+- \[x]  IOS6NavigationAppearance
 
 ### Preset view (Recommanded)
 - \[x]  IOS6PresetTableCell

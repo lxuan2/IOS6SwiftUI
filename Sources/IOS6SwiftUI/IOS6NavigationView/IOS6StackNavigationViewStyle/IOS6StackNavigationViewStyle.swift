@@ -8,28 +8,28 @@
 
 import SwiftUI
 
-public struct IOS6StackNavigationViewStyle<NavigationConfiguration: IOS6NavigationConfiguration>: IOS6NavigationViewStyle {
-    private let _configuration: NavigationConfiguration
+public struct IOS6StackNavigationViewStyle<Appearance: IOS6NavigationAppearance>: IOS6NavigationViewStyle {
+    private let appearance: Appearance
     
-    public init(configuration: NavigationConfiguration) {
-        self._configuration = configuration
+    public init(_ appearance: Appearance) {
+        self.appearance = appearance
     }
     
     public func makeBody(configuration: Configuration) -> some View {
         ScrollView([]) {
             configuration.master(links: configuration.links)
-                .accentColor(Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0))
+                .accentColor(appearance.accentColor)
                 .colorScheme(.light)
         }
         .edgesIgnoringSafeArea(.all)
-        .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
+        .ios6StatusBar(appearance.statusBarColor)
     }
     
     public func makeMasterBody(configuration: ComponentConfiguration) -> some View {
         ZStack {
             VStack(spacing: 0) {
-                _configuration.navigationBarBackground.frame(height: 44)
-                _configuration.contentBackground
+                appearance.navigationBarBackground.frame(height: 44).zIndex(1)
+                appearance.contentBackground
             }.edgesIgnoringSafeArea([.horizontal, .bottom])
             
             GeometryReader { proxy in
@@ -37,16 +37,16 @@ public struct IOS6StackNavigationViewStyle<NavigationConfiguration: IOS6Navigati
                                          links: configuration.links,
                                          barData: buildNavigationBarData(titles: configuration.titles),
                                          dismiss: configuration.links.last?.dismiss,
-                                         configuration: self._configuration,
+                                         appearance: self.appearance,
                                          proxy: proxy)
             }
         }
     }
 }
 
-extension IOS6StackNavigationViewStyle where NavigationConfiguration == IOS6BlueNavigationConfiguration {
+extension IOS6StackNavigationViewStyle where Appearance == IOS6BlueNavigationAppearance {
     public init() {
-        self._configuration = IOS6BlueNavigationConfiguration()
+        self.appearance = IOS6BlueNavigationAppearance()
     }
 }
 

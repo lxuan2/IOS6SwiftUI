@@ -10,16 +10,16 @@ import SwiftUI
 
 /// `Private API`:
 /// IOS6 Navigation Back button style.
-struct _IOS6NavigationBackButtonStyle<BarBackButton: View>: PrimitiveButtonStyle {
-    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
+struct _IOS6NavigationBackButtonStyle<Appearance: IOS6NavigationAppearance>: PrimitiveButtonStyle {
+    let appearance: Appearance
     
     func makeBody(configuration: _IOS6NavigationBackButtonStyle.Configuration) -> some View {
-        _IOS6NavigationBackButton(configuration: configuration, makeBarButton: makeBarButton)
+        _IOS6NavigationBackButton(configuration: configuration, appearance: appearance)
     }
     
-    private struct _IOS6NavigationBackButton: View {
+    private struct _IOS6NavigationBackButton<NavigationConfiguration: IOS6NavigationAppearance>: View {
         let configuration: _IOS6NavigationBackButtonStyle.Configuration
-        let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
+        let appearance: NavigationConfiguration
         let height: CGFloat = 25
         @State private var isPressed: Bool = false
         @State private var isValid: Bool = true
@@ -48,7 +48,7 @@ struct _IOS6NavigationBackButtonStyle<BarBackButton: View>: PrimitiveButtonStyle
                 self.isValid = true
             }
             let con = IOS6NavigationBarBackButtonConfiguration(label: configuration.label, isPressed: isPressed)
-            return makeBarButton(con)
+            return appearance.makeNavigationBarBackButtonBody(configuration: con)
                 .gesture(gesture)
         }
     }
@@ -90,12 +90,3 @@ struct _IOS6NavigationBackButtonShape: Shape {
         return path
     }
 }
-
-//struct IOS6NavigationBackButton_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Button("Back to First") {
-//            
-//        }
-//        .buttonStyle(_IOS6NavigationBackButtonStyle())
-//    }
-//}

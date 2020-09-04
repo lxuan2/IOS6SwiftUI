@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct _IOS6StackNavigationView<NavigationConfiguration: IOS6NavigationConfiguration>: View {
+struct _IOS6StackNavigationView<Appearance: IOS6NavigationAppearance>: View {
     @State private var offsets: [Int: CGFloat] = [:]
     @State private var offsetAmount: CGFloat = 0
     @State private var additionalAmount: CGFloat = 0
@@ -16,12 +16,12 @@ struct _IOS6StackNavigationView<NavigationConfiguration: IOS6NavigationConfigura
     let links: [Link]
     let barData: [_IOS6NavigationBarData]
     let dismiss: (() -> Void)?
-    let configuration: NavigationConfiguration
+    let appearance: Appearance
     let proxy: GeometryProxy
     
     var body: some View {
         VStack(spacing: 0) {
-            _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() }, makeBarButton: configuration.makeNavigationBarBackButtonBody)
+            _IOS6NavigationBar(data: barData, width: proxy.size.width, offset: (offsets.count==links.count ? 0 : proxy.size.width) + offsetAmount, dismiss: { self.dismissFunc() }, appearance: appearance)
             
             ZStack(alignment: .leading) {
                 _IOS6StackNavigationContentView(root: root, links: links, width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing, contentWidth: proxy.size.width, offsets: $offsets)
@@ -73,5 +73,5 @@ let resetTime: Double = 0.2
 let delay: Double = 0.1
 
 public func buildIOS6StackNavigationView(configuration: IOS6NavigationViewStyleComponentConfiguration, proxy: GeometryProxy) -> some View {
-    _IOS6StackNavigationView(root: configuration.root, links: configuration.links, barData: buildNavigationBarData(titles: configuration.titles), dismiss: configuration.links.last?.dismiss, configuration: IOS6BlueNavigationConfiguration(), proxy: proxy)
+    _IOS6StackNavigationView(root: configuration.root, links: configuration.links, barData: buildNavigationBarData(titles: configuration.titles), dismiss: configuration.links.last?.dismiss, appearance: IOS6BlueNavigationAppearance(), proxy: proxy)
 }

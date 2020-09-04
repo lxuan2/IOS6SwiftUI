@@ -9,12 +9,12 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationBarPageView<BarBackButton: View>: View {
+struct _IOS6NavigationBarPageView<Appearance: IOS6NavigationAppearance>: View {
     var title: String?
     var backTitle: String?
     var noBackTitle: Bool
     var dismiss: () -> Void
-    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
+    let appearance: Appearance
     let width: CGFloat
     let height: CGFloat
     
@@ -25,22 +25,21 @@ struct _IOS6NavigationBarPageView<BarBackButton: View>: View {
                     Button(self.backTitle ?? "Back") {
                         self.dismiss()
                     }
-                    .buttonStyle(_IOS6NavigationBackButtonStyle(makeBarButton: makeBarButton))
+                    .buttonStyle(_IOS6NavigationBackButtonStyle(appearance: appearance))
                 }
                 Spacer()
             }
             
-            Text(self.title ?? "")
-                .foregroundColor(.white)
+            appearance.makeTextBody(content: Text(self.title ?? ""))
                 .scaledFont(size: 20, weight: .bold)
-                .etched()
                 .layoutPriority(1)
                 .position(x: (self.width - 5.5*2) / 2, y: (self.height - 9.5*2) / 2)
-                .animation(nil)
         }
         .lineLimit(1)
         .padding(.horizontal, 5.5)
         .padding(.vertical, 9.5)
+        .compositingGroup()
+        .frame(width: width)
     }
 }
 

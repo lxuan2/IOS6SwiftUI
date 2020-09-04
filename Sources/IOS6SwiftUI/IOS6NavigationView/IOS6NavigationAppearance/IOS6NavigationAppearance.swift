@@ -1,5 +1,5 @@
 //
-//  IOS6NavigationConfiguration.swift
+//  IOS6NavigationAppearance.swift
 //  Demo
 //
 //  Created by Xuan Li on 9/3/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public protocol IOS6NavigationConfiguration {
+public protocol IOS6NavigationAppearance {
     
     /// A `View` representing the body of a ContentBackground.
     associatedtype ContentBackground : View
@@ -25,6 +25,9 @@ public protocol IOS6NavigationConfiguration {
     /// A `ButtonStyle` representing the bar button style.
     associatedtype BarButtonStyle : ButtonStyle
     
+    /// A `View` representing the the body of a text in navigation bar.
+    associatedtype BarText : View
+    
     /// Declares the content background of this view.
     var contentBackground: Self.ContentBackground { get }
     
@@ -37,14 +40,22 @@ public protocol IOS6NavigationConfiguration {
     /// Declares the navigation bar button style of this view.
     var barButtonStyle: Self.BarButtonStyle { get }
     
+    /// Declares the status bar color of this view.
+    var statusBarColor: Color { get }
+    
+    /// Declares the status bar color of this view.
+    var accentColor: Color? { get }
+    
+    /// Creates a `View` representing the body of back button in navigation bar.
+    ///
+    /// - Parameter configuration: The properties of the IOS6NavigationBarBackButton
+    ///   instance being created.
+    func makeNavigationBarBackButtonBody(configuration: IOS6NavigationBarBackButtonConfiguration) -> Self.NavigationBarBackButtonBody
+    
     /// Creates a `View` representing the body of a `IOS6NavigationView`.
     ///
-    /// - Parameter configuration: The properties of the IOS6NavigationView
-    ///   instance being created.
-    ///
-    /// This method will be called for each instance of `IOS6NavigationView` created within
-    /// a view hierarchy where this style is the current `IOS6NavigationViewStyle`.
-    func makeNavigationBarBackButtonBody(configuration: IOS6NavigationBarBackButtonConfiguration) -> Self.NavigationBarBackButtonBody
+    /// - Parameter content: The text `View` instance being created.
+    func makeTextBody(content: Text) -> Self.BarText
 }
 
 public struct IOS6NavigationBarBackButtonConfiguration {

@@ -9,13 +9,13 @@
 import SwiftUI
 
 /// `Private API`:
-struct _IOS6NavigationBar<BarBackButton: View>: View {
+struct _IOS6NavigationBar<Appearance: IOS6NavigationAppearance>: View {
     @Environment(\.isEnabled) private var isEnabled
     let data: [_IOS6NavigationBarData]
     let width: CGFloat
     let offset: CGFloat
     let dismiss: () -> Void
-    let makeBarButton: (IOS6NavigationBarBackButtonConfiguration) -> BarBackButton
+    let appearance: Appearance
     private let decay: CGFloat = 2
     
     var body: some View {
@@ -25,11 +25,9 @@ struct _IOS6NavigationBar<BarBackButton: View>: View {
                                            backTitle: comp.backTitle,
                                            noBackTitle: comp.noBackTitle,
                                            dismiss: self.dismiss,
-                                           makeBarButton: self.makeBarButton,
+                                           appearance: self.appearance,
                                            width: self.width,
                                            height: 44)
-                    .compositingGroup()
-                    .frame(width: self.width)
                     .transition(comp.id < self.data[1].id ? .identity:.moveInXAndFade(offset: self.width / self.decay))
                     .offset(x: comp.id < self.data[1].id ? -self.width+self.offset:self.offset/self.decay, y: 0)
                     .opacity(!self.isEnabled ? 0 : comp.id < self.data[1].id ? Double(self.offset / self.width) : 1-Double(self.offset / self.width))

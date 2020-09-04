@@ -1,5 +1,5 @@
 //
-//  IOS6BlueNavigationConfiguration.swift
+//  IOS6BlueNavigationAppearance.swift
 //  Demo
 //
 //  Created by Xuan Li on 9/3/20.
@@ -8,7 +8,10 @@
 
 import SwiftUI
 
-public struct IOS6BlueNavigationConfiguration: IOS6NavigationConfiguration {
+public struct IOS6BlueNavigationAppearance: IOS6NavigationAppearance {
+    
+    public init() {}
+    
     public var contentBackground: some View {
         Color(red: 211/255, green: 215/255, blue: 224/255)
             .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
@@ -18,13 +21,13 @@ public struct IOS6BlueNavigationConfiguration: IOS6NavigationConfiguration {
         LinearGradient(
             gradient:
             Gradient(colors:
-                [Color(red: 90.0/255.0, green: 116.0/255.0, blue: 153.0/255.0),
-                 Color(red: 143.0/255.0, green: 163.0/255.0, blue: 188.0/255.0),
-                 Color(red: 190.0/255.0, green: 203.0/255.0, blue: 220.0/255.0)]),
-            startPoint: .bottom,
-            endPoint: .top
+                [Color(red: 174.0/255.0, green: 189.0/255.0, blue: 208.0/255.0),
+                 Color(red: 136.0/255.0, green: 153.0/255.0, blue: 178.0/255.0),
+                 Color(red: 92.0/255.0, green: 113.0/255.0, blue: 148.0/255.0)]),
+            startPoint: .top,
+            endPoint: .bottom
         )
-            .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: 0.7)
+            .shadow(color: Color.black.opacity(0.3), radius: 2, x: 0, y: -0.7)
             .overlay(
                 VStack(spacing: 0) {
                     Color(red: 233/255.0, green: 244/255.0, blue: 255/255.0)
@@ -60,7 +63,6 @@ public struct IOS6BlueNavigationConfiguration: IOS6NavigationConfiguration {
                         .frame(height: 1)
                 }
         )
-            .zIndex(1)
     }
     
     public func makeNavigationBarBackButtonBody(configuration: IOS6NavigationBarBackButtonConfiguration) -> some View {
@@ -109,9 +111,23 @@ public struct IOS6BlueNavigationConfiguration: IOS6NavigationConfiguration {
     public var barButtonStyle: some ButtonStyle {
         IOS6BlueBarButtonStyle()
     }
+    
+    public var statusBarColor: Color {
+        Color(red: 70/255, green: 100/255, blue: 133/255)
+    }
+    
+    public func makeTextBody(content: Text) -> some View {
+        content
+            .foregroundColor(.white)
+            .etched()
+    }
+    
+    public var accentColor: Color? {
+        Color(red: 60.0/255.0, green: 82.0/255.0, blue: 130.0/255.0)
+    }
 }
 
-extension IOS6BlueNavigationConfiguration {
+extension IOS6BlueNavigationAppearance {
     struct IOS6BlueBarButtonStyle: ButtonStyle {
         let height: CGFloat = 25
         
