@@ -72,6 +72,11 @@ let transTime: Double = 0.35
 let resetTime: Double = 0.2
 let delay: Double = 0.1
 
-public func buildIOS6StackNavigationView(configuration: IOS6NavigationViewStyleComponentConfiguration, proxy: GeometryProxy) -> some View {
-    _IOS6StackNavigationView(root: configuration.root, links: configuration.links, barData: buildNavigationBarData(titles: configuration.titles), dismiss: configuration.links.last?.dismiss, appearance: IOS6BlueNavigationAppearance(), proxy: proxy)
+public func buildIOS6StackNavigationView<Appearance: IOS6NavigationAppearance>(configuration: IOS6NavigationViewStyleComponentConfiguration, appearance: Appearance, proxy: GeometryProxy) -> some View {
+    _IOS6StackNavigationView(root: configuration.root,
+                             links: configuration.links,
+                             barData: buildNavigationBarData(titles: configuration.titles),
+                             dismiss: configuration.links.last?.dismiss,
+                             appearance: appearance,
+                             proxy: proxy)
 }

@@ -22,7 +22,6 @@ public struct IOS6StackNavigationViewStyle<Appearance: IOS6NavigationAppearance>
                 .colorScheme(.light)
         }
         .edgesIgnoringSafeArea(.all)
-        .ios6StatusBar(appearance.statusBarColor)
     }
     
     public func makeMasterBody(configuration: ComponentConfiguration) -> some View {

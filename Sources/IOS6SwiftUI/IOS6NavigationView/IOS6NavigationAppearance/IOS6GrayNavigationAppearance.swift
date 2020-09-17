@@ -13,9 +13,26 @@ public struct IOS6GrayNavigationAppearance: IOS6NavigationAppearance {
     public init() {}
     
     public var contentBackground: some View {
-        _DownRectangle(cornerRadius: 4, padding: 0)
-            .fill(Color(red: 217/255, green: 218/255, blue: 223/255))
+        Color(red: 217/255, green: 218/255, blue: 223/255)
+//            .clipShape(_DownRectangle(cornerRadius: 4, padding: 0))
             .ios6RootBackground(Color.black.edgesIgnoringSafeArea(.all))
+            .ios6StatusBar(Color.black)
+    }
+    
+    public var masterBackground: some View {
+        LinearGradient(gradient: Gradient(colors: [Color(red: 233/255.0, green: 234/255.0, blue: 237/255.0),
+                                                   Color(red: 190/255.0, green: 193/255.0, blue: 201/255.0)]),
+                       startPoint: .top, endPoint: .bottom)
+//            .clipShape(_DownRectangle(cornerRadius: 4, padding: 0))
+            .ios6RootBackground(Color.black.edgesIgnoringSafeArea(.all))
+            .ios6StatusBar(Color.black)
+    }
+    
+    public var detailBackground: some View {
+        LinearGradient(gradient: Gradient(colors: [Color(red: 227/255.0, green: 229/255.0, blue: 234/255.0),
+                                                   Color(red: 206/255.0, green: 207/255.0, blue: 212/255.0)]),
+                       startPoint: .top, endPoint: .bottom)
+//            .clipShape(_DownRectangle(cornerRadius: 4, padding: 0))
     }
     
     public var toolBarBackground: some View {
@@ -111,10 +128,6 @@ public struct IOS6GrayNavigationAppearance: IOS6NavigationAppearance {
     
     public var barButtonStyle: some ButtonStyle {
         IOS6GrayBarButtonStyle()
-    }
-    
-    public var statusBarColor: Color {
-        Color.black
     }
     
     public func makeTextBody(content: Text) -> some View {

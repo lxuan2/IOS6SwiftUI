@@ -19,8 +19,9 @@ struct ContentView: View {
             IOS6TabView() {
                 IOS6NavigationView {
                     SettingView()
+                    SettingView()
                 }
-                .ios6NavigationViewStyle(IOS6StackNavigationViewStyle(IOS6GrayNavigationAppearance()))
+                .ios6NavigationViewStyle(IOS6StackNavigationViewStyle(IOS6BlueNavigationAppearance()))
                 .ios6TabItem("Navigation", systemImage: "square.stack.3d.down.right")
                 .ios6Tag(0)
 
@@ -31,7 +32,7 @@ struct ContentView: View {
                     Image(systemName: "list.number").resizable().padding(1)
                 }
                 .ios6Tag(1)
-                
+
                 MaterialView()
                 .ios6TabItem("iCloud", systemImage: "icloud")
                 .ios6Tag(2)

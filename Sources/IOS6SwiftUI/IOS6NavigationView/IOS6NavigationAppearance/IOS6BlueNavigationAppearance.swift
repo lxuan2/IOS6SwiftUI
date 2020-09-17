@@ -15,6 +15,15 @@ public struct IOS6BlueNavigationAppearance: IOS6NavigationAppearance {
     public var contentBackground: some View {
         Color(red: 211/255, green: 215/255, blue: 224/255)
             .overlay(Strips().foregroundColor(Color(red: 208/255, green: 212/255, blue: 223/255)))
+            .ios6StatusBar(Color(red: 70/255, green: 100/255, blue: 133/255))
+    }
+    
+    public var masterBackground: some View {
+        Color(red: 220/255, green: 225/255, blue: 236/255)
+    }
+    
+    public var detailBackground: some View {
+        Color(red: 220/255, green: 225/255, blue: 236/255)
     }
     
     public var toolBarBackground: some View {
@@ -110,10 +119,6 @@ public struct IOS6BlueNavigationAppearance: IOS6NavigationAppearance {
     
     public var barButtonStyle: some ButtonStyle {
         IOS6BlueBarButtonStyle()
-    }
-    
-    public var statusBarColor: Color {
-        Color(red: 70/255, green: 100/255, blue: 133/255)
     }
     
     public func makeTextBody(content: Text) -> some View {

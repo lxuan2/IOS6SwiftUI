@@ -53,6 +53,7 @@ A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI a
 
 **IOS6NavigationViewStyle**
 - \[x]  IOS6StackNavigationViewStyle
+- \[x]  IOS6DoubleColumnNavigationViewStyle
 
 **IOS6NavigationAppearance**
 - \[x]  IOS6BlueNavigationAppearance
@@ -126,13 +127,11 @@ struct ContentView: View {
 ---
 ## Upcoming Features
 - \[ ] Add notification icon to tab item
-- \[ ] IOS6Alert
-- \[ ] IOS6ActionSheet
-- \[ ] Archive final version for IOS13 and start IOS14 development
-- \[ ] iPad Double Column NavigationView Style
-- \[ ] More Navigation Styles (eg. Map)
+- \[ ] Archive v.1.0.0
 
 ## Finished Tasks
+- \[x] More Navigation Styles (eg. Map)
+- \[x] iPad Double Column NavigationView Style
 - \[x] Reimplement IOS6NavigationView and improve efficiency
 - \[x] Test IOS6Slider init and fix min/max label and add onEditChange
 - \[x] add ios6SliderStyle

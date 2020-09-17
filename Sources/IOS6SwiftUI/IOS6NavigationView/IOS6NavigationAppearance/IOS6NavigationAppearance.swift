@@ -13,6 +13,12 @@ public protocol IOS6NavigationAppearance {
     /// A `View` representing the body of a ContentBackground.
     associatedtype ContentBackground : View
     
+    /// A `View` representing the body of a MasterBackground.
+    associatedtype MasterBackground : View
+    
+    /// A `View` representing the body of a DetailBackground.
+    associatedtype DetailBackground : View
+    
     /// A `View` representing the body of a ToolBarBackground.
     associatedtype ToolBarBackground : View
     
@@ -31,6 +37,12 @@ public protocol IOS6NavigationAppearance {
     /// Declares the content background of this view.
     var contentBackground: Self.ContentBackground { get }
     
+    /// Declares the master background of this view.
+    var masterBackground: Self.MasterBackground { get }
+
+    /// Declares the detail background of this view.
+    var detailBackground: Self.DetailBackground { get }
+    
     /// Declares the tool bar background of this view.
     var toolBarBackground: Self.ToolBarBackground { get }
     
@@ -39,9 +51,6 @@ public protocol IOS6NavigationAppearance {
     
     /// Declares the navigation bar button style of this view.
     var barButtonStyle: Self.BarButtonStyle { get }
-    
-    /// Declares the status bar color of this view.
-    var statusBarColor: Color { get }
     
     /// Declares the status bar color of this view.
     var accentColor: Color? { get }
