@@ -1,5 +1,9 @@
 # IOS6SwiftUI
 
+![swift v5.1](https://img.shields.io/badge/swift-v5.1-orange)
+![platform iOS](https://img.shields.io/badge/platform-iOS-brightgreen)
+![deployment target iOS 13](https://img.shields.io/badge/deployment%20target-iOS%2013-brightgreen)
+
 A packge that provides IOS6 style UI elements. Mainly implemented with SwiftUI and similar behaviors as SwiftUI.
 
 <img src="/example.png" width=300 align=right>
@@ -126,10 +130,11 @@ struct ContentView: View {
 ```
 ---
 ## Upcoming Features
+- \[ ] Optimize for IOS 14
 - \[ ] Add notification icon to tab item
-- \[ ] Archive v.1.0.0
 
 ## Finished Tasks
+- \[x] Archive v.1.0.0 [passed]
 - \[x] More Navigation Styles (eg. Map)
 - \[x] iPad Double Column NavigationView Style
 - \[x] Reimplement IOS6NavigationView and improve efficiency
